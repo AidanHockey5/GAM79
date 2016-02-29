@@ -3,8 +3,11 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class BaseCharacterController : MonoBehaviour 
+[RequireComponent(typeof(NetworkTransform))]
+[RequireComponent(typeof(Rigidbody))]
+public class BaseCharacterController : NetworkBehaviour 
 {
 	public float inputDelay = 0.1f;
 	public float forwardVel = 12;
@@ -14,6 +17,8 @@ public class BaseCharacterController : MonoBehaviour
 	Rigidbody rBody;
 	float forwardInput, turnInput;
 
+	public GameObject playerCamera;
+
 	public Quaternion TargetRotation
 	{
 		get { return targetRotation;}
@@ -21,6 +26,9 @@ public class BaseCharacterController : MonoBehaviour
 
 	void Start () 
 	{
+		if (!isLocalPlayer)
+			playerCamera.SetActive (false);
+		
 		targetRotation = transform.rotation;
 		if (GetComponent<Rigidbody> ()) 
 		{
@@ -39,15 +47,23 @@ public class BaseCharacterController : MonoBehaviour
 		forwardInput = Input.GetAxis("Vertical");
 		turnInput = Input.GetAxis("Horizontal");
 	}
-	
+
+	[ClientCallback]
 	void Update () 
 	{
-		GetInput();
-		Turn();
+		if (!isLocalPlayer)
+			return;
+		
+		GetInput ();
+		Turn ();
 	}
 
+	[ClientCallback]
 	void FixedUpdate()
 	{
+		if (!hasAuthority)
+			return;
+
 		Run();
 	}
 
