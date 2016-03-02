@@ -9,15 +9,28 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(Rigidbody))]
 public class BaseCharacterController : NetworkBehaviour 
 {
-	public float inputDelay = 0.1f;
-	public float forwardVel = 12;
-	public float rotateVel = 100;
+	// character movement
+	[SerializeField] float inputDelay = 0.1f;
+	[SerializeField] float runSpeed = 12;
+	[SerializeField] float maxVelocityChange = 12;
 
-	Quaternion targetRotation;
-	Rigidbody rBody;
-	float forwardInput, turnInput;
+	// camera movement
+	[SerializeField] float lookSensitivity = 5f;
+	[SerializeField] float lookSmoothDamp = 0.1f;
+	[SerializeField] int xLowerCameraBound = -75;
+	[SerializeField] int xUpperCameraBound = 90;
+	[SerializeField] Camera playerCam;
 
-	public GameObject playerCamera;
+	// character movement
+	private Quaternion targetRotation;
+	private Rigidbody rBody;
+	private float verticalAxisInput, horizontalAxisInput, mouseXInput, mouseYInput;
+	private float forceModifier = 0.01f;
+
+	// camera movement
+	private float yRotation, xRotation;
+	private float currentYRotation, currentXRotation;
+	private float yRotationVel, xRotationVel;
 
 	public Quaternion TargetRotation
 	{
@@ -26,8 +39,10 @@ public class BaseCharacterController : NetworkBehaviour
 
 	void Start () 
 	{
+		CursorOnOff.ChangeCursorState(false);
+
 		if (!isLocalPlayer)
-			playerCamera.SetActive (false);
+			playerCam.enabled = false;
 		
 		targetRotation = transform.rotation;
 		if (GetComponent<Rigidbody> ()) 
@@ -39,13 +54,20 @@ public class BaseCharacterController : NetworkBehaviour
 			Debug.LogError ("This component requires a Rigidbody.");
 		}
 
-		forwardInput = turnInput = 0;
+		verticalAxisInput = horizontalAxisInput = 0;
 	}
 
 	void GetInput()
 	{
-		forwardInput = Input.GetAxis("Vertical");
-		turnInput = Input.GetAxis("Horizontal");
+		verticalAxisInput = Input.GetAxis("Vertical");
+		horizontalAxisInput = Input.GetAxis("Horizontal");
+		mouseXInput = Input.GetAxis("Mouse X");
+		mouseYInput = Input.GetAxis("Mouse Y");
+
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			CursorOnOff.ChangeCursorState(true);
+		}
 	}
 
 	[ClientCallback]
@@ -55,7 +77,7 @@ public class BaseCharacterController : NetworkBehaviour
 			return;
 		
 		GetInput ();
-		Turn ();
+		Look();
 	}
 
 	[ClientCallback]
@@ -69,10 +91,18 @@ public class BaseCharacterController : NetworkBehaviour
 
 	void Run()
 	{
-		if (Mathf.Abs(forwardInput) > inputDelay)
+		if (Mathf.Abs(verticalAxisInput) > inputDelay || Mathf.Abs(horizontalAxisInput) > inputDelay)
 		{
-			// move
-			rBody.velocity = transform.forward * forwardInput * forwardVel;
+			Vector3 targetVel = new Vector3(horizontalAxisInput, 0, verticalAxisInput);
+			targetVel = transform.TransformDirection(targetVel);
+			targetVel *= runSpeed;
+
+			Vector3 velocity = rBody.velocity;
+			Vector3 velocityChange = targetVel - velocity;
+			velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+			velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+			velocityChange.y = 0;
+			rBody.AddForce(velocityChange, ForceMode.VelocityChange);
 		}
 		else
 		{
@@ -81,13 +111,14 @@ public class BaseCharacterController : NetworkBehaviour
 		}
 	}
 
-	void Turn()
+	void Look()
 	{
-		if (Mathf.Abs(turnInput) > inputDelay)
-		{
-			targetRotation *= Quaternion.AngleAxis(rotateVel * turnInput * Time.deltaTime, Vector3.up);
-		}
-			transform.rotation = targetRotation;
+		yRotation += mouseXInput * lookSensitivity;
+		xRotation += mouseYInput * lookSensitivity;
+		xRotation = Mathf.Clamp(xRotation, xLowerCameraBound, xUpperCameraBound);
+		currentXRotation = Mathf.SmoothDamp(currentXRotation, xRotation, ref xRotationVel, lookSmoothDamp);
+		currentYRotation = Mathf.SmoothDamp(currentYRotation, yRotation, ref yRotationVel, lookSmoothDamp);
+		transform.rotation = Quaternion.Euler(0, currentYRotation, 0);
+		playerCam.transform.localRotation = Quaternion.Euler(-currentXRotation, 0, 0);
 	}
-
 }
