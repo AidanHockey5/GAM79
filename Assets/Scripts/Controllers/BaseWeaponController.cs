@@ -4,9 +4,14 @@ using System.Collections;
 
 public class BaseWeaponController : NetworkBehaviour
 {
-	public float attackRate, reloadTime;
-	public int weaponPower, maxAmmo, currentAmmo;
+	public float attackRate, reloadTime, range;
+	public int power, maxAmmo, currentAmmo;
 	public bool isReloading, canFire;
+	public Transform playerCam;
+	public string[] attackableTargets;
+
+	RaycastHit rayHit;
+	bool targetHit;
 
 	// Use this for initialization
 	void Start () 
@@ -44,8 +49,24 @@ public class BaseWeaponController : NetworkBehaviour
 			// shoot
 			if (canFire)
 			{
-				Debug.Log ("FIRE");
+				targetHit = Physics.Raycast(playerCam.position, playerCam.forward, out rayHit);
 				canFire = false;
+				
+				if (targetHit)
+				{
+					for (int i = 0; i < attackableTargets.Length; i++)
+					{
+						if (rayHit.transform.tag == attackableTargets[i])
+						{
+							Health targetHealth = rayHit.transform.GetComponent<Health>();
+
+							if (targetHealth != null)
+							{
+								targetHealth.TakeDamage(power);
+							}
+						}
+					}
+				}
 
 				if (currentAmmo <= 0)
 				{
@@ -62,7 +83,6 @@ public class BaseWeaponController : NetworkBehaviour
 
 	public virtual void ReloadWeapon()
 	{
-		Debug.Log ("RELOAD");
 		currentAmmo = maxAmmo;
 	}
 
@@ -80,4 +100,5 @@ public class BaseWeaponController : NetworkBehaviour
 		canFire = true;
 		isReloading = false;
 	}
+
 }
