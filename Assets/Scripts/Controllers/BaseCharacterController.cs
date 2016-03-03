@@ -1,5 +1,4 @@
 ﻿// Lawrence Lopez
-// https://www.youtube.com/watch?v=BBS2nIKzmbw (Thank you Renaissance Coders)
 
 using UnityEngine;
 using System.Collections;
@@ -68,6 +67,11 @@ public class BaseCharacterController : NetworkBehaviour
 		{
 			CursorOnOff.ChangeCursorState(true);
 		}
+
+		if (Input.GetMouseButton(0))
+		{
+			CursorOnOff.ChangeCursorState(false);
+		}
 	}
 
 	[ClientCallback]
@@ -95,6 +99,7 @@ public class BaseCharacterController : NetworkBehaviour
 		{
 			Vector3 targetVel = new Vector3(horizontalAxisInput, 0, verticalAxisInput);
 			targetVel = transform.TransformDirection(targetVel);
+			targetVel.Normalize();
 			targetVel *= runSpeed;
 
 			Vector3 velocity = rBody.velocity;
@@ -103,6 +108,7 @@ public class BaseCharacterController : NetworkBehaviour
 			velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
 			velocityChange.y = 0;
 			rBody.AddForce(velocityChange, ForceMode.VelocityChange);
+			// Play run animation
 		}
 		else
 		{
