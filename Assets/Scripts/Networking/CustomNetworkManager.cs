@@ -38,20 +38,31 @@ public class CustomNetworkManager : NetworkManager
 		StartBroadcasting ();
 	}
 
-	public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId)
+	public void SetHuman()
 	{
-		if (NetworkServer.connections.Count == 1)
-			playerPrefab = spawnPrefabs [0];
+		playerPrefab = playerPrefab = spawnPrefabs[0];
+		if (IsHost)
+			StartHost ();
 		else
-			playerPrefab = spawnPrefabs[1];
-		
-		base.OnServerAddPlayer (conn, playerControllerId);
+			StartClient ();
+			
+	}
+
+	public void SetMonser()
+	{
+		playerPrefab = playerPrefab = spawnPrefabs[1];
+		if (IsHost)
+			StartHost ();
+		else
+			StartClient ();
 	}
 
 	public void JoinMatch(string matchAddress)
 	{
 		networkAddress = matchAddress;
-		StartClient ();
+		MainMenu menu = GameObject.Find ("MainMenu").GetComponent<MainMenu> ();
+		menu.ChangeTo (menu.playerSelectionPanel);
+		//StartClient ();  --Commented out until temporary player selection is deprecated.
 	}
 
 	public void StartBroadcasting()
@@ -81,8 +92,9 @@ public class CustomNetworkManager : NetworkManager
 
 	public void StartHosting()
 	{
+		IsHost = true;
 		networkAddress = LocalIP ();
-		StartHost ();
+		//StartHost ();
 	}
 
 	public string LocalIP()

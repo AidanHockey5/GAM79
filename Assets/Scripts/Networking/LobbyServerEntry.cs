@@ -22,8 +22,7 @@ namespace UnityStandardAssets.Network
 
 		public void JoinMatch()
 		{
-			if(NetworkServer.connections.Count < CustomNetworkManager.Instance.maxConnections)
-				CustomNetworkManager.Instance.JoinMatch (myNetworkAddress);
+			CustomNetworkManager.Instance.JoinMatch (myNetworkAddress);
 		}
 	}
 }

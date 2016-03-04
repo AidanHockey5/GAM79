@@ -7,6 +7,7 @@ public class MainMenu : MonoBehaviour
 	public RectTransform mainMenuPanel;
 	public RectTransform gamesListPanel;
 	public InputField directConnectInput;
+	public RectTransform playerSelectionPanel;
 
 	private RectTransform _currentPanel;
 
@@ -42,6 +43,7 @@ public class MainMenu : MonoBehaviour
 	public void OnClickHostGame()
 	{
 		CustomNetworkManager.Instance.StartHosting ();
+		ChangeTo (playerSelectionPanel);
 	}
 
 	public void OnClickFindGame()
@@ -53,6 +55,16 @@ public class MainMenu : MonoBehaviour
 	public void OnClickConnect()
 	{
 		CustomNetworkManager.Instance.JoinMatch (directConnectInput.text);
+	}
+
+	public void OnClickMonster()
+	{
+		CustomNetworkManager.Instance.SetMonser ();
+	}
+
+	public void OnClickHuman()
+	{
+		CustomNetworkManager.Instance.SetHuman ();
 	}
 
 }
