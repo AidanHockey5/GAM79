@@ -41,6 +41,8 @@ public class BaseWeaponController : NetworkBehaviour
 	{
 		if (!isLocalPlayer)
 			return;
+
+		GetInput();
 	}
 
 	public virtual void FireWeapon()
