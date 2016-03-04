@@ -32,8 +32,8 @@ public class BaseCharacterController : NetworkBehaviour
 	private float currentYRotation, currentXRotation;
 	private float yRotationVel, xRotationVel;
 
-    public int health = 0;
-    public GameObject textBox = null;
+//    public int health = 0;
+//    public GameObject textBox = null;
 
     public Quaternion TargetRotation
 	{
@@ -42,7 +42,9 @@ public class BaseCharacterController : NetworkBehaviour
 
 	void Start () 
 	{
-        textBox = GameObject.FindGameObjectWithTag("text");
+		// Because the scene changes from LobbyScene to MainScene when joining/creating a game
+		// this field gets nulled at runtime and generates an error.
+//        textBox = GameObject.FindGameObjectWithTag("text");
 		CursorOnOff.ChangeCursorState(false);
 
 		if (!isLocalPlayer)
@@ -89,8 +91,9 @@ public class BaseCharacterController : NetworkBehaviour
 		GetInput ();
 		Look();
 
-        GetInput();
-        UpdateHealth();
+		// GetInput was here twice. The UpdateHealth() function is moved to GameManager.cs
+//        GetInput();
+//        UpdateHealth();
     }
 
 	[ClientCallback]
@@ -137,9 +140,10 @@ public class BaseCharacterController : NetworkBehaviour
 		playerCam.transform.localRotation = Quaternion.Euler(-currentXRotation, 0, 0);
 	}
 
-    public void UpdateHealth()
-    {
-        health = this.GetComponent<Health>().GetHealth();
-        textBox.GetComponent<Text>().text = "Health:" + health.ToString();
-    }
+	// moved to GameManager.cs
+//    public void UpdateHealth()
+//    {
+//        health = this.GetComponent<Health>().GetHealth();
+//        textBox.GetComponent<Text>().text = "Health:" + health.ToString();
+//    }
 }

@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : NetworkBehaviour 
+{
+	public Text healthText;
 
-	// Use this for initialization
-	void Start () {
-	
+	public void SetHealthText(int amount)
+	{
+		healthText.text = "Health: " + amount.ToString();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 }
