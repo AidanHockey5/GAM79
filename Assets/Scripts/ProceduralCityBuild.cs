@@ -6,10 +6,7 @@ using System.Linq;
 
 public class ProceduralCityBuild : NetworkBehaviour 
 {
-	
     public List<GameObject> buildingPrefab = new List<GameObject>();
-	private Dictionary<int, Dictionary<GameObject, Vector3>> buildings = new Dictionary<int, Dictionary<GameObject, Vector3>>();
-	int count = 0;
 
     [SerializeField]
     float sectionHeight;
@@ -20,6 +17,7 @@ public class ProceduralCityBuild : NetworkBehaviour
 	[ServerCallback]
     void Start () 
 	{
+		
 		Build ();
 	}
 		
@@ -40,20 +38,20 @@ public class ProceduralCityBuild : NetworkBehaviour
                         {
                             GameObject CurrentLevel;
                             Vector3 newPos = new Vector3(x, 0, z);
-                            CurrentLevel = Instantiate(buildingPrefab[0], newPos, Quaternion.identity) as GameObject;
+                            CurrentLevel = Instantiate(CustomNetworkManager.Instance.spawnPrefabs[3], newPos, Quaternion.identity) as GameObject;
 							NetworkServer.Spawn (CurrentLevel);
                             int rand = Random.Range(1, 8);
                             int topPlace = 1;
                             for (int i = 0; i < rand; i++)
                             {
                                 newPos = new Vector3(x, ((i + 1) * sectionHeight), z);
-                                CurrentLevel = Instantiate(buildingPrefab[1], newPos, Quaternion.identity) as GameObject;
+								CurrentLevel = Instantiate(CustomNetworkManager.Instance.spawnPrefabs[5], newPos, Quaternion.identity) as GameObject;
 								NetworkServer.Spawn (CurrentLevel);
                                
                                 topPlace++;
                             }
                             newPos = new Vector3(x, (topPlace * sectionHeight), z);
-                            CurrentLevel = Instantiate(buildingPrefab[2], newPos, Quaternion.identity) as GameObject;
+							CurrentLevel = Instantiate(CustomNetworkManager.Instance.spawnPrefabs[9], newPos, Quaternion.identity) as GameObject;
 							NetworkServer.Spawn (CurrentLevel);
                            
                         }
