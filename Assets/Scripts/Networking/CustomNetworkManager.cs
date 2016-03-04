@@ -40,7 +40,7 @@ public class CustomNetworkManager : NetworkManager
 
 	public void SetHuman()
 	{
-		playerPrefab = playerPrefab = spawnPrefabs[0];
+		playerPrefab = spawnPrefabs[0];
 		if (IsHost)
 			StartHost ();
 		else
@@ -50,7 +50,7 @@ public class CustomNetworkManager : NetworkManager
 
 	public void SetMonser()
 	{
-		playerPrefab = playerPrefab = spawnPrefabs[1];
+		playerPrefab = spawnPrefabs[1];
 		if (IsHost)
 			StartHost ();
 		else
@@ -60,9 +60,14 @@ public class CustomNetworkManager : NetworkManager
 	public void JoinMatch(string matchAddress)
 	{
 		networkAddress = matchAddress;
-		MainMenu menu = GameObject.Find ("MainMenu").GetComponent<MainMenu> ();
-		menu.ChangeTo (menu.playerSelectionPanel);
-		//StartClient ();  --Commented out until temporary player selection is deprecated.
+		StartClient ();
+	}
+
+	public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId)
+	{
+		if (NetworkServer.connections.Count > 1)
+			playerPrefab = spawnPrefabs [0];
+		base.OnServerAddPlayer (conn, playerControllerId);
 	}
 
 	public void StartBroadcasting()
