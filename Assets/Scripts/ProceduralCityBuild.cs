@@ -5,8 +5,12 @@ using System.Collections.Generic;
 public class ProceduralCityBuild : MonoBehaviour 
 {
     public List<GameObject> buildingPrefab = new List<GameObject>();
+
     [SerializeField]
     float sectionHeight;
+
+    [SerializeField]
+    int xSize, Zsize;
 
     // Use this for initialization
     void Start () 
@@ -22,11 +26,11 @@ public class ProceduralCityBuild : MonoBehaviour
 
     void Build()
     {
-       for(int x = -1000; x < 1000; x++)
+       for(int x = -xSize; x < xSize; x++)
         {
             if (x % 20 == 0)
             {
-                for (int z = -1000; z < 1000; z++)
+                for (int z = -Zsize; z < Zsize; z++)
                 {
                     if(z % 20 == 0)
                     {
