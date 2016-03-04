@@ -3,6 +3,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(NetworkTransform))]
 [RequireComponent(typeof(Rigidbody))]
@@ -31,13 +32,17 @@ public class BaseCharacterController : NetworkBehaviour
 	private float currentYRotation, currentXRotation;
 	private float yRotationVel, xRotationVel;
 
-	public Quaternion TargetRotation
+    public int health = 0;
+    public GameObject textBox = null;
+
+    public Quaternion TargetRotation
 	{
 		get { return targetRotation;}
 	}
 
 	void Start () 
 	{
+        textBox = GameObject.FindGameObjectWithTag("text");
 		CursorOnOff.ChangeCursorState(false);
 
 		if (!isLocalPlayer)
@@ -54,6 +59,7 @@ public class BaseCharacterController : NetworkBehaviour
 		}
 
 		verticalAxisInput = horizontalAxisInput = 0;
+
 	}
 
 	void GetInput()
@@ -82,7 +88,10 @@ public class BaseCharacterController : NetworkBehaviour
 		
 		GetInput ();
 		Look();
-	}
+
+        GetInput();
+        UpdateHealth();
+    }
 
 	[ClientCallback]
 	void FixedUpdate()
@@ -127,4 +136,10 @@ public class BaseCharacterController : NetworkBehaviour
 		transform.rotation = Quaternion.Euler(0, currentYRotation, 0);
 		playerCam.transform.localRotation = Quaternion.Euler(-currentXRotation, 0, 0);
 	}
+
+    public void UpdateHealth()
+    {
+        health = this.GetComponent<Health>().GetHealth();
+        textBox.GetComponent<Text>().text = "Health:" + health.ToString();
+    }
 }

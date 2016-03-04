@@ -2,6 +2,7 @@
 using UnityEngine.Networking;
 using System.Collections;
 
+
 public class BaseWeaponController : NetworkBehaviour
 {
 	public float attackRate, reloadTime, range;
@@ -10,13 +11,15 @@ public class BaseWeaponController : NetworkBehaviour
 	public Transform playerCam;
 	public string[] attackableTargets;
 
+   
+
 	RaycastHit rayHit;
 	bool targetHit;
 
 	// Use this for initialization
 	void Start () 
 	{
-		
+       
 	}
 
 	void GetInput()
@@ -38,8 +41,6 @@ public class BaseWeaponController : NetworkBehaviour
 	{
 		if (!isLocalPlayer)
 			return;
-
-		GetInput();
 	}
 
 	public virtual void FireWeapon()
@@ -100,5 +101,6 @@ public class BaseWeaponController : NetworkBehaviour
 		canFire = true;
 		isReloading = false;
 	}
+
 
 }
