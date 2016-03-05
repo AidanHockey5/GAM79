@@ -12,7 +12,7 @@ public class ProceduralCityBuild : NetworkBehaviour
     float sectionHeight;
 
     [SerializeField]
-    int xSize, Zsize;
+    int xSize, Zsize, desity, minHeight, maxHeight;
 
 	[ServerCallback]
     void Start () 
@@ -32,7 +32,7 @@ public class ProceduralCityBuild : NetworkBehaviour
                 {
                     if(z % 20 == 0)
                     {
-                        int createRandom = Random.Range(1, 5);
+                        int createRandom = Random.Range(1, desity);
 
                         if (createRandom == 3)
                         {
@@ -40,7 +40,7 @@ public class ProceduralCityBuild : NetworkBehaviour
                             Vector3 newPos = new Vector3(x, 0, z);
                             CurrentLevel = Instantiate(CustomNetworkManager.Instance.spawnPrefabs[3], newPos, Quaternion.identity) as GameObject;
 							NetworkServer.Spawn (CurrentLevel);
-                            int rand = Random.Range(1, 8);
+                            int rand = Random.Range(minHeight, maxHeight);
                             int topPlace = 1;
                             for (int i = 0; i < rand; i++)
                             {

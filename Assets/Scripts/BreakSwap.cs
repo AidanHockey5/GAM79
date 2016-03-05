@@ -16,7 +16,7 @@ public class BreakSwap : MonoBehaviour
         
 	}
 
-    void OnMouseDown()
+    public void BreakingTime()
     {
         RaycastHit[] hit = Physics.RaycastAll(transform.position, Vector3.up);
         if (hit.Length > 0)
