@@ -2,8 +2,13 @@
 using System.Collections;
 using thelab.mvc;
 
-public class CameraView : KView
+public class CameraView : View<KApplication>
 {
+	Transform transform;
 
+	void Awake()
+	{
+		transform = gameObject.GetComponent<Transform>();
+	}
 }
 

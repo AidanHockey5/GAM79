@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -20,7 +21,7 @@ namespace thelab.mvc
     /// <summary>
     /// Base class for all MVC related classes.
     /// </summary>
-    public class Element : MonoBehaviour
+	public class Element : MonoBehaviour
     {
 
         /// <summary>

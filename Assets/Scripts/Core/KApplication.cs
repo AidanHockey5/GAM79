@@ -2,7 +2,7 @@
 using System.Collections;
 using thelab.mvc;
 
-public class KApplication : BaseApplication<KModel, KView, KController> 
+public class KApplication : BaseApplication<KBaseModel, KBaseView, KBaseController> 
 {
 
 
