@@ -13,4 +13,10 @@ public class KBaseModel : Model<KApplication>
 	public InputModel input { get { return m_input = Assert<InputModel>(m_input); } }
 	private InputModel m_input;
 
+	public GunModel gun { get { return m_gun = Assert<GunModel>(m_gun); } }
+	private GunModel m_gun;
+
+	public PlayerModel player { get { return m_player = Assert<PlayerModel>(m_player); } }
+	private PlayerModel m_player;
+
 }

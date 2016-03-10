@@ -12,4 +12,7 @@ public class KBaseView : View<KApplication>
 
 	public InputView input { get { return m_input = Assert<InputView>(m_input); } }
 	private InputView m_input;
+
+	public PlayerView player { get { return m_player = Assert<PlayerView>(m_player); } }
+	private PlayerView m_player;
 }

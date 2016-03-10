@@ -27,6 +27,11 @@ public class InputView : View<KApplication>
 			CursorOnOff.ChangeCursorState(false);
 			Notify("player.fire.mouse.0");
 		}
+
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			Notify("player.keydown.r");
+		}
 	}
 
 	void Update()

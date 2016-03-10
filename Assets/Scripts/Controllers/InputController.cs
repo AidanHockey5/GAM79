@@ -17,6 +17,9 @@ public class InputController : Controller<KApplication>
 		case "player.fire.mouse.0" :
 			Notify("fire.weapon.1");
 			break;
+		case "player.keydown.r" :
+			Notify("reload.weapon");
+			break;
 		}
 	}
 }
