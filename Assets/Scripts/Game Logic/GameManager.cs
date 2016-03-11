@@ -22,6 +22,11 @@ public class GameManager : NetworkBehaviour
     public void OnPlayerDeath(int ticket)
     {
          currentTicketAmount -= ticket;
+
+         if (currentTicketAmount == 0)
+         {
+             print("You Failed");
+         }
     }
 
 }
