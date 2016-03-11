@@ -20,8 +20,10 @@ public class TelegraphedAttack : MonoBehaviour
         {
             foreach (GameObject b in buildings)
             {
-                b.GetComponent<BreakSwap>().BreakingTime();
+//                b.GetComponent<BreakSwap>().BreakingTime();
+				b.GetComponentInChildren<Building>().PrepareDestruction (transform.forward);
             }
+
             buildings.Clear();
         }
 	
@@ -29,7 +31,7 @@ public class TelegraphedAttack : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.GetComponent<BreakSwap>() != null)
+        if (col.gameObject.GetComponent<Building>() != null)
         {
             buildings.Add(col.gameObject);
         }
@@ -42,7 +44,7 @@ public class TelegraphedAttack : MonoBehaviour
 
     void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.GetComponent<BreakSwap>() != null)
+		if (col.gameObject.GetComponent<Building>() != null)
         {
             buildings.Remove(col.gameObject);
         }
