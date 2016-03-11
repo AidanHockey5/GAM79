@@ -30,6 +30,10 @@ public class Health : NetworkBehaviour
 		gManager.SetHealthText(currentHealth);
 	}
 
+    public void DoDamage(int amount)
+    {
+
+    }
 	// currentHealth is already a public variable. No need for getter function. Also research parameters,
 	// they do exactly this but in a cleaner fashion.
 //	public void GetHealth()
