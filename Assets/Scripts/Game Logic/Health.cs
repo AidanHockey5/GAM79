@@ -8,6 +8,8 @@ public class Health : NetworkBehaviour
 	public int max;
 	public int currentHealth;
 
+    public int ticket = 1;
+
 	void Start()
 	{
 		gManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
@@ -28,8 +30,14 @@ public class Health : NetworkBehaviour
 	{
 		currentHealth -= amount;
 		gManager.SetHealthText(currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            gManager.OnPlayerDeath(ticket);
+        }
 	}
 
+    
 	// currentHealth is already a public variable. No need for getter function. Also research parameters,
 	// they do exactly this but in a cleaner fashion.
 //	public void GetHealth()
