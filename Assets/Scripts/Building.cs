@@ -58,16 +58,18 @@ public class Building : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
-		if (other.gameObject.tag == "broken") 
-		{
-			if (other.GetComponent<Rigidbody>() != null) 
-			{
-				float speed = other.GetComponent<Rigidbody> ().velocity.magnitude;
-				if (speed >= 20f) 
-				{
-					DestructionManager.instance.DestroyObject (gameObject, brokenVer, other.transform.forward);
-				}
-			}
-		}
+//		if (other.gameObject.tag == "broken") 
+//		{
+//			if (other.GetComponent<Rigidbody>() != null) 
+//			{
+//				DestructionManager.instance.DestroyObject (gameObject, brokenVer, other.transform.forward);
+////				float speed = other.GetComponent<Rigidbody> ().velocity.magnitude;
+////				if (speed >= 20f) 
+////				{
+////					print ("I SHOULD FUCKING EXPLODE");
+////
+////				}
+//			}
+//		}
 	}
 }

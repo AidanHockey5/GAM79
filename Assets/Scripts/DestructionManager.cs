@@ -14,7 +14,8 @@ public class DestructionManager : MonoBehaviour
 		{ 
 			if (_instance == null) 
 			{
-				_instance = new DestructionManager ();
+				GameObject go = new GameObject ();
+				_instance = go.AddComponent<DestructionManager> ();
 			}
 
 			return _instance;
@@ -34,9 +35,35 @@ public class DestructionManager : MonoBehaviour
 
 	public void DestroyObject(GameObject cleanVer, GameObject brokenVer, Vector3 direction)
 	{
+		GameObject go = Instantiate (brokenVer, cleanVer.transform.position, cleanVer.transform.rotation) as GameObject;
+		Debug.Log (go);
+//		rb = go.GetComponent<Rigidbody> ();
+//		childRB = go.GetComponentsInChildren<Rigidbody> (); 
+
 		Destroy (cleanVer);
-		Instantiate (brokenVer, cleanVer.transform.position, cleanVer.transform.rotation);
-		brokenVer.GetComponentInChildren<Rigidbody> ().AddExplosionForce (destructionForce, direction, destructionRadius);
+//		rb.AddExplosionForce (destructionForce, direction, destructionRadius);
+//		foreach (Rigidbody r in childRB)
+//		{
+//			r.AddExplosionForce (destructionForce, direction, destructionRadius);
+//		}
+
+		if (go.transform.childCount != 0) 
+		{
+			Rigidbody []rbs = (Rigidbody[])go.GetComponentsInChildren<Rigidbody> ();
+			foreach (Rigidbody r in rbs) 
+			{
+				Debug.Log (r.gameObject.name);
+				//r.AddExplosionForce (destructionForce, go.transform.root.position, destructionRadius, 2.0f);
+				r.AddExplosionForce (r.mass * 1000, go.transform.root.position, 50000, 2.0f);
+				//r.velocity = Vector3.up * 40;
+			}	
+		} 
+		else 
+		{
+			Rigidbody r = go.GetComponent<Rigidbody> ();
+			if(r!=null)
+				r.AddExplosionForce (destructionForce, direction, destructionRadius);
+		}
 	}
 
 }
