@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class BreakSwap : MonoBehaviour
+public class BreakSwap : NetworkBehaviour
 {
     [SerializeField]
     GameObject breakForm;
@@ -27,16 +28,28 @@ public class BreakSwap : MonoBehaviour
                 {
                     if (hit[i].transform.gameObject.GetComponent<BreakSwap>() != null)
                     {
-                        DestroyLevel(hit[i].transform.gameObject);
+						hit [i].transform.gameObject.GetComponent<BreakSwap> ().Break ();
                         StartCoroutine(Wait());
                     }
                 }
             }
         }
-        DestroyLevel(this.gameObject);
+		CmdDestroyLevel ();
     }
 
-    void DestroyLevel(GameObject level)
+	public void Break()
+	{
+		CmdDestroyLevel();
+	}
+
+	[Command]
+	void CmdDestroyLevel()
+	{
+		RpcDestroyLevel(this.gameObject);
+	}
+
+	[ClientRpc]
+    void RpcDestroyLevel(GameObject level)
     {
         Instantiate(level.GetComponent<BreakSwap>().breakForm, transform.position, transform.rotation);
         Destroy(level);
