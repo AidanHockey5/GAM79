@@ -51,25 +51,8 @@ public class Building : MonoBehaviour
 		#endregion
 	}
 
-	public void PrepareDestruction(Vector3 direction)
+	public void PrepareDestruction(Vector3 explosionOrigin)
 	{
-		DestructionManager.instance.DestroyObject (gameObject, brokenVer, direction);
-	}
-
-	void OnTriggerEnter (Collider other)
-	{
-//		if (other.gameObject.tag == "broken") 
-//		{
-//			if (other.GetComponent<Rigidbody>() != null) 
-//			{
-//				DestructionManager.instance.DestroyObject (gameObject, brokenVer, other.transform.forward);
-////				float speed = other.GetComponent<Rigidbody> ().velocity.magnitude;
-////				if (speed >= 20f) 
-////				{
-////					print ("I SHOULD FUCKING EXPLODE");
-////
-////				}
-//			}
-//		}
+		DestructionManager.instance.DestroyObject (gameObject, brokenVer, explosionOrigin);
 	}
 }

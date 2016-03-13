@@ -21,7 +21,7 @@ public class TelegraphedAttack : MonoBehaviour
             foreach (GameObject b in buildings)
             {
 //                b.GetComponent<BreakSwap>().BreakingTime();
-				b.GetComponent<Building>().PrepareDestruction (b.transform.position);
+				b.GetComponent<Building>().PrepareDestruction (gameObject.transform.position);
             }
 
             buildings.Clear();
