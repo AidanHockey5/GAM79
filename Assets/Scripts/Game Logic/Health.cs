@@ -1,48 +1,25 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 using System.Collections;
 
-public class Health : NetworkBehaviour
+public class Health : IMessageHandler
 {
-	public GameManager gManager;
-	public int max;
-	public int currentHealth;
+    private PlayerSettings player;
 
-    public int ticket = 1;
+    void Start()
+    {
+        
+    }
 
-	void Start()
-	{
-		gManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+    void HandleDamage(params object[] args)
+    {
+        
+    }
 
-		if (gManager == null)
-		{
-			gameObject.SetActive(false);
-			Debug.LogError("There is no active GameManager in scene.");
-		}
-		else
-		{
-			currentHealth = max;
-			gManager.SetHealthText(currentHealth);
-		}
-	}
-
-	public void TakeDamage(int amount)
-	{
-		currentHealth -= amount;
-		gManager.SetHealthText(currentHealth);
-
-        if (currentHealth <= 0)
-        {
-            gManager.OnPlayerDeath(ticket);
-        }
-	}
-
+    // IMessageHanlder implemenation
+    public void HandleMessage(GameEvent eventType, params object[] args)
+    {
+       // if (eventType == player.playerType)
+       // HandleDamage(args);
+    }
     
-	// currentHealth is already a public variable. No need for getter function. Also research parameters,
-	// they do exactly this but in a cleaner fashion.
-//	public void GetHealth()
-//	{
-//		return currentHealth;
-//	}
-
 }

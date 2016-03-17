@@ -5,10 +5,9 @@ using System.Collections;
 public class InputManager : MonoBehaviour, IEventBroadcaster
 {
     public event EventHandler<EventArgs> m_handler;
-
-    private static float horizontalInput, verticalInput, mouseHorizontalInput, mouseVerticalInput = 0;
-    private static InputManager m_instance = null;
-
+    public InputSettings input = new InputSettings();
+    
+    // singleton
     public static InputManager Instance
     {
         get
@@ -25,48 +24,59 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
         }
     }
 
+    private static InputManager m_instance = null;
+
+    // axis input
+    private static float m_horizontalInput, m_verticalInput = 0;
+
+    // mouse input
+    private static float m_mouseHorizontalInput, m_mouseVerticalInput = 0;
+
+    // camera input
+    private float m_vOrbitInput, m_hOrbitInput, m_zoomInput, m_hOrbitSnapInput = 0;
+
     void Awake()
     {
         m_instance = this;
     }
 
+    void OnDestroy()
+    {
+        m_handler = null;
+    }
+
     void GetInput()
     {
-        mouseHorizontalInput = Input.GetAxis("Mouse X");
-        mouseVerticalInput   = Input.GetAxis("Mouse Y");
-        if (mouseHorizontalInput != 0)
-        {
-            BroadcastMessage(GameEvent.CAMERA_ROTATE, mouseHorizontalInput);
+        m_mouseHorizontalInput = Input.GetAxis(input.MOUSE_X_AXIS);
+        m_mouseVerticalInput = Input.GetAxis(input.MOUSE_Y_AXIS);
+        m_vOrbitInput = Input.GetAxisRaw(input.ORBIT_VERTICAL);
+        m_hOrbitInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL);
+        m_hOrbitSnapInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL_SNAP);
+        m_zoomInput = Input.GetAxisRaw(input.ZOOM);
+        BroadcastEvent(GameEvent.MOUSE_X_INPUT, m_mouseHorizontalInput);
+        BroadcastEvent(GameEvent.MOUSE_Y_INPUT, m_mouseVerticalInput);
+        BroadcastEvent(GameEvent.CAMERA_ORBIT, m_hOrbitInput, m_vOrbitInput);
+        if (m_hOrbitSnapInput > 1)
+        { 
+            BroadcastEvent(GameEvent.CAMERA_SNAP, m_hOrbitSnapInput);
         }
-        if (mouseVerticalInput != 0)
-        {
-            BroadcastMessage(GameEvent.CHARACTER_ROTATE, mouseVerticalInput);
-        }
-
+        BroadcastEvent(GameEvent.CAMERA_ZOOM, m_zoomInput);
     }
 
     void GetInput_Fixed()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
-        BroadcastMessage(GameEvent.CHARACTER_MOVE, horizontalInput, verticalInput);
+        m_horizontalInput = Input.GetAxis(input.HORIZONTAL_AXIS);
+        m_verticalInput = Input.GetAxis(input.VERTICAL_AXIS);
+
+        if (m_horizontalInput != 0 || m_verticalInput != 0)
+        {
+            BroadcastEvent(GameEvent.CHARACTER_MOVE, m_horizontalInput, m_verticalInput);
+        }
     }
 
     void GetInput_Late()
     {
 
-    }
-
-    void BroadcastMessage(GameEvent eventType, params object[] args)
-    {
-        GameEventArgs gameEventArgs = new GameEventArgs();
-        gameEventArgs.eventType = eventType;
-        gameEventArgs.eventArgs = args;
-
-        if (m_handler != null)
-        {
-            m_handler(this, gameEventArgs);
-        }
     }
 
     void Update()
@@ -76,7 +86,7 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
 
     void LateUpdate()
     {
-        GetInput_Late();
+        //GetInput_Late();
     }
 
     void FixedUpdate()
@@ -84,6 +94,7 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
         GetInput_Fixed();
     }
 
+    // IEventBroadcaster implemenation
     public void RegisterHandler(EventHandler<EventArgs> p_handler)
     {
         m_handler += p_handler;
@@ -92,5 +103,17 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
     public void UnRegisterHandler(EventHandler<EventArgs> p_handler)
     {
         m_handler -= p_handler;
+    }
+
+    public void BroadcastEvent(GameEvent eventType, params object[] args)
+    {
+        GameEventArgs gameEventArgs = new GameEventArgs();
+        gameEventArgs.eventType = eventType;
+        gameEventArgs.eventArgs = args;
+
+        if (m_handler != null)
+        {
+            m_handler(this, gameEventArgs);
+        }
     }
 }

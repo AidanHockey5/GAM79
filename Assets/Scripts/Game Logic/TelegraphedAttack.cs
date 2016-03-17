@@ -30,7 +30,7 @@ public class TelegraphedAttack : MonoBehaviour
             foreach (GameObject p in players)
             {
                 Health targetHealth = p.GetComponent<Health>();
-                targetHealth.TakeDamage(monster.power);
+                // targetHealth.TakeDamage(monster.power);
             }
         }
 	
