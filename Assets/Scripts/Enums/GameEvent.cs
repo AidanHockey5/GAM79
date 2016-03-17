@@ -1,0 +1,14 @@
+﻿using System;
+
+public enum GameEvent
+{
+    CHARACTER_MOVE,
+    CHARACTER_ROTATE,
+    CAMERA_ROTATE,
+    CHARACTER_JUMP,
+    CHARACTER_FIRE1,
+    CHARACTER_FIRE2,
+    CHARACTER_FIRE3,
+    CHARACTER_FIRESPECIAL
+
+}
