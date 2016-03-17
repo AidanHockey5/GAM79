@@ -52,6 +52,11 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
         BroadcastMessage(GameEvent.CHARACTER_MOVE, horizontalInput, verticalInput);
     }
 
+    void GetInput_Late()
+    {
+
+    }
+
     void BroadcastMessage(GameEvent eventType, params object[] args)
     {
         GameEventArgs gameEventArgs = new GameEventArgs();
@@ -67,6 +72,11 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
     void Update()
     {
         GetInput();
+    }
+
+    void LateUpdate()
+    {
+        GetInput_Late();
     }
 
     void FixedUpdate()

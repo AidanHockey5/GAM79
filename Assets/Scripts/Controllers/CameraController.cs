@@ -3,35 +3,128 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour
 {
-    // exposed fields
-    [SerializeField] float lookSensitivity = 5f;
-    [SerializeField] float lookSmoothDamp = 0.1f;
-    [SerializeField] int xLowerCameraBound = -75;
-    [SerializeField] int xUpperCameraBound = 90;
-    [SerializeField] Transform playerTransform = null;
-    [SerializeField] float cameraOffset = 1;
+    [SerializeField] private Transform target;
 
-    // camera movement
-    private float yRotation, xRotation;
-    private float currentYRotation, currentXRotation;
-    private float yRotationVel, xRotationVel;
-    private Camera playerCamera = null;
+    public PositionSettings position = new PositionSettings();
+    public OrbitSettings orbit = new OrbitSettings();
+    public InputSettings input = new InputSettings();
+
+    private Vector3 targetPosition = Vector3.zero;
+    private Vector3 destination = Vector3.zero;
+    private MovementController movementController;
+    private float vOrbitInput, hOrbitInput, zoomInput, hOrbitSnapInput;
 
     void Start()
     {
-        playerCamera = Camera.main;
+        SetCameraTarget(target);
+        MoveToTarget();
     }
 
-    public void Look(GameEvent eventType)
+    void SetCameraTarget(Transform t)
     {
-        if (eventType == GameEvent.CAMERA_ROTATE)
+        target = t;
+
+        if (target != null)
         {
-            Debug.Log("LOOK");
+            if (target.GetComponent<MovementController>())
+            {
+                movementController = target.GetComponent<MovementController>();
+            }
+            else
+            {
+                Debug.LogError("The camera's target needs a movement controller.");
+            }
+        }
+        else
+        {
+            Debug.LogError("Your camera needs a target.");
         }
     }
 
-    private float DegreesToRadians(float degrees)
+    //public void Look(GameEvent eventType)
+    //{
+    //    if (eventType == GameEvent.CAMERA_ROTATE)
+    //    {
+    //        Look();
+    //    }
+    //}
+
+    void GetInput()
     {
-        return degrees * (2 * Mathf.PI / 360);
+        vOrbitInput = Input.GetAxisRaw(input.ORBIT_VERTICAL);
+        hOrbitInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL);
+        hOrbitSnapInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL_SNAP);
+        zoomInput = Input.GetAxisRaw(input.ZOOM);
     }
+
+    void Update()
+    {
+        GetInput();
+        OrbitTarget();
+        ZoomInOnTarget();
+    }
+
+    void LateUpdate()
+    {
+        // moving
+        MoveToTarget();
+        // rotating
+        LookAtTarget();
+    }
+
+    void MoveToTarget()
+    {
+        targetPosition = target.position + position.targetPositionOffset;
+        destination = Quaternion.Euler(orbit.xRotation, orbit.yRotation + target.eulerAngles.y, 0) * -Vector3.forward * position.distanceFromTarget;
+        destination += targetPosition;
+        transform.position = destination;
+    }
+
+    void LookAtTarget()
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(targetPosition - transform.position);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, position.lookSmooth * Time.deltaTime);
+    }
+
+    void OrbitTarget()
+    {
+        if (hOrbitSnapInput > 0)
+        {
+            // place camera behind target
+            orbit.yRotation = -180;
+        }
+
+        // orbit based on axis input
+        orbit.xRotation += -vOrbitInput * orbit.vOrbitSmooth * Time.deltaTime;
+        orbit.yRotation += -hOrbitInput * orbit.hOrbitSmooth * Time.deltaTime;
+
+        // min and max vertical 
+        if (orbit.xRotation > orbit.maxXRotation)
+        {
+            orbit.xRotation = orbit.maxXRotation;
+        }
+
+        if (orbit.xRotation < orbit.minXRotation)
+        {
+            orbit.xRotation = orbit.minXRotation;
+        }
+    }
+
+    void ZoomInOnTarget()
+    {
+        position.distanceFromTarget += zoomInput * position.zoomSmooth * Time.deltaTime;
+
+        if (position.distanceFromTarget > position.maxZoom)
+        {
+            position.distanceFromTarget = position.maxZoom;
+        }
+
+        if (position.distanceFromTarget < position.minZoom)
+        {
+            position.distanceFromTarget = position.minZoom;
+        }
+
+
+    }
+
 }
