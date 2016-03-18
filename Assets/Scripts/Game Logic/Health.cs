@@ -22,14 +22,18 @@ public class Health : NetworkBehaviour
 		else
 		{
 			currentHealth = max;
-			gManager.SetHealthText(currentHealth);
+			gManager.SetHealthText(currentHealth, max);
 		}
 	}
 
 	public void TakeDamage(int amount)
 	{
-		currentHealth -= amount;
-		gManager.SetHealthText(currentHealth);
+        if (!isServer)
+        {
+            return;
+        }
+        currentHealth -= amount;
+		gManager.SetHealthText(currentHealth, max);
 
         if (currentHealth <= 0)
         {
@@ -37,12 +41,11 @@ public class Health : NetworkBehaviour
         }
 	}
 
-    
-	// currentHealth is already a public variable. No need for getter function. Also research parameters,
-	// they do exactly this but in a cleaner fashion.
-//	public void GetHealth()
-//	{
-//		return currentHealth;
-//	}
+    // currentHealth is already a public variable. No need for getter function. Also research parameters,
+    // they do exactly this but in a cleaner fashion.
+    //	public void GetHealth()
+    //	{
+    //		return currentHealth;
+    //	}
 
 }

@@ -6,6 +6,7 @@ using System.Collections;
 public class GameManager : NetworkBehaviour 
 {
 	public Text healthText;
+    public RectTransform healthBar;
     public int maxTicketAmount = 0;
     public int currentTicketAmount = 0;
 
@@ -14,10 +15,14 @@ public class GameManager : NetworkBehaviour
         maxTicketAmount = 10;
         currentTicketAmount = maxTicketAmount;
     }
-	public void SetHealthText(int amount)
+	public void SetHealthText(int currentHealth, int maxHealth)
 	{
-		healthText.text = "Health: " + amount.ToString();
+		healthText.text = "Health: " + currentHealth.ToString() + "/" + maxHealth;
 	}
+    void OnChangeHealth(int health)
+    {
+        healthBar.sizeDelta = new Vector2(health * 2, healthBar.sizeDelta.y);
+    }
 
     public void OnPlayerDeath(int ticket)
     {
