@@ -45,13 +45,16 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
 
     void GetInput()
     {
+		// character movement
         m_mouseHorizontalInput = Input.GetAxis(input.MOUSE_X_AXIS);
-        m_mouseVerticalInput = Input.GetAxis(input.MOUSE_Y_AXIS);
+		m_mouseVerticalInput = Input.GetAxis(input.MOUSE_Y_AXIS);
+		m_turnInput = Input.GetAxis(input.ROTATE_AXIS);
+
+		// camera orbit
 		m_vOrbitInput = Input.GetAxis(input.ORBIT_VERTICAL);
 		m_hOrbitInput = Input.GetAxis(input.ORBIT_VERTICAL);
         m_hOrbitSnapInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL_SNAP);
         m_zoomInput = Input.GetAxisRaw(input.ZOOM);
-		m_turnInput = Input.GetAxis(input.ROTATE_AXIS);
 
 		if (isBroadcasting) 
 		{

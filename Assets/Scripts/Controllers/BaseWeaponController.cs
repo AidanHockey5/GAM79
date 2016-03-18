@@ -5,13 +5,12 @@ using System.Collections;
 
 public class BaseWeaponController : NetworkBehaviour
 {
-	public float attackRate, reloadTime, range;
-	public int power, maxAmmo, currentAmmo;
+	public WeaponSettings[] equippableWeapons;
 	public bool isReloading, canFire;
 	public Transform playerCam;
 	public string[] attackableTargets;
 
-   
+	private WeaponSettings m_currentWeapon;
 
 	RaycastHit rayHit;
 	bool targetHit;
@@ -20,6 +19,11 @@ public class BaseWeaponController : NetworkBehaviour
 	void Start () 
 	{
        
+	}
+
+	void SetWeapon(int slot)
+	{
+		m_currentWeapon = equippableWeapons[slot];
 	}
 
 	void GetInput()
