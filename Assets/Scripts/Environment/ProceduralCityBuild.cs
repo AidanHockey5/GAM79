@@ -12,7 +12,7 @@ public class ProceduralCityBuild : NetworkBehaviour
     float sectionHeight;
 
     [SerializeField]
-    int xSize, Zsize, desity, minHeight, maxHeight;
+	int xSize, Zsize, density, minHeight, maxHeight;
 
 	[ServerCallback]
     void Start () 
@@ -32,7 +32,7 @@ public class ProceduralCityBuild : NetworkBehaviour
                 {
                     if(z % 20 == 0)
                     {
-                        int createRandom = Random.Range(1, desity);
+                        int createRandom = Random.Range(1, density);
 
                         if (createRandom == 3)
                         {

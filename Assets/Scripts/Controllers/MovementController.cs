@@ -3,31 +3,46 @@ using System.Collections;
 using System;
 
 [RequireComponent(typeof(Rigidbody))]
-public class MovementController : MonoBehaviour
+public class MovementController : MonoBehaviour, IEventListener
 {
     public PlayerSettings player = new PlayerSettings();
 
+	private Quaternion m_targetRotation;
     private Rigidbody m_rigidbody = null;
-    private float m_horizontalInput, m_verticalInput;
+	private float m_horizontalInput, m_verticalInput, m_turnInput;
     private Vector3 m_targetVelocity, m_velocityChange;
 
     private void Start()
     {
         m_rigidbody = GetComponent<Rigidbody>();
-       InputManager.Instance.RegisterHandler(Run);
+		Subscribe(this, Run);
+		Subscribe(this, Turn);
+		CameraController.Instance.SetCameraTarget(transform);
     }
 
     private void OnDestroy()
     {
-        InputManager.Instance.m_handler -= Run;
+		UnSubscribe(this, Run);
+		UnSubscribe(this, Turn);
     }
 
-    private void Run(object sender, EventArgs e)
+	public Quaternion TargetRotation
+	{
+		get 
+		{ 
+			return m_targetRotation;
+		}
+	}
+
+	// IEventBroadcaster Callback
+    void Run(object sender, EventArgs e)
     {
+		// args[0] - hInput
+		// args[1] - vInput
         GameEventArgs args = (GameEventArgs)e;
 
         if (args.eventType == GameEvent.CHARACTER_MOVE)
-        {
+		{
             m_horizontalInput = (float)args.eventArgs[0];
             m_verticalInput = (float)args.eventArgs[1];
 
@@ -56,5 +71,34 @@ public class MovementController : MonoBehaviour
             // tell server that i moved - NYI NYI NYI
         }
     }
+
+	void Turn(object sender, EventArgs e)
+	{
+		// args[0] - turnInput
+		GameEventArgs args = (GameEventArgs)e;
+
+		if (args.eventType == GameEvent.CHARACTER_ROTATE)
+		{
+			Debug.Log("ROTATE");
+			m_turnInput = (float)args.eventArgs[0];
+
+			if (Mathf.Abs(m_turnInput) > player.inputDelay)
+			{
+				m_targetRotation = Quaternion.AngleAxis(player.turnRate * m_turnInput * Time.deltaTime, Vector3.up);
+				transform.rotation *= m_targetRotation;
+			}
+		}
+	}
+
+	// IEventListener implementation
+	public void Subscribe(object subscriber, EventHandler<EventArgs> handler)
+	{
+		InputManager.Instance.RegisterHandler(handler);
+	}
+
+	public void UnSubscribe(object subscriber, EventHandler<EventArgs> handler)
+	{
+		InputManager.Instance.UnRegisterHandler(handler);	
+	}
 
 }

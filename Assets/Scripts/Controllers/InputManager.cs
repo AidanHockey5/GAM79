@@ -6,6 +6,7 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
 {
     public event EventHandler<EventArgs> m_handler;
     public InputSettings input = new InputSettings();
+	public bool isBroadcasting = true;
     
     // singleton
     public static InputManager Instance
@@ -25,13 +26,10 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
     }
 
     private static InputManager m_instance = null;
-
     // axis input
-    private static float m_horizontalInput, m_verticalInput = 0;
-
+    private static float m_hInput, m_vInput = 0;
     // mouse input
-    private static float m_mouseHorizontalInput, m_mouseVerticalInput = 0;
-
+	private static float m_mouseHorizontalInput, m_mouseVerticalInput, m_turnInput = 0;
     // camera input
     private float m_vOrbitInput, m_hOrbitInput, m_zoomInput, m_hOrbitSnapInput = 0;
 
@@ -40,7 +38,7 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
         m_instance = this;
     }
 
-    void OnDestroy()
+    void OnApplicationQuit()
     {
         m_handler = null;
     }
@@ -49,34 +47,59 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
     {
         m_mouseHorizontalInput = Input.GetAxis(input.MOUSE_X_AXIS);
         m_mouseVerticalInput = Input.GetAxis(input.MOUSE_Y_AXIS);
-        m_vOrbitInput = Input.GetAxisRaw(input.ORBIT_VERTICAL);
-        m_hOrbitInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL);
+		m_vOrbitInput = Input.GetAxis(input.ORBIT_VERTICAL);
+		m_hOrbitInput = Input.GetAxis(input.ORBIT_VERTICAL);
         m_hOrbitSnapInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL_SNAP);
         m_zoomInput = Input.GetAxisRaw(input.ZOOM);
-        BroadcastEvent(GameEvent.MOUSE_X_INPUT, m_mouseHorizontalInput);
-        BroadcastEvent(GameEvent.MOUSE_Y_INPUT, m_mouseVerticalInput);
-        BroadcastEvent(GameEvent.CAMERA_ORBIT, m_hOrbitInput, m_vOrbitInput);
-        if (m_hOrbitSnapInput > 1)
-        { 
-            BroadcastEvent(GameEvent.CAMERA_SNAP, m_hOrbitSnapInput);
-        }
-        BroadcastEvent(GameEvent.CAMERA_ZOOM, m_zoomInput);
+		m_turnInput = Input.GetAxis(input.ROTATE_AXIS);
+
+		if (isBroadcasting) 
+		{
+			BroadcastEvent (GameEvent.MOUSE_X_INPUT, m_mouseHorizontalInput);
+			BroadcastEvent (GameEvent.MOUSE_Y_INPUT, m_mouseVerticalInput);
+
+			if (m_turnInput != 0)
+			{
+				BroadcastEvent (GameEvent.CHARACTER_ROTATE, m_turnInput);
+			}
+
+			if (m_hOrbitInput != 0 || m_vOrbitInput != 0)
+			{
+				BroadcastEvent (GameEvent.CAMERA_ORBIT, m_hOrbitInput, -m_vOrbitInput);
+			}
+
+			if (m_hOrbitSnapInput > 0) 
+			{ 
+				BroadcastEvent (GameEvent.CAMERA_SNAP, m_hOrbitSnapInput);
+			}
+
+			if (m_zoomInput != 0)
+			{
+				BroadcastEvent (GameEvent.CAMERA_ZOOM, m_zoomInput);
+			}
+		}
     }
 
     void GetInput_Fixed()
-    {
-        m_horizontalInput = Input.GetAxis(input.HORIZONTAL_AXIS);
-        m_verticalInput = Input.GetAxis(input.VERTICAL_AXIS);
+	{
+		if (isBroadcasting) 
+		{
+	        m_hInput = Input.GetAxis(input.HORIZONTAL_AXIS);
+	        m_vInput = Input.GetAxis(input.VERTICAL_AXIS);
 
-        if (m_horizontalInput != 0 || m_verticalInput != 0)
-        {
-            BroadcastEvent(GameEvent.CHARACTER_MOVE, m_horizontalInput, m_verticalInput);
-        }
+			if (m_hInput != 0 || m_vInput != 0)
+	        {
+	            BroadcastEvent(GameEvent.CHARACTER_MOVE, m_hInput, m_vInput);
+	        }
+		}
     }
 
     void GetInput_Late()
     {
-
+		if (isBroadcasting)
+		{
+			
+		}
     }
 
     void Update()
