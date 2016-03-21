@@ -4,7 +4,7 @@ using System.Collections;
 
 public class InputManager : MonoBehaviour, IEventBroadcaster
 {
-    public event EventHandler<EventArgs> m_handler;
+    public event EventHandler<GameEventArgs> m_handler;
     public InputSettings input = new InputSettings();
 	public bool isBroadcasting = true;
     
@@ -32,6 +32,8 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
 	private static float m_mouseHorizontalInput, m_mouseVerticalInput, m_turnInput = 0;
     // camera input
     private float m_vOrbitInput, m_hOrbitInput, m_zoomInput, m_hOrbitSnapInput = 0;
+    // attack and ability input
+    private float m_attack1Input;
 
     void Awake()
     {
@@ -55,6 +57,9 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
 		m_hOrbitInput = Input.GetAxis(input.ORBIT_VERTICAL);
         m_hOrbitSnapInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL_SNAP);
         m_zoomInput = Input.GetAxisRaw(input.ZOOM);
+
+        // attacks and abilities
+        m_attack1Input = Input.GetAxisRaw(input.ATTACK1);
 
 		if (isBroadcasting) 
 		{
@@ -80,6 +85,11 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
 			{
 				BroadcastEvent (GameEvent.CAMERA_ZOOM, m_zoomInput);
 			}
+
+            if (m_attack1Input > 0)
+            {
+                BroadcastEvent(GameEvent.CHARACTER_FIRE1, m_attack1Input);
+            }
 		}
     }
 
@@ -121,12 +131,12 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
     }
 
     // IEventBroadcaster implemenation
-    public void RegisterHandler(EventHandler<EventArgs> p_handler)
+    public void RegisterHandler(EventHandler<GameEventArgs> p_handler)
     {
         m_handler += p_handler;
     }
 
-    public void UnRegisterHandler(EventHandler<EventArgs> p_handler)
+    public void UnRegisterHandler(EventHandler<GameEventArgs> p_handler)
     {
         m_handler -= p_handler;
     }

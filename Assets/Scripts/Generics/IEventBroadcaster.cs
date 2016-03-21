@@ -2,8 +2,8 @@
 
 public interface IEventBroadcaster
 {
-    event EventHandler<EventArgs> m_handler;
-    void RegisterHandler(EventHandler<EventArgs> p_handler);
-    void UnRegisterHandler(EventHandler<EventArgs> p_handler);
+    event EventHandler<GameEventArgs> m_handler;
+    void RegisterHandler(EventHandler<GameEventArgs> p_handler);
+    void UnRegisterHandler(EventHandler<GameEventArgs> p_handler);
     void BroadcastEvent(GameEvent eventType, params object[] args);
 }

@@ -75,14 +75,14 @@ public class BaseWeaponController : NetworkBehaviour
 					}
 				}
 
-				if (currentAmmo <= 0)
+				if (m_currentWeapon.currentAmmo <= 0)
 				{
 					isReloading = true;
-					StartCoroutine(StartReloadTimer(reloadTime));
+					StartCoroutine(StartReloadTimer(m_currentWeapon.reloadTime));
 				}
 				else
 				{
-					StartCoroutine(StartAttackTimer(attackRate));
+					StartCoroutine(StartAttackTimer(m_currentWeapon.attackRate));
 				}
 			}
 		}
@@ -90,13 +90,13 @@ public class BaseWeaponController : NetworkBehaviour
 
 	public virtual void ReloadWeapon()
 	{
-		currentAmmo = maxAmmo;
+		m_currentWeapon.currentAmmo = m_currentWeapon.maxAmmo;
 	}
 
 	IEnumerator StartAttackTimer(float seconds)
 	{
 		yield return new WaitForSeconds(seconds);
-		currentAmmo--;
+		m_currentWeapon.currentAmmo--;
 		canFire = true;
 	}
 

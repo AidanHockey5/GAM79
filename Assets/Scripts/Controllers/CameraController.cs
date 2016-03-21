@@ -175,14 +175,14 @@ public class CameraController : MonoBehaviour, IEventListener
     }
 
 	// IEventListener implementation
-	public void Subscribe(object subscriber, EventHandler<EventArgs> handler)
+	public void Subscribe(object subscriber, EventHandler<GameEventArgs> p_handler)
 	{
-		InputManager.Instance.RegisterHandler(handler);
+		InputManager.Instance.RegisterHandler(p_handler);
 	}
 
-	public void UnSubscribe(object subscriber, EventHandler<EventArgs> handler)
+	public void UnSubscribe(object subscriber, EventHandler<GameEventArgs> p_handler)
 	{
-		InputManager.Instance.UnRegisterHandler(handler);	
+		InputManager.Instance.UnRegisterHandler(p_handler);	
 	}
 
 
