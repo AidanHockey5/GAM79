@@ -28,5 +28,8 @@ public class GameManager : NetworkBehaviour
              print("You Failed");
          }
     }
-
+    public void GameOver()
+    {
+        print("Game is Over");
+    }
 }

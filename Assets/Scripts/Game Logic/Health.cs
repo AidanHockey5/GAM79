@@ -34,8 +34,16 @@ public class Health : NetworkBehaviour
         if (currentHealth <= 0)
         {
             gManager.OnPlayerDeath(ticket);
+            OnDeath();
         }
 	}
+
+    public void OnDeath()
+    {
+        print("Something should have died");
+        Destroy(this.gameObject);
+        gManager.GameOver();
+    }
 
     
 	// currentHealth is already a public variable. No need for getter function. Also research parameters,
