@@ -5,13 +5,12 @@ using System.Collections;
 
 public class BaseWeaponController : NetworkBehaviour
 {
-	public float attackRate, reloadTime, range;
-	public int power, maxAmmo, currentAmmo;
+	public WeaponSettings[] equippableWeapons;
 	public bool isReloading, canFire;
 	public Transform playerCam;
 	public string[] attackableTargets;
 
-   
+	private WeaponSettings m_currentWeapon;
 
 	RaycastHit rayHit;
 	bool targetHit;
@@ -20,6 +19,11 @@ public class BaseWeaponController : NetworkBehaviour
 	void Start () 
 	{
        
+	}
+
+	void SetWeapon(int slot)
+	{
+		m_currentWeapon = equippableWeapons[slot];
 	}
 
 	void GetInput()
@@ -65,20 +69,20 @@ public class BaseWeaponController : NetworkBehaviour
 
 							if (targetHealth != null)
 							{
-								targetHealth.TakeDamage(power);
+								// targetHealth.TakeDamage(power);
 							}
 						}
 					}
 				}
 
-				if (currentAmmo <= 0)
+				if (m_currentWeapon.currentAmmo <= 0)
 				{
 					isReloading = true;
-					StartCoroutine(StartReloadTimer(reloadTime));
+					StartCoroutine(StartReloadTimer(m_currentWeapon.reloadTime));
 				}
 				else
 				{
-					StartCoroutine(StartAttackTimer(attackRate));
+					StartCoroutine(StartAttackTimer(m_currentWeapon.attackRate));
 				}
 			}
 		}
@@ -86,13 +90,13 @@ public class BaseWeaponController : NetworkBehaviour
 
 	public virtual void ReloadWeapon()
 	{
-		currentAmmo = maxAmmo;
+		m_currentWeapon.currentAmmo = m_currentWeapon.maxAmmo;
 	}
 
 	IEnumerator StartAttackTimer(float seconds)
 	{
 		yield return new WaitForSeconds(seconds);
-		currentAmmo--;
+		m_currentWeapon.currentAmmo--;
 		canFire = true;
 	}
 

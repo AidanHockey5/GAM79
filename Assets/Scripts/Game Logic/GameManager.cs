@@ -9,6 +9,25 @@ public class GameManager : NetworkBehaviour
     public int maxTicketAmount = 0;
     public int currentTicketAmount = 0;
 
+    // singleton
+    public static GameManager Instance
+    {
+        get
+        {
+            if (m_instance != null)
+            {
+                return m_instance;
+            }
+            else
+            {
+                GameObject go = new GameObject();
+                return m_instance = go.AddComponent<GameManager>();
+            }
+        }
+    }
+
+    private static GameManager m_instance = null;
+
     void Start()
     {
         maxTicketAmount = 10;
