@@ -97,6 +97,40 @@ public class HumanStateExecutor : MonoBehaviour
 	}
 	#endregion
 
+	#region GRAPPLING
+	public void GRAPPLING_Enter()
+	{
+
+	}
+
+	public void GRAPPLING_Update()
+	{
+
+	}
+
+	public void GRAPPLING_Exit()
+	{
+
+	}
+	#endregion
+
+	#region JETPACKING
+	public void JETPACKING_Enter()
+	{
+
+	}
+
+	public void JETPACKING_Update()
+	{
+
+	}
+
+	public void JETPACKING_Exit()
+	{
+
+	}
+	#endregion
+
 	#region DEAD
 	public void DEAD_Enter()
 	{

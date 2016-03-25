@@ -97,6 +97,23 @@ public class MechStateExecutor : MonoBehaviour
 	}
 	#endregion
 
+	#region JUMPING
+	public void JUMPING_Enter()
+	{
+
+	}
+
+	public void JUMPING_Update()
+	{
+
+	}
+
+	public void JUMPING_Exit()
+	{
+
+	}
+	#endregion
+
 	#region DEAD
 	public void DEAD_Enter()
 	{

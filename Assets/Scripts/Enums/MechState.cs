@@ -4,6 +4,7 @@
 	IDLE,
 	MOVING,
 	ATTACKING,
+	JUMPING,
 	DEAD
 }
 
