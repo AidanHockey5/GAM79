@@ -1,0 +1,465 @@
+fileFormatVersion: 2
+guid: 263acf157bcabcf4595be3b391f2a211
+timeCreated: 1458332556
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Head
+    100004: Hip
+    100006: joint15
+    100008: joint8
+    100010: Larm1
+    100012: Larm2
+    100014: Larm3
+    100016: Larm4
+    100018: Larm5
+    100020: Larm6
+    100022: Larm7
+    100024: Lleg1
+    100026: Lleg2
+    100028: Lleg3
+    100030: Lleg4
+    100032: Passy
+    100034: Rarm1
+    100036: Rarm2
+    100038: Rarm3
+    100040: Rarm4
+    100042: Rarm5
+    100044: Rarm6
+    100046: Rarm7
+    100048: Rleg1
+    100050: Rleg2
+    100052: Rleg3
+    100054: Rleg4
+    100056: Root
+    100058: Spine1
+    100060: Spine2
+    100062: Spine3
+    100064: Spine4
+    100066: Spine5
+    100068: Tail
+    400000: //RootNode
+    400002: Head
+    400004: Hip
+    400006: joint15
+    400008: joint8
+    400010: Larm1
+    400012: Larm2
+    400014: Larm3
+    400016: Larm4
+    400018: Larm5
+    400020: Larm6
+    400022: Larm7
+    400024: Lleg1
+    400026: Lleg2
+    400028: Lleg3
+    400030: Lleg4
+    400032: Passy
+    400034: Rarm1
+    400036: Rarm2
+    400038: Rarm3
+    400040: Rarm4
+    400042: Rarm5
+    400044: Rarm6
+    400046: Rarm7
+    400048: Rleg1
+    400050: Rleg2
+    400052: Rleg3
+    400054: Rleg4
+    400056: Root
+    400058: Spine1
+    400060: Spine2
+    400062: Spine3
+    400064: Spine4
+    400066: Spine5
+    400068: Tail
+    2300000: Passy
+    3300000: Passy
+    4300000: Passy
+    7400000: Walk
+    7400002: Idle
+    7400004: Attack
+    9500000: //RootNode
+    13700000: Passy
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 1
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Walk
+      takeName: Take 001
+      firstFrame: 15
+      lastFrame: 45
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves:
+      - name: Speed
+        curve:
+          serializedVersion: 2
+          curve:
+          - time: 0
+            value: 1
+            inSlope: -1.0221606
+            outSlope: -1.0221606
+            tangentMode: 10
+          - time: 0.48915988
+            value: 0.5
+            inSlope: -0.021690398
+            outSlope: -0.021690398
+            tangentMode: 10
+          - time: 1
+            value: 1
+            inSlope: 0.97877985
+            outSlope: 0.97877985
+            tangentMode: 10
+          preInfinity: 3
+          postInfinity: 3
+          rotationOrder: 0
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Passy
+        weight: 1
+      - path: Root
+        weight: 1
+      - path: Root/Spine1
+        weight: 1
+      - path: Root/Spine1/Spine2
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Spine4
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5/Head
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5/Head/joint8
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5/Larm6
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5/Larm6/Larm7
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5/Rarm6
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5/Rarm6/Rarm7
+        weight: 1
+      - path: Root/Hip
+        weight: 1
+      - path: Root/Hip/Tail
+        weight: 1
+      - path: Root/Hip/Tail/joint15
+        weight: 1
+      - path: Root/Hip/Lleg1
+        weight: 1
+      - path: Root/Hip/Lleg1/Lleg2
+        weight: 1
+      - path: Root/Hip/Lleg1/Lleg2/Lleg3
+        weight: 1
+      - path: Root/Hip/Lleg1/Lleg2/Lleg3/Lleg4
+        weight: 1
+      - path: Root/Hip/Rleg1
+        weight: 1
+      - path: Root/Hip/Rleg1/Rleg2
+        weight: 1
+      - path: Root/Hip/Rleg1/Rleg2/Rleg3
+        weight: 1
+      - path: Root/Hip/Rleg1/Rleg2/Rleg3/Rleg4
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0.96
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 50
+      lastFrame: 80
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Passy
+        weight: 0
+      - path: Root
+        weight: 1
+      - path: Root/Hip
+        weight: 1
+      - path: Root/Hip/Lleg1
+        weight: 1
+      - path: Root/Hip/Lleg1/Lleg2
+        weight: 1
+      - path: Root/Hip/Lleg1/Lleg2/Lleg3
+        weight: 1
+      - path: Root/Hip/Lleg1/Lleg2/Lleg3/Lleg4
+        weight: 1
+      - path: Root/Hip/Rleg1
+        weight: 1
+      - path: Root/Hip/Rleg1/Rleg2
+        weight: 1
+      - path: Root/Hip/Rleg1/Rleg2/Rleg3
+        weight: 1
+      - path: Root/Hip/Rleg1/Rleg2/Rleg3/Rleg4
+        weight: 1
+      - path: Root/Hip/Tail
+        weight: 0
+      - path: Root/Hip/Tail/joint15
+        weight: 0
+      - path: Root/Spine1
+        weight: 1
+      - path: Root/Spine1/Spine2
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5/Larm6
+        weight: 0
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5/Larm6/Larm7
+        weight: 0
+      - path: Root/Spine1/Spine2/Spine3/Rarm1
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5/Rarm6
+        weight: 0
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5/Rarm6/Rarm7
+        weight: 0
+      - path: Root/Spine1/Spine2/Spine3/Spine4
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5/Head
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5/Head/joint8
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0.96
+    - serializedVersion: 16
+      name: Attack
+      takeName: Take 001
+      firstFrame: 80
+      lastFrame: 115
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Passy
+        weight: 0
+      - path: Root
+        weight: 1
+      - path: Root/Hip
+        weight: 1
+      - path: Root/Hip/Lleg1
+        weight: 1
+      - path: Root/Hip/Lleg1/Lleg2
+        weight: 1
+      - path: Root/Hip/Lleg1/Lleg2/Lleg3
+        weight: 1
+      - path: Root/Hip/Lleg1/Lleg2/Lleg3/Lleg4
+        weight: 1
+      - path: Root/Hip/Rleg1
+        weight: 1
+      - path: Root/Hip/Rleg1/Rleg2
+        weight: 1
+      - path: Root/Hip/Rleg1/Rleg2/Rleg3
+        weight: 1
+      - path: Root/Hip/Rleg1/Rleg2/Rleg3/Rleg4
+        weight: 1
+      - path: Root/Hip/Tail
+        weight: 0
+      - path: Root/Hip/Tail/joint15
+        weight: 0
+      - path: Root/Spine1
+        weight: 1
+      - path: Root/Spine1/Spine2
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5/Larm6
+        weight: 0
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5/Larm6/Larm7
+        weight: 0
+      - path: Root/Spine1/Spine2/Spine3/Rarm1
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5/Rarm6
+        weight: 0
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5/Rarm6/Rarm7
+        weight: 0
+      - path: Root/Spine1/Spine2/Spine3/Spine4
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5/Head
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5/Head/joint8
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0.96
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 25
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: Root
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

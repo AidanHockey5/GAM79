@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 using System;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Animator))]
-public class MovementController : MonoBehaviour, IEventListener
+public class MovementController : NetworkBehaviour, IEventListener
 {
     [SerializeField]
     private PlayerSettings playerSettings;
     [SerializeField]
     private AnimatorSettings animatorSettings;
+	[SerializeField]
+	private PositionSettings cameraPosSettings;
 
 
     // required components
@@ -28,7 +31,7 @@ public class MovementController : MonoBehaviour, IEventListener
 		Subscribe(this, Run);
 		Subscribe(this, Turn);
         Subscribe(this, LightAttack);
-		CameraController.Instance.SetCameraTarget(transform);
+		CameraController.Instance.SetCameraTarget(transform, cameraPosSettings);
     }
 
     private void OnDestroy()
@@ -38,6 +41,7 @@ public class MovementController : MonoBehaviour, IEventListener
         UnSubscribe(this, LightAttack);
     }
 
+	[ClientCallback]
     private void OnAnimatorMove()
     {
         switch (animatorSettings.currentState)
@@ -61,7 +65,6 @@ public class MovementController : MonoBehaviour, IEventListener
                     m_velocityChange.z = Mathf.Clamp(m_velocityChange.z, -playerSettings.maxVelocityChange, playerSettings.maxVelocityChange);
                     m_velocityChange.y = m_rigidbody.velocity.y;
                     // apply
-                    Debug.Log(m_velocityChange);
                     m_rigidbody.AddForce(m_velocityChange, ForceMode.VelocityChange);
                 }
                 break;
@@ -140,12 +143,18 @@ public class MovementController : MonoBehaviour, IEventListener
 	// IEventListener implementation
 	public void Subscribe(object subscriber, EventHandler<GameEventArgs> handler)
 	{
-		InputManager.Instance.RegisterHandler(handler);
+		if (isLocalPlayer) 
+		{
+			InputManager.Instance.RegisterHandler(handler);
+		}
 	}
 
 	public void UnSubscribe(object subscriber, EventHandler<GameEventArgs> handler)
 	{
-		InputManager.Instance.UnRegisterHandler(handler);	
+		if (isLocalPlayer) 
+		{
+			InputManager.Instance.UnRegisterHandler(handler);
+		}
 	}
 
 }

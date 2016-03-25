@@ -9,6 +9,8 @@ public class BaseWeaponController : NetworkBehaviour
 	public bool isReloading, canFire;
 	public Transform playerCam;
 	public string[] attackableTargets;
+	public GameObject bulletPrefab;
+	public Transform weaponSlotPos;
 
 	private WeaponSettings m_currentWeapon;
 
@@ -18,7 +20,7 @@ public class BaseWeaponController : NetworkBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-       
+		SetWeapon (0);
 	}
 
 	void SetWeapon(int slot)
@@ -49,14 +51,18 @@ public class BaseWeaponController : NetworkBehaviour
 		GetInput();
 	}
 
-	public virtual void FireWeapon()
+	public void FireWeapon()
 	{
 		if (!isReloading)
 		{
 			// shoot
 			if (canFire)
 			{
-				targetHit = Physics.Raycast(playerCam.position, playerCam.forward, out rayHit);
+				Debug.Log ("FIRE");
+				Quaternion bulletRotation = Quaternion.LookRotation (Camera.main.transform.forward, transform.up);
+				GameObject lastBulletFired = (GameObject)GameObject.Instantiate (CustomNetworkManager.Instance.spawnPrefabs[11], weaponSlotPos.position, weaponSlotPos.rotation);
+				NetworkServer.Spawn (lastBulletFired);
+				//targetHit = Physics.Raycast(playerCam.position, playerCam.forward, out rayHit);
 				canFire = false;
 				
 				if (targetHit)
@@ -88,7 +94,7 @@ public class BaseWeaponController : NetworkBehaviour
 		}
 	}
 
-	public virtual void ReloadWeapon()
+	public void ReloadWeapon()
 	{
 		m_currentWeapon.currentAmmo = m_currentWeapon.maxAmmo;
 	}

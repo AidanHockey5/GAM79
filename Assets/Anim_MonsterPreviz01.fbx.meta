@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 263acf157bcabcf4595be3b391f2a211
+guid: f3945a2a09ad4434091f444d7911fc31
 timeCreated: 1458332556
 licenseType: Free
 ModelImporter:
@@ -90,7 +90,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleRotations: 1
     optimizeGameObjects: 0
-    motionNodeName: 
+    motionNodeName: <Root Transform>
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
@@ -350,7 +350,23 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.7235389
+        functionName: AttackKeyframeTrigger
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: d3f3f3f305c44d44f9fc437f1cdb64fd,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.7235389
+        functionName: NewEvent
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: d3f3f3f305c44d44f9fc437f1cdb64fd,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
