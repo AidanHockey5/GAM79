@@ -83,7 +83,7 @@ public class GameStateExecutor : MonoBehaviour
 	#region LOSS
 	public void LOSS_Enter()
 	{
-		//Runs when object enters state.
+		
 	}
 
 	public void LOSS_Update()
@@ -94,6 +94,40 @@ public class GameStateExecutor : MonoBehaviour
 	public void LOSS_Exit()
 	{
 		
+	}
+	#endregion
+
+	#region IN_LOBBY
+	public void IN_LOBBY_Enter()
+	{
+		
+	}
+
+	public void IN_LOBBY_Update()
+	{
+		Debug.Log("In lobby!");
+	}
+
+	public void IN_LOBBY_Exit()
+	{
+
+	}
+	#endregion
+
+	#region CLASS_SELECTION
+	public void CLASS_SELECTION_Enter()
+	{
+		
+	}
+
+	public void CLASS_SELECTION_Update()
+	{
+		Debug.Log("In class selection!");
+	}
+
+	public void CLASS_SELECTION_Exit()
+	{
+
 	}
 	#endregion
 
