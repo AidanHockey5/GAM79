@@ -1,0 +1,20 @@
+﻿using System;
+using UnityEngine;
+using System.Collections.Generic;
+
+public class InstanceManager : MonoBehaviour
+{
+	private static Dictionary<Type, MonoBehaviour> _instances = new Dictionary<Type, MonoBehaviour>();
+
+	public static MonoBehaviour GetInstance<T>() where T : MonoBehaviour
+	{
+		MonoBehaviour instance;
+		_instances.TryGetValue (typeof(T), out instance);
+		return instance;
+	}
+
+	public static void Register<T>(T instance) where T : MonoBehaviour
+	{
+		_instances.Add(typeof(T), instance);
+	}
+}
