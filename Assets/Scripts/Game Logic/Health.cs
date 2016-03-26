@@ -42,7 +42,6 @@ public class Health : NetworkBehaviour
         }
 	}
 
-<<<<<<< HEAD
     public void OnDeath()
     {
         print("Something should have died");
@@ -57,13 +56,11 @@ public class Health : NetworkBehaviour
 //	{
 //		return currentHealth;
 //	}
-=======
     // currentHealth is already a public variable. No need for getter function. Also research parameters,
     // they do exactly this but in a cleaner fashion.
     //	public void GetHealth()
     //	{
     //		return currentHealth;
     //	}
->>>>>>> origin/Basic_GUI_Setup
 
 }
