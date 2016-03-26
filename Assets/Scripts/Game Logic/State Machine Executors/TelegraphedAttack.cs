@@ -11,6 +11,7 @@ public class TelegraphedAttack : MonoBehaviour
     {
         buildings = new List<GameObject>();
         players = new List<GameObject>();
+        gameObject.SetActive(false);
 	}
 
 
