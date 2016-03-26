@@ -9,12 +9,21 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody))]
 public class BaseCharacterController : NetworkBehaviour 
 {
-	// character movement
+	[Header("Character Movement")]
 	[SerializeField] float inputDelay = 0.1f;
 	[SerializeField] float runSpeed = 12;
 	[SerializeField] float maxVelocityChange = 12;
+	[SerializeField] float jumpHeight = 10.0f;
 
-	// camera movement
+	[Header("Special Movement")]
+	[SerializeField] bool hasJetPack = false;
+	[SerializeField] float jetPackCooldown = 5.0f;
+	[SerializeField] float jetPackHeight = 100.0f;
+	[SerializeField] bool hasGrapplingHook = true;
+	[SerializeField] float hookCooldown = 1.0f;
+	[SerializeField] float hookDistance = 1000.0f;
+
+	[Header("Camera Movement")]
 	[SerializeField] float lookSensitivity = 5f;
 	[SerializeField] float lookSmoothDamp = 0.1f;
 	[SerializeField] int xLowerCameraBound = -75;
@@ -26,11 +35,17 @@ public class BaseCharacterController : NetworkBehaviour
 	private Rigidbody rBody;
 	private float verticalAxisInput, horizontalAxisInput, mouseXInput, mouseYInput;
 	private float forceModifier = 0.01f;
+	private bool specialMovementInput;
 
 	// camera movement
 	private float yRotation, xRotation;
 	private float currentYRotation, currentXRotation;
 	private float yRotationVel, xRotationVel;
+
+	private bool canJetPack = true;
+	private bool canHook = true;
+	private bool hooked = false;
+	private Vector3 hookPoint;
 
 //    public int health = 0;
 //    public GameObject textBox = null;
@@ -80,6 +95,18 @@ public class BaseCharacterController : NetworkBehaviour
 		{
 			CursorOnOff.ChangeCursorState(false);
 		}
+
+		if (Input.GetKeyDown (KeyCode.LeftShift))
+		{
+			SpecialMove();
+		}
+
+		if(Input.GetKeyDown(KeyCode.Space) && hooked)
+		{
+			Jump ();
+			hooked = false;
+			rBody.useGravity = true;
+		}
 	}
 
 	[ClientCallback]
@@ -102,7 +129,10 @@ public class BaseCharacterController : NetworkBehaviour
 		if (!hasAuthority)
 			return;
 
-		Run();
+		if (hooked)
+			ReelIn ();
+		else
+			Run();
 	}
 
 	void Run()
@@ -125,8 +155,20 @@ public class BaseCharacterController : NetworkBehaviour
 		else
 		{
 			// zero velocity
-			rBody.velocity = Vector3.zero;
+			//rBody.velocity = Vector3.zero;
 		}
+	}
+
+	void Jump()
+	{
+		rBody.AddForce(new Vector3(0.0f, jumpHeight, 0.0f), ForceMode.Impulse);
+	}
+
+	void ReelIn()
+	{
+		rBody.useGravity = false;
+		float smooth = 1.0f;      
+		this.transform.position = Vector3.Lerp(this.transform.position, hookPoint, Time.deltaTime * smooth);
 	}
 
 	void Look()
@@ -138,6 +180,35 @@ public class BaseCharacterController : NetworkBehaviour
 		currentYRotation = Mathf.SmoothDamp(currentYRotation, yRotation, ref yRotationVel, lookSmoothDamp);
 		transform.rotation = Quaternion.Euler(0, currentYRotation, 0);
 		playerCam.transform.localRotation = Quaternion.Euler(-currentXRotation, 0, 0);
+	}
+
+	void SpecialMove()
+	{
+		if (hasJetPack && canJetPack)
+		{
+			rBody.AddForce(new Vector3(0.0f, jetPackHeight, 0.0f), ForceMode.Impulse);
+			canJetPack = false;
+			StartCoroutine (MovementCooldown (jetPackCooldown));
+		}
+		else if (hasGrapplingHook && canHook)
+		{
+			RaycastHit gPoint;
+			if (Physics.Raycast(transform.position, playerCam.transform.forward, out gPoint, hookDistance))
+			{
+				hooked = true;
+				hookPoint = gPoint.point;      
+				canHook = false;
+				StartCoroutine (MovementCooldown (hookCooldown));
+			}
+		}
+	}
+
+	IEnumerator MovementCooldown(float waitTime)
+	{
+		yield return new WaitForSeconds (waitTime);
+
+		canJetPack = true;
+		canHook = true;
 	}
 
 	// moved to GameManager.cs
