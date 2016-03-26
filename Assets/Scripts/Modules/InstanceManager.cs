@@ -1,48 +1,20 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
-public class InstanceManager 
+public class InstanceManager : MonoBehaviour
 {
-	public static T GetInstance<T> () where T : class
+	private static Dictionary<Type, MonoBehaviour> _instances = new Dictionary<Type, MonoBehaviour>();
+
+	public static MonoBehaviour GetInstance<T>() where T : MonoBehaviour
 	{
-		return InstanceManager.InstanceContainer<T>.Instance as T;	
+		MonoBehaviour instance;
+		_instances.TryGetValue (typeof(T), out instance);
+		return instance;
 	}
 
-	public static void Register<T> (T instance) where T : class
+	public static void Register<T>(T instance) where T : MonoBehaviour
 	{
-		InstanceManager.InstanceContainer<T>.Instance = instance;
-	}
-
-	public static void Unregister<T> () where T : class
-	{
-		InstanceManager.InstanceContainer<T>.Instance = (T)((object)null);
-	}
-
-	private class InstanceContainer<T> where T : class
-	{
-		private static T _instance;
-		private static 
-
-		public static T Instance
-		{
-			get 
-			{
-				T instance = InstanceManager.InstanceContainer<T>._instance;
-				T result;
-				if (instance != null) 
-				{
-					result = instance;
-				}
-				else 
-				{
-					result = (InstanceManager.InstanceContainer<T>._instance = Activator.CreateInstance<T>());
-				}
-				return result;
-			}
-			set
-			{
-				InstanceManager.InstanceContainer<T>._instance = value;
-			}
-		}
+		_instances.Add(typeof(T), instance);
 	}
 }

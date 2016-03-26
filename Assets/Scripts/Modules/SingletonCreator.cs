@@ -20,6 +20,6 @@ public class SingletonCreator : MonoBehaviour
 				singletonTypes.Add(candidate);
 			}
 		}
-		new GameObject("Singletons", singletonTypes.ToArray());
+		new GameObject("Singletons", singletonTypes.ToArray()).AddComponent<InstanceManager>();
 	}
 }
