@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
 
-public class UISetter : MonoBehaviour
+public class UISetter : NetworkBehaviour
 {
     public GameObject[] HUDStuff;
 
@@ -12,13 +12,13 @@ public class UISetter : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        HUDEditor();
+        
     }
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
     {
-        
+        HUDEditor();
     }
 
     public void HUDEditor()
@@ -38,20 +38,9 @@ public class UISetter : MonoBehaviour
                 HUDStuff[count].SetActive(true);
             }
         }
-        else
-        {
-            for (int count = 0; count < 3; count++)
-            {
-                HUDStuff[count].SetActive(false);
-            }
-        }
-        if (monster && monster.GetComponent<NetworkIdentity>().localPlayerAuthority == true)
+        else if (monster && monster.GetComponent<NetworkIdentity>().localPlayerAuthority == true)
         {
             HUDStuff[3].SetActive(true);
-        }
-        else
-        {
-            HUDStuff[3].SetActive(false);
         }
     }
 }
