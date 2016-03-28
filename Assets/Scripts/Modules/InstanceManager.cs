@@ -6,11 +6,11 @@ public class InstanceManager : MonoBehaviour
 {
 	private static Dictionary<Type, MonoBehaviour> _instances = new Dictionary<Type, MonoBehaviour>();
 
-	public static MonoBehaviour GetInstance<T>() where T : MonoBehaviour
+	public static T GetInstance<T>() where T : MonoBehaviour
 	{
 		MonoBehaviour instance;
 		_instances.TryGetValue (typeof(T), out instance);
-		return instance;
+		return instance as T;
 	}
 
 	public static void Register<T>(T instance) where T : MonoBehaviour

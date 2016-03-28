@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Health : NetworkBehaviour
 {
@@ -12,22 +13,34 @@ public class Health : NetworkBehaviour
 
     void Start()
     {
-        gManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+		gManager = InstanceManager.GetInstance<GameManager> ();
+		spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
 
         if (gManager == null)
         {
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
             Debug.LogError("There is no active GameManager in scene.");
         }
         else
         {
             currentHealth = max;
-           // gManager.SetHealthText(currentHealth, max);
+            gManager.SetHealthText(currentHealth, max);
         }
     }
 
     void Update()
     {
+		if (gManager == null)
+		{
+			gManager = InstanceManager.GetInstance<GameManager> ();
+			gManager.SetHealthText(currentHealth, max);
+		}
+
+		if (spawnManager == null)
+		{
+			spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
+		}
+
         if (Input.GetKeyDown(KeyCode.M))
         {
             TakeDamage(10);
@@ -35,12 +48,13 @@ public class Health : NetworkBehaviour
     }
     public void TakeDamage(int amount)
     {
-        if (!isServer)
-        {
-            return;
-        }
+//		if (!isLocalPlayer)
+//			return;
+		
         currentHealth -= amount;
-        //gManager.SetHealthText(currentHealth, max);
+
+		if(gManager != null)
+			gManager.SetHealthText(currentHealth, max);
 
         if (currentHealth <= 0)
         {

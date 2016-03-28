@@ -2,6 +2,7 @@
 
 using System.Collections;
 
+[Singleton]
 public class SpawnPointManager : MonoBehaviour
 {
     GameManager gameManager;
@@ -14,6 +15,11 @@ public class SpawnPointManager : MonoBehaviour
 	void Start () 
     {
         gameManager = InstanceManager.GetInstance<GameManager>();
+	}
+
+	void Awake()
+	{
+		InstanceManager.Register (this);
 	}
 	
 	// Update is called once per frame
