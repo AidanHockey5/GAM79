@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 using System.Collections;
 
-public class GameManager : NetworkBehaviour 
+[Singleton]
+public class GameManager : MonoBehaviour
 {
 	public Text healthText;
     public RectTransform healthBar;
@@ -28,6 +28,11 @@ public class GameManager : NetworkBehaviour
     }
 
     private static GameManager m_instance = null;
+
+   public  void Awake()
+    {
+        InstanceManager.Register(this);
+    }
 
     void Start()
     {

@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+
 using System.Collections;
 
-public class SpawnPointManager : MonoBehaviour 
+public class SpawnPointManager : MonoBehaviour
 {
+    GameManager gameManager;
     public GameObject playerPrefab;
 
     public int spawnRandom;
@@ -11,7 +13,7 @@ public class SpawnPointManager : MonoBehaviour
    
 	void Start () 
     {
-        
+        gameManager = InstanceManager.GetInstance<GameManager>();
 	}
 	
 	// Update is called once per frame
@@ -25,15 +27,15 @@ public class SpawnPointManager : MonoBehaviour
 
     public void PlayerRebirth(GameObject player)
     {
-        GameManager instance = InstanceManager.GetInstance<GameManager>();
 
-        if (currentTicketAmount <= 10 && currentTicketAmount != 0 && currentTicketAmount > -1)
+        if (gameManager.currentTicketAmount <= 10 && gameManager.currentTicketAmount != 0 && gameManager.currentTicketAmount > -1)
         {
             player.transform.position = new Vector3(0, 0, 0);
         }
         else
         {
-            GameOver();
+            
+          gameManager. GameOver();
         }
     }
 }
