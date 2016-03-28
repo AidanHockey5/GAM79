@@ -34,10 +34,10 @@ public class GameManager : NetworkBehaviour
         maxTicketAmount = 10;
         currentTicketAmount = maxTicketAmount;
     }
-	public void SetHealthText(int currentHealth, int maxHealth)
-	{
-		healthText.text = "Health: " + currentHealth.ToString() + "/" + maxHealth;
-	}
+	//public void SetHealthText(int currentHealth, int maxHealth)
+	//{
+	//	healthText.text = "Health: " + currentHealth.ToString() + "/" + maxHealth;
+	//}
     void OnChangeHealth(int health)
     {
         healthBar.sizeDelta = new Vector2(health * 2, healthBar.sizeDelta.y);
