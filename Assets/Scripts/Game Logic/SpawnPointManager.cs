@@ -7,14 +7,21 @@ public class SpawnPointManager : MonoBehaviour
 {
     GameManager gameManager;
     public GameObject playerPrefab;
+  
+    public float positionX = 0.0f;
+    public float positionZ = 0.0f;
 
-    public int spawnRandom;
-
+    public bool isHitting = false;
     // Use this for initialization
    
 	void Start () 
     {
         gameManager = InstanceManager.GetInstance<GameManager>();
+
+        transform.position = new Vector3(-12, 100, 22);
+
+        positionX = Random.Range(-100, 100);
+        positionZ = Random.Range(-100, 100);
 	}
 
 	void Awake()
@@ -28,9 +35,7 @@ public class SpawnPointManager : MonoBehaviour
        
 
 	}
-
-   
-
+ 
     public void PlayerRebirth(GameObject player)
     {
 
@@ -43,5 +48,28 @@ public class SpawnPointManager : MonoBehaviour
             
           gameManager. GameOver();
         }
+    }            
+
+    public void RebirthLocater()
+    {
+       
+        Vector3 dwn = transform.TransformDirection(Vector3.down);
+
+        if (Physics.Raycast(transform.position, dwn, 100))
+        {
+            isHitting = true;
+            Debug.Log("I Hit Something");
+            Debug.DrawLine(transform.position, dwn, Color.cyan);
+
+            if (isHitting == true)
+            {
+                RebirthLocater();
+            }
+
+        }
+        transform.position = new Vector3(positionX, 100, positionZ);
+        
+        
+
     }
 }
