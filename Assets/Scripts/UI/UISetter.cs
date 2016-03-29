@@ -18,7 +18,7 @@ public class UISetter : NetworkBehaviour
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-        HUDEditor();
+        //HUDEditor();
     }
 
     public void HUDEditor()

@@ -37,7 +37,6 @@ public class GameStateExecutor : MonoBehaviour
 	public void RUNNING_Update()
 	{
 		//Works just like regular update, but only runs while the state is active.
-		Debug.Log("Game is running!");
 	}
 
 	public void RUNNING_Exit()

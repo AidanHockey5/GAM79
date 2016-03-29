@@ -3,31 +3,34 @@ using System.Collections;
 using UnityEngine.Networking;
 using System;
 
-[RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Animator))]
 public class MovementController : NetworkBehaviour, IEventListener
 {
     [SerializeField]
     private PlayerSettings playerSettings;
     [SerializeField]
-    private AnimatorSettings animatorSettings;
+    private AnimatorSettings animSettings;
 	[SerializeField]
-	private PositionSettings cameraPosSettings;
+	private CameraPositionSettings cameraPosSettings;
+    [SerializeField]
+    private MovementSettings moveSettings;
 
 
     // required components
-    private Rigidbody m_rigidbody = null;
-    private Animator m_animator = null;
+    CharacterController charController = null;
+    new private Transform transform = null;
+    private Animator animator = null;
 
     // cached variables
-    private Quaternion m_targetRotation;
-	private float m_hInput, m_vInput, m_turnInput, m_attack1Input;
-    private Vector3 m_targetVelocity, m_velocityChange;
+    private Quaternion tarRotation;
+	private float hInput, vInput, turnInput, attack1Input;
+    private Vector3 tarDirection, velocityChange;
 
     private void Start()
     {
-        m_rigidbody = GetComponent<Rigidbody>();
-        m_animator = GetComponent<Animator>();
+        transform = GetComponent<Transform>();
+        animator = GetComponent<Animator>();
+        charController = GetComponent<CharacterController>();
 		Subscribe(this, Run);
 		Subscribe(this, Turn);
         Subscribe(this, LightAttack);
@@ -44,37 +47,37 @@ public class MovementController : NetworkBehaviour, IEventListener
 	[ClientCallback]
     private void OnAnimatorMove()
     {
-        switch (animatorSettings.currentState)
+        switch (animSettings.currentState)
         {
             case MonsterState.IDLE:
                 {
-                    m_rigidbody.velocity = new Vector3(0, m_rigidbody.velocity.y, 0);
+
                 }
                 break;
             case MonsterState.MOVING:
                 { 
                     // determine new direction
-                    m_targetVelocity = new Vector3(0, 0, m_vInput);
-                    m_targetVelocity = transform.TransformDirection(m_targetVelocity);
-                    m_targetVelocity.Normalize();
-                    // add speed
-                    m_targetVelocity *= playerSettings.accelerationRate * m_animator.GetFloat(animatorSettings.SPEED_CURVE);
-                    m_velocityChange = m_targetVelocity - m_rigidbody.velocity;
-                    // limit to max speed
-                    m_velocityChange.x = Mathf.Clamp(m_velocityChange.x, -playerSettings.maxVelocityChange, playerSettings.maxVelocityChange);
-                    m_velocityChange.z = Mathf.Clamp(m_velocityChange.z, -playerSettings.maxVelocityChange, playerSettings.maxVelocityChange);
-                    m_velocityChange.y = m_rigidbody.velocity.y;
-                    // apply
-                    m_rigidbody.AddForce(m_velocityChange, ForceMode.VelocityChange);
+                    tarDirection = new Vector3(0, 0, vInput);
+                    tarDirection = transform.TransformDirection(tarDirection);
+                    tarDirection.Normalize();
+                    tarDirection *= moveSettings.accelerationRate * animator.GetFloat(animSettings.SPEED_CURVE);
+                    tarDirection.z = Mathf.Clamp(tarDirection.z, -moveSettings.maxSpeed, moveSettings.maxSpeed);
+                    tarDirection.y += moveSettings.gravity * Time.deltaTime;
+                    charController.Move(tarDirection * Time.deltaTime);
                 }
                 break;
             case MonsterState.ATTACKING:
                 {
-                    if (m_animator.GetBool(animatorSettings.ISATTACKING_BOOL))
+                    if (animator.GetBool(animSettings.ISATTACKING_BOOL))
                     {
-                        animatorSettings.currentState = MonsterState.IDLE;
-                        m_animator.SetBool(animatorSettings.ISATTACKING_BOOL, false);
+                        animSettings.currentState = MonsterState.IDLE;
+                        animator.SetBool(animSettings.ISATTACKING_BOOL, false);
                     }
+                }
+                break;
+            case MonsterState.DEAD:
+                {
+
                 }
                 break;
         }
@@ -89,26 +92,23 @@ public class MovementController : NetworkBehaviour, IEventListener
         if (gameEventArgs.eventType == GameEvent.CHARACTER_MOVE)
 		{
 
-            m_hInput = (float)gameEventArgs.eventArgs[0];
-            m_vInput = (float)gameEventArgs.eventArgs[1];
+            hInput = (float)gameEventArgs.eventArgs[0];
+            vInput = (float)gameEventArgs.eventArgs[1];
 
-            if (Mathf.Abs(m_hInput) > playerSettings.inputDelay || Mathf.Abs(m_vInput) > playerSettings.inputDelay)
+            if (Mathf.Abs(hInput) > moveSettings.inputDelay || Mathf.Abs(vInput) > moveSettings.inputDelay)
             {
-                animatorSettings.currentState = MonsterState.MOVING;
-                m_animator.SetBool(animatorSettings.ISMOVING_BOOL, true);
-                m_animator.SetFloat(animatorSettings.RUN_STRING, m_vInput);
+                animSettings.currentState = MonsterState.MOVING;
+                animator.SetBool(animSettings.ISMOVING_BOOL, true);
+                animator.SetFloat(animSettings.RUN_FLOAT, vInput);
                 //m_animator.SetFloat(animatorSettings.TURN_STRING, m_hInput);
             }
             else
             {
-                // zero x and z velocity while allowing default unity gravity
-                animatorSettings.currentState = MonsterState.IDLE;
-                m_animator.SetBool(animatorSettings.ISMOVING_BOOL, false);
-                m_animator.SetFloat(animatorSettings.RUN_STRING, 0);
+                animSettings.currentState = MonsterState.IDLE;
+                animator.SetBool(animSettings.ISMOVING_BOOL, false);
+                animator.SetFloat(animSettings.RUN_FLOAT, 0);
                 //m_animator.SetFloat(animatorSettings.TURN_STRING, 0);
             }
-
-            // tell server that i moved - NYI NYI NYI
         }
     }
 
@@ -118,12 +118,12 @@ public class MovementController : NetworkBehaviour, IEventListener
 
         if (gameEventArgs.eventType == GameEvent.CHARACTER_ROTATE)
 		{
-			m_turnInput = (float)gameEventArgs.eventArgs[0];
+			turnInput = (float)gameEventArgs.eventArgs[0];
 
-			if (Mathf.Abs(m_turnInput) > playerSettings.inputDelay && animatorSettings.currentState == MonsterState.IDLE)
+			if (Mathf.Abs(turnInput) > moveSettings.inputDelay && animSettings.currentState == MonsterState.IDLE)
 			{
-				m_targetRotation = Quaternion.AngleAxis(playerSettings.turnRate * m_turnInput * Time.deltaTime, Vector3.up);
-				transform.rotation *= m_targetRotation;
+				tarRotation = Quaternion.AngleAxis(moveSettings.turnRate * turnInput * Time.deltaTime, Vector3.up);
+				transform.rotation *= tarRotation;
 			}
 		}
 	}
@@ -134,14 +134,14 @@ public class MovementController : NetworkBehaviour, IEventListener
 
         if (gameEventArgs.eventType == GameEvent.CHARACTER_FIRE1)
         {
-            m_attack1Input = (float)gameEventArgs.eventArgs[0];
-            animatorSettings.currentState = MonsterState.ATTACKING;
-            m_animator.SetBool(animatorSettings.ISATTACKING_BOOL, true);
+            attack1Input = (float)gameEventArgs.eventArgs[0];
+            animSettings.currentState = MonsterState.ATTACKING;
+            animator.SetBool(animSettings.ISATTACKING_BOOL, true);
         }
     }
 
-	// IEventListener implementation
-	public void Subscribe(object subscriber, EventHandler<GameEventArgs> handler)
+    #region IEVENTLISTENER IMPLEMENATION
+    public void Subscribe(object subscriber, EventHandler<GameEventArgs> handler)
 	{
 		if (isLocalPlayer) 
 		{
@@ -156,5 +156,5 @@ public class MovementController : NetworkBehaviour, IEventListener
 			InputManager.Instance.UnRegisterHandler(handler);
 		}
 	}
-
+    #endregion
 }

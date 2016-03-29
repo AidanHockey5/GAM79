@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour, IEventListener
 {
 	// exposed fields
 	[SerializeField] private Transform m_target;
-	[SerializeField] private PositionSettings position;
+	[SerializeField] private CameraPositionSettings position;
 	[SerializeField] private OrbitSettings orbit = new OrbitSettings();
 	[SerializeField] private InputSettings input = new InputSettings();
 
@@ -58,7 +58,7 @@ public class CameraController : MonoBehaviour, IEventListener
 		UnSubscribe(this, ZoomInOnTarget); 
 	}
 
-	public void SetCameraTarget(Transform t, PositionSettings cameraPos)
+	public void SetCameraTarget(Transform t, CameraPositionSettings cameraPos)
     {
         m_target = t;
 		position = cameraPos;
