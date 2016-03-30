@@ -6,10 +6,14 @@ using System.Collections;
 public class SpawnPointManager : MonoBehaviour
 {
     GameManager gameManager;
-    public GameObject playerPrefab;
+    MonsterDistance monstDistance;
+
+    public GameObject player;
   
     public float positionX = 0.0f;
     public float positionZ = 0.0f;
+    public float distance = 0.0f;
+    public float monsterDistance = 0.0f;
 
     public bool isHitting = false;
     // Use this for initialization
@@ -17,11 +21,11 @@ public class SpawnPointManager : MonoBehaviour
 	void Start () 
     {
         gameManager = InstanceManager.GetInstance<GameManager>();
+        monstDistance = InstanceManager.GetInstance<MonsterDistance>();
+
+        monsterDistance = Vector3.Distance(monstDistance.transform.position, player.transform.position);
 
         transform.position = new Vector3(-12, 100, 22);
-
-        positionX = Random.Range(-100, 100);
-        positionZ = Random.Range(-100, 100);
 	}
 
 	void Awake()
@@ -30,9 +34,18 @@ public class SpawnPointManager : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	void FixedUpdate () 
     {
-       
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit))
+        {
+            distance =  hit.distance;
+            if (distance <= 100f)
+            {
+                isHitting = true;
+            }
+        }
 
 	}
  
@@ -42,6 +55,7 @@ public class SpawnPointManager : MonoBehaviour
         if (gameManager.currentTicketAmount <= 10 && gameManager.currentTicketAmount != 0 && gameManager.currentTicketAmount > -1)
         {
             player.transform.position = new Vector3(0, 0, 0);
+            RebirthLocater( player);
         }
         else
         {
@@ -50,24 +64,25 @@ public class SpawnPointManager : MonoBehaviour
         }
     }            
 
-    public void RebirthLocater()
+    public void RebirthLocater(GameObject player)
     {
-       
+        positionX = Random.Range(-100, 100);
+        positionZ = Random.Range(-100, 100);
+
         Vector3 dwn = transform.TransformDirection(Vector3.down);
 
+     
         if (Physics.Raycast(transform.position, dwn, 100))
         {
-            isHitting = true;
             Debug.Log("I Hit Something");
             Debug.DrawLine(transform.position, dwn, Color.cyan);
 
-            if (isHitting == true)
+            if (distance <= 100f && monsterDistance <= 20f && isHitting == true)
             {
-                RebirthLocater();
+                player.transform.position = new Vector3(positionX, 100, positionZ);
             }
-
         }
-        transform.position = new Vector3(positionX, 100, positionZ);
+       
         
         
 
