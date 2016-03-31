@@ -57,13 +57,13 @@ public class MovementController : NetworkBehaviour, IEventListener
             case MonsterState.MOVING:
                 { 
                     // determine new direction
-                    //tarDirection = new Vector3(0, 0, vInput);
-                    //tarDirection = transform.TransformDirection(tarDirection);
-                    //tarDirection.Normalize();
-                    //tarDirection *= moveSettings.accelerationRate * animator.GetFloat(animSettings.SPEED_CURVE);
-                    //tarDirection.z = Mathf.Clamp(tarDirection.z, -moveSettings.maxSpeed, moveSettings.maxSpeed);
-                    //tarDirection.y += moveSettings.gravity * Time.deltaTime;
-                    //charController.Move(tarDirection * Time.deltaTime);
+                    tarDirection = new Vector3(0, 0, vInput);
+                    tarDirection = transform.TransformDirection(tarDirection);
+                    tarDirection.Normalize();
+                    tarDirection *= moveSettings.accelerationRate * animator.GetFloat(animSettings.SPEED_CURVE);
+                    tarDirection.z = Mathf.Clamp(tarDirection.z, -moveSettings.maxSpeed, moveSettings.maxSpeed);
+                    tarDirection.y += moveSettings.gravity * Time.deltaTime;
+                    charController.Move(tarDirection * Time.deltaTime);
                 }
                 break;
             case MonsterState.ATTACKING:
