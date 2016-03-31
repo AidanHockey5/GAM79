@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class SpawnPoints : MonoBehaviour 
-{
+{    
     public GameObject player;
 
     public float distance = 0.0f;
@@ -13,18 +14,16 @@ public class SpawnPoints : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-	    
+        InstanceManager.GetInstance<SpawnPointManager>().RegisterSpawnPoint(this);
 	}
-	
+   
 	// Update is called once per frame
-	void Update () 
+    void Update()
     {
         monsterDistance = Vector3.Distance(gameObject.GetComponent<MonsterDistance>().transform.position, player.transform.position);
-	}
 
-    void FixedUpdate()
-    {
-        RaycastHit hit;
+        print("I am Being Called");
+
         Vector3 dwn = transform.TransformDirection(Vector3.down);
 
         if (Physics.Raycast(transform.position, dwn, 100))
@@ -32,6 +31,7 @@ public class SpawnPoints : MonoBehaviour
             Debug.Log("I Hit Something");
             Debug.DrawLine(transform.position, dwn, Color.cyan);
         }
+        RaycastHit hit;
         if (Physics.Raycast(transform.position, -Vector3.up, out hit))
         {
             distance = hit.distance;
@@ -39,13 +39,12 @@ public class SpawnPoints : MonoBehaviour
             {
                 isHitting = true;
             }
-           
+
             if (isHitting == false && monsterDistance < 150f)
             {
                 gameObject.active = false;
             }
         }
-       
-        gameObject.active = true;
     }
+      
 }
