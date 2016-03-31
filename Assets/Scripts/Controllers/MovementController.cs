@@ -57,13 +57,13 @@ public class MovementController : NetworkBehaviour, IEventListener
             case MonsterState.MOVING:
                 { 
                     // determine new direction
-                    tarDirection = new Vector3(0, 0, vInput);
-                    tarDirection = transform.TransformDirection(tarDirection);
-                    tarDirection.Normalize();
-                    tarDirection *= moveSettings.accelerationRate * animator.GetFloat(animSettings.SPEED_CURVE);
-                    tarDirection.z = Mathf.Clamp(tarDirection.z, -moveSettings.maxSpeed, moveSettings.maxSpeed);
-                    tarDirection.y += moveSettings.gravity * Time.deltaTime;
-                    charController.Move(tarDirection * Time.deltaTime);
+                    //tarDirection = new Vector3(0, 0, vInput);
+                    //tarDirection = transform.TransformDirection(tarDirection);
+                    //tarDirection.Normalize();
+                    //tarDirection *= moveSettings.accelerationRate * animator.GetFloat(animSettings.SPEED_CURVE);
+                    //tarDirection.z = Mathf.Clamp(tarDirection.z, -moveSettings.maxSpeed, moveSettings.maxSpeed);
+                    //tarDirection.y += moveSettings.gravity * Time.deltaTime;
+                    //charController.Move(tarDirection * Time.deltaTime);
                 }
                 break;
             case MonsterState.ATTACKING:
@@ -100,14 +100,14 @@ public class MovementController : NetworkBehaviour, IEventListener
                 animSettings.currentState = MonsterState.MOVING;
                 animator.SetBool(animSettings.ISMOVING_BOOL, true);
                 animator.SetFloat(animSettings.RUN_FLOAT, vInput);
-                //m_animator.SetFloat(animatorSettings.TURN_STRING, m_hInput);
+                animator.SetFloat(animSettings.TURN_FLOAT, hInput);
             }
             else
             {
                 animSettings.currentState = MonsterState.IDLE;
                 animator.SetBool(animSettings.ISMOVING_BOOL, false);
                 animator.SetFloat(animSettings.RUN_FLOAT, 0);
-                //m_animator.SetFloat(animatorSettings.TURN_STRING, 0);
+                animator.SetFloat(animSettings.TURN_FLOAT, 0);
             }
         }
     }

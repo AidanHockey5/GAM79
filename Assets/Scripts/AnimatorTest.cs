@@ -18,5 +18,6 @@ public class AnimatorTest : MonoBehaviour
         float v = Input.GetAxis("Vertical");
         anim.SetFloat("HORIZONTAL", h);
         anim.SetFloat("VERTICAL", v);
+        anim.SetBool("isAttacking", Input.GetButton("Fire1"));
     }
 }
