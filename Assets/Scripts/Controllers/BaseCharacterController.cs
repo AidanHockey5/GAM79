@@ -1,6 +1,7 @@
 ﻿// Lawrence Lopez
 
 using UnityEngine;
+using UnityEngine.Audio;
 using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -9,7 +10,11 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody))]
 public class BaseCharacterController : NetworkBehaviour 
 {
-	[Header("Character Movement")]
+	//Audio
+    public AudioClip[] footsteps = null;
+    public AudioMixerGroup footstepsMix = null;
+    
+    [Header("Character Movement")]
 	[SerializeField] float inputDelay = 0.1f;
 	[SerializeField] float runSpeed = 12;
 	[SerializeField] float maxVelocityChange = 12;
@@ -150,6 +155,7 @@ public class BaseCharacterController : NetworkBehaviour
 			velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
 			velocityChange.y = 0;
 			rBody.AddForce(velocityChange, ForceMode.VelocityChange);
+            AudioManager.audManInst.PlayRandomSfx(footstepsMix, footsteps[Random.Range(0, footsteps.Length)], transform.position);
 			// Play run animation
 		}
 		else
