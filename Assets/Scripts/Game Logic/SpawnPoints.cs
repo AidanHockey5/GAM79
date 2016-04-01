@@ -18,6 +18,7 @@ public class SpawnPoints : MonoBehaviour
 	void Start () 
     {
         InstanceManager.GetInstance<SpawnPointManager>().RegisterSpawnPoint(this);
+        spawnManager = InstanceManager.GetInstance<SpawnPointManager>();
 	}
    
 	// Update is called once per frame

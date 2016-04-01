@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class SpawnPointManager : MonoBehaviour
 {
     GameManager gameManager;
-    SpawnPoints spawnPoint;
     MonsterDistance monstDistance;
 
     public List<SpawnPoints> spawnPointObject = new List<SpawnPoints>();
@@ -26,7 +25,6 @@ public class SpawnPointManager : MonoBehaviour
 	void Start () 
     {
         gameManager = InstanceManager.GetInstance<GameManager>();
-        spawnPoint = InstanceManager.GetInstance<SpawnPoints>();
         monstDistance = InstanceManager.GetInstance<MonsterDistance>();
         
         transform.position = new Vector3(-12, 100, 22);
@@ -80,6 +78,7 @@ public class SpawnPointManager : MonoBehaviour
 
     public void RebirthLocater(GameObject player)
     {
+        //this needs to change
         positionX = Random.Range(-100, 100);
         positionZ = Random.Range(-100, 100);   
            
