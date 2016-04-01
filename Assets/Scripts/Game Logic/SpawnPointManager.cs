@@ -18,14 +18,14 @@ public class SpawnPointManager : MonoBehaviour
 
     void Awake()
     {
-       // InstanceManager.Register(this);
+        InstanceManager.Register(this);
     }
     // Use this for initialization
    
 	void Start () 
     {
-      //  gameManager = InstanceManager.GetInstance<GameManager>();
-       // monstDistance = InstanceManager.GetInstance<MonsterDistance>();
+       gameManager = InstanceManager.GetInstance<GameManager>();
+       monstDistance = InstanceManager.GetInstance<MonsterDistance>();
         
         transform.position = new Vector3(-12, 100, 22);
 

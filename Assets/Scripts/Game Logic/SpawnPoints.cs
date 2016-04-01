@@ -17,15 +17,15 @@ public class SpawnPoints : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-       // spawnManager = InstanceManager.GetInstance<SpawnPointManager>();
-       // spawnManager.RegisterSpawnPoint(this);
+        spawnManager = InstanceManager.GetInstance<SpawnPointManager>();
+        spawnManager.RegisterSpawnPoint(this);
         
 	}
    
 	// Update is called once per frame
     void Update()
     {
-        print("I am Being Called");
+        //print("I am Being Called");
         if (spawnManager.gameObject.active == true)
         {
             Vector3 dwn = transform.TransformDirection(Vector3.down);

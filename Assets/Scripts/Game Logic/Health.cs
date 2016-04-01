@@ -21,30 +21,29 @@ public class Health : NetworkBehaviour
 	{
 		playerType = gameObject.tag;
 
-		//if (gManager == null)
-	//	{
-		//	gManager = InstanceManager.GetInstance<GameManager> ();
-	//		gManager.SetHealthText(currentHealth, max);
-	//	}
+		if (gManager == null)
+		{
+			gManager = InstanceManager.GetInstance<GameManager> ();
+			gManager.SetHealthText(currentHealth, max);
+		}
 
-	//	if (spawnManager == null)
-		//{
-		//	spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
-	//	}
-
-       // if (Input.GetKeyDown(KeyCode.M))
-		//{
-		//	this.currentHealth = this.max;
-		//	SetHealthText(this.currentHealth, this.max);
-         //   SetHealthBar(this.currentHealth);
-       // }
+		if (spawnManager == null)
+		{
+			spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
+		}
 	}
 
-    void FixedUpdate()
-    {
-        SetHealthText(this.currentHealth, this.max);    // Used to update the status of Health Text
-        SetHealthBar(this.currentHealth);               // Used to update the scale of Health Bar
-    }
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.M))
+		{
+			this.currentHealth = this.max;
+			SetHealthText(this.currentHealth, this.max);
+			SetHealthBar(this.currentHealth);
+		}
+	}
+
+    
 
     public void TakeDamage(int amount)
     {
