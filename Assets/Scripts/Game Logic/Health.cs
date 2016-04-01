@@ -23,30 +23,23 @@ public class Health : NetworkBehaviour
 
 		if (gManager == null)
 		{
-			gManager = InstanceManager.GetInstance<GameManager> ();
+			gManager = FindObjectOfType<GameManager> ();
+			//gManager = InstanceManager.GetInstance<GameManager> ();
 		}
-
+		Debug.Log (gManager);
 		if (spawnManager == null)
 		{
 			spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
 		}
-	}
-
-<<<<<<< HEAD
-        
 		this.currentHealth = this.max;
 		SetHealthText(this.currentHealth, this.max);
-        SetHealthBar(this.currentHealth);
-=======
+		SetHealthBar(this.currentHealth);
+	}
+
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.M))
-		{
-			this.currentHealth = this.max;
-			SetHealthText(this.currentHealth, this.max);
-			SetHealthBar(this.currentHealth);
-		}
->>>>>>> MasterSpawnManagerFix
+		SetHealthText(this.currentHealth, this.max);
+		SetHealthBar(this.currentHealth);
 	}
 
     
