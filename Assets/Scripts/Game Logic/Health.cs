@@ -2,55 +2,28 @@
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
-using UnityEngine.UI;
 
 public class Health : NetworkBehaviour
 {
-<<<<<<< HEAD
-    public GameManager gManager;
-    public SpawnPointManager spawnManager;
-    public int max;
-    public int currentHealth;
-    public int ticket = 1;
-
-    void Start()
-    {
-		gManager = InstanceManager.GetInstance<GameManager> ();
-		spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
-
-        if (gManager == null)
-        {
-            //gameObject.SetActive(false);
-            Debug.LogError("There is no active GameManager in scene.");
-        }
-        else
-        {
-            currentHealth = max;
-            gManager.SetHealthText(currentHealth, max);
-        }
-    }
-
-    void Update()
-    {
-		if (gManager == null)
-=======
 	public GameManager gManager;
-    public Text healthText;
-    public RectTransform healthBar, localHealthBar;
-    [SyncVar]public int max;
+	public Text healthText;
+	public RectTransform healthBar, localHealthBar;
+	public SpawnPointManager spawnManager;
+
+	[SyncVar]public int max;
 	[SyncVar (hook = "SetHealthBar")]public int currentHealth; // Syncs healthbar with current health value over network
 
-    public int ticket = 1;
+	public int ticket = 1;
 
-    private string playerType;
+	private string playerType;
 
 	void Start()
 	{
 		gManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        playerType = gameObject.tag;
+		spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
+		playerType = gameObject.tag;
 
-        if (gManager == null)
->>>>>>> origin/Basic_GUI_Setup_Continued
+		if (gManager == null)
 		{
 			gManager = InstanceManager.GetInstance<GameManager> ();
 			gManager.SetHealthText(currentHealth, max);
@@ -58,12 +31,11 @@ public class Health : NetworkBehaviour
 
 		if (spawnManager == null)
 		{
-<<<<<<< HEAD
 			spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
 		}
 
         if (Input.GetKeyDown(KeyCode.M))
-=======
+		{
 			this.currentHealth = this.max;
 			SetHealthText(this.currentHealth, this.max);
             SetHealthBar(this.currentHealth);
@@ -76,15 +48,6 @@ public class Health : NetworkBehaviour
         SetHealthBar(this.currentHealth);               // Used to update the scale of Health Bar
     }
 
-	public void TakeDamage(int amount)
-	{
-        if (!isServer)
->>>>>>> origin/Basic_GUI_Setup_Continued
-        {
-            TakeDamage(10);
-        }
-<<<<<<< HEAD
-    }
     public void TakeDamage(int amount)
     {
 //		if (!isLocalPlayer)
@@ -94,9 +57,8 @@ public class Health : NetworkBehaviour
 
 		if(gManager != null)
 			gManager.SetHealthText(currentHealth, max);
-=======
+
         this.currentHealth -= amount;
->>>>>>> origin/Basic_GUI_Setup_Continued
 
         if (currentHealth <= 0)
         {
