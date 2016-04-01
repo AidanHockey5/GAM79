@@ -4,41 +4,46 @@ using System.Collections.Generic;
 
 public class TelegraphedAttack : MonoBehaviour
 {
+	[SerializeField]
+	private GameObject foundation = null;
+	[SerializeField]
+	private GameObject explosionEffect = null;
     public List<GameObject> buildings, players;
-
-	// Use this for initialization
+	DestructionManager instance;
 	void Start ()
     {
+		instance = InstanceManager.GetInstance<DestructionManager> () as DestructionManager;
         buildings = new List<GameObject>();
         players = new List<GameObject>();
         gameObject.SetActive(false);
 	}
 
-
-
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.GetComponent<BreakSwap>() != null)
-        {
-            buildings.Add(col.gameObject);
-        }
-
-        if (col.gameObject.GetComponent<BaseCharacterController>() != null)
-        {
-            players.Add(col.gameObject);
-        }
+		InstanceManager.GetInstance<DestructionManager> ().DestroyObject (col);
+		DestroyObject (col);
+		//if (col.gameObject.GetComponent<BreakSwap>() != null)
+//        {
+//            buildings.Add(col.gameObject);
+//        }
+//
+//        if (col.gameObject.GetComponent<BaseCharacterController>() != null)
+//        {
+//            players.Add(col.gameObject);
+//        }
     }
 
     void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.GetComponent<BreakSwap>() != null)
-        {
-            buildings.Remove(col.gameObject);
-        }
-
-        if (col.gameObject.GetComponent<BaseCharacterController>() != null)
-        {
-            players.Remove(col.gameObject);
-        }
+//        if (col.gameObject.GetComponent<BreakSwap>() != null)
+//        {
+//            buildings.Remove(col.gameObject);
+//        }
+//
+//        if (col.gameObject.GetComponent<BaseCharacterController>() != null)
+//        {
+//            players.Remove(col.gameObject);
+//        }
     }
+
 }
