@@ -3,7 +3,10 @@ using System.Collections;
 
 
 public class SpawnPoints : MonoBehaviour 
-{    
+{
+    MonsterDistance monstDistance;
+    SpawnPointManager spawnManager;
+
     public GameObject player;
 
     public float distance = 0.0f;
@@ -20,31 +23,35 @@ public class SpawnPoints : MonoBehaviour
 	// Update is called once per frame
     void Update()
     {
-        monsterDistance = Vector3.Distance(gameObject.GetComponent<MonsterDistance>().transform.position, player.transform.position);
-
         print("I am Being Called");
-
-        Vector3 dwn = transform.TransformDirection(Vector3.down);
-
-        if (Physics.Raycast(transform.position, dwn, 100))
+        if (spawnManager.gameObject.active == true)
         {
-            Debug.Log("I Hit Something");
-            Debug.DrawLine(transform.position, dwn, Color.cyan);
-        }
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, -Vector3.up, out hit))
-        {
-            distance = hit.distance;
-            if (distance >= 100f)
+            Vector3 dwn = transform.TransformDirection(Vector3.down);
+
+            if (Physics.Raycast(transform.position, dwn, 100))
             {
-                isHitting = true;
+                Debug.Log("I Hit Something");
+                Debug.DrawLine(transform.position, dwn, Color.cyan);
             }
-
-            if (isHitting == false && monsterDistance < 150f)
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, -Vector3.up, out hit))
             {
-                gameObject.active = false;
+                distance = hit.distance;
+                if (distance >= 100f)
+                {
+                    isHitting = true;
+                }
+
             }
         }
-    }
-      
+        if (spawnManager.gameObject.active == false)
+        {
+            isHitting = false;
+            if (isHitting == false)
+            {
+                spawnManager.PlayerRebirth(player);
+            }
+        }
+    
+    } 
 }

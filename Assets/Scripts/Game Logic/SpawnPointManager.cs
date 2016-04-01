@@ -6,8 +6,8 @@ using System.Collections.Generic;
 public class SpawnPointManager : MonoBehaviour
 {
     GameManager gameManager;
-    MonsterDistance monstDistance;
     SpawnPoints spawnPoint;
+    MonsterDistance monstDistance;
 
     public List<SpawnPoints> spawnPointObject = new List<SpawnPoints>();
 
@@ -15,7 +15,6 @@ public class SpawnPointManager : MonoBehaviour
      
     public float positionX = 0.0f;
     public float positionZ = 0.0f;
-    public float distance = 0.0f;
     public float monsterDistance = 0.0f;
 
     void Awake()
@@ -27,44 +26,43 @@ public class SpawnPointManager : MonoBehaviour
 	void Start () 
     {
         gameManager = InstanceManager.GetInstance<GameManager>();
+        spawnPoint = InstanceManager.GetInstance<SpawnPoints>();
         monstDistance = InstanceManager.GetInstance<MonsterDistance>();
         
         transform.position = new Vector3(-12, 100, 22);
+
+        
 	}
     void Update()
     {
         
-       monsterDistance = Vector3.Distance(gameObject.GetComponent<MonsterDistance>().transform.position, player.transform.position);
-
-       
-    }
-	// Update is called once per frame
-    void FixedUpdate()
-    {
-        foreach (SpawnPoints item in spawnPointObject)
-        {
-            print("i see you");
-            if (item != null)
+            foreach (SpawnPoints item in spawnPointObject)
             {
-                gameObject.active = true;
-               
-            }
-            if (item == null)
-            {
-                print("Were did you go");
-                gameObject.active = false;
-                if (gameObject.active == false)
+                print("i see you");
+                if (item != null)
                 {
                     gameObject.active = true;
+                   
+                }
+                if (item == null)
+                {
+                    print("Were did you go");
+                    gameObject.active = false;
+
                 }
             }
-        }
-    } 
-
+        
+    }
+	// Update is called once per frame
+   
     public void RegisterSpawnPoint(SpawnPoints point)
     {
-        spawnPointObject.Add(point);
-    }  
+        spawnPointObject.Add(point);        
+    }
+    public void RegisterMonsterDistance()
+    {
+        monsterDistance = Vector3.Distance(gameObject.GetComponent<MonsterDistance>().transform.position, player.transform.position);
+    }
 
     public void PlayerRebirth(GameObject player)
     {
@@ -85,7 +83,7 @@ public class SpawnPointManager : MonoBehaviour
         positionX = Random.Range(-100, 100);
         positionZ = Random.Range(-100, 100);   
            
-            if (distance <= 100f && monsterDistance >= 100f  || monsterDistance < 150f )
+            if (monsterDistance >= 100f  || monsterDistance < 150f )
             {
                 player.transform.position = new Vector3(positionX, 0, positionZ);
             }            

@@ -68,7 +68,7 @@ public class Health : NetworkBehaviour
     {
         print("Something should have died");
 
-        spawnManager.PlayerRebirth(this.gameObject);
+        spawnManager.PlayerRebirth(this.gameObject); 
 
         if (currentHealth <= 0 && gManager.currentTicketAmount > 0)
         {
