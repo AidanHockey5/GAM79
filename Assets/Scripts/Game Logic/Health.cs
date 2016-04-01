@@ -19,8 +19,6 @@ public class Health : NetworkBehaviour
 
 	void Start()
 	{
-		gManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-		spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
 		playerType = gameObject.tag;
 
 		if (gManager == null)
@@ -33,18 +31,26 @@ public class Health : NetworkBehaviour
 		{
 			spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
 		}
+	}
 
+<<<<<<< HEAD
         
 		this.currentHealth = this.max;
 		SetHealthText(this.currentHealth, this.max);
         SetHealthBar(this.currentHealth);
+=======
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.M))
+		{
+			this.currentHealth = this.max;
+			SetHealthText(this.currentHealth, this.max);
+			SetHealthBar(this.currentHealth);
+		}
+>>>>>>> MasterSpawnManagerFix
 	}
 
-    void FixedUpdate()
-    {
-        SetHealthText(this.currentHealth, this.max);    // Used to update the status of Health Text
-        SetHealthBar(this.currentHealth);               // Used to update the scale of Health Bar
-    }
+    
 
     public void TakeDamage(int amount)
     {
