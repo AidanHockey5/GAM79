@@ -7,8 +7,8 @@ public class SpawnPointManager : MonoBehaviour
 {
     GameManager gameManager;
     MonsterDistance monstDistance;
-
-    public List<SpawnPoints> spawnPointObject = new List<SpawnPoints>();
+    RayCreation rayCreate;
+    public List<SpawnPoints> RayCreation = new List<SpawnPoints>();
 
     public GameObject player;
      
@@ -26,7 +26,7 @@ public class SpawnPointManager : MonoBehaviour
     {
         gameManager = InstanceManager.GetInstance<GameManager>();
         monstDistance = InstanceManager.GetInstance<MonsterDistance>();
-        
+        rayCreate = InstanceManager.GetInstance<RayCreation>();
         transform.position = new Vector3(-12, 100, 22);
 
         
@@ -34,7 +34,7 @@ public class SpawnPointManager : MonoBehaviour
     void Update()
     {
         
-            foreach (SpawnPoints item in spawnPointObject)
+            foreach (SpawnPoints item in RayCreation)
             {
                 print("i see you");
                 if (item != null)
@@ -55,7 +55,7 @@ public class SpawnPointManager : MonoBehaviour
    
     public void RegisterSpawnPoint(SpawnPoints point)
     {
-        spawnPointObject.Add(point);        
+        RayCreation.Add(point);        
     }
     public void RegisterMonsterDistance()
     {
@@ -79,12 +79,27 @@ public class SpawnPointManager : MonoBehaviour
     public void RebirthLocater(GameObject player)
     {
         //this needs to change
-        positionX = Random.Range(-100, 100);
-        positionZ = Random.Range(-100, 100);   
-           
-            if (monsterDistance >= 100f  || monsterDistance < 150f )
+
+        foreach (SpawnPoints item in spawnPointObject)
+        {
+            float itemDistance = Vector3.Distance(item.transform.position, gameObject.GetComponent<MonsterDistance>().transform.position);
+
+            if (itemDistance <= 150f && item != null)
             {
-                player.transform.position = new Vector3(positionX, 0, positionZ);
-            }            
+                player.transform.position = new Vector3(0, 0, 0);
+            }
+        }
+
+
+
+
+
+       // positionX = Random.Range(-100, 100);
+       // positionZ = Random.Range(-100, 100);   
+           
+           // if (monsterDistance >= 100f  || monsterDistance < 150f )
+          //  {
+            //    player.transform.position = new Vector3(positionX, 0, positionZ);
+          //  }            
     }
 }
