@@ -59,27 +59,10 @@ public class BaseWeaponController : NetworkBehaviour
 			if (canFire)
 			{
 				Debug.Log ("FIRE");
-				Quaternion bulletRotation = Quaternion.LookRotation (Camera.main.transform.forward, transform.up);
 				GameObject lastBulletFired = (GameObject)GameObject.Instantiate (CustomNetworkManager.Instance.spawnPrefabs[11], weaponSlotPos.position, weaponSlotPos.rotation);
+				lastBulletFired.transform.forward = Camera.main.transform.forward;
 				NetworkServer.Spawn (lastBulletFired);
-				//targetHit = Physics.Raycast(playerCam.position, playerCam.forward, out rayHit);
 				canFire = false;
-				
-				if (targetHit)
-				{
-					for (int i = 0; i < attackableTargets.Length; i++)
-					{
-						if (rayHit.transform.tag == attackableTargets[i])
-						{
-							Health targetHealth = rayHit.transform.GetComponent<Health>();
-
-							if (targetHealth != null)
-							{
-								targetHealth.TakeDamage(10);
-							}
-						}
-					}
-				}
 
 				if (m_currentWeapon.currentAmmo <= 0)
 				{
