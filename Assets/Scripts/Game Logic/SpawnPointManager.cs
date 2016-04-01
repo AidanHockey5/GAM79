@@ -18,14 +18,14 @@ public class SpawnPointManager : MonoBehaviour
 
     void Awake()
     {
-        InstanceManager.Register(this);
+       // InstanceManager.Register(this);
     }
     // Use this for initialization
    
 	void Start () 
     {
-        gameManager = InstanceManager.GetInstance<GameManager>();
-        monstDistance = InstanceManager.GetInstance<MonsterDistance>();
+      //  gameManager = InstanceManager.GetInstance<GameManager>();
+       // monstDistance = InstanceManager.GetInstance<MonsterDistance>();
         
         transform.position = new Vector3(-12, 100, 22);
 
@@ -36,7 +36,7 @@ public class SpawnPointManager : MonoBehaviour
         
             foreach (SpawnPoints item in spawnPointObject)
             {
-                print("i see you");
+               // print("i see you");
                 if (item != null)
                 {
                     gameObject.active = true;
@@ -44,7 +44,7 @@ public class SpawnPointManager : MonoBehaviour
                 }
                 if (item == null)
                 {
-                    print("Were did you go");
+                  //  print("Were did you go");
                     gameObject.active = false;
 
                 }

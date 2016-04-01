@@ -19,27 +19,25 @@ public class Health : NetworkBehaviour
 
 	void Start()
 	{
-		gManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-		spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
 		playerType = gameObject.tag;
 
-		if (gManager == null)
-		{
-			gManager = InstanceManager.GetInstance<GameManager> ();
-			gManager.SetHealthText(currentHealth, max);
-		}
+		//if (gManager == null)
+	//	{
+		//	gManager = InstanceManager.GetInstance<GameManager> ();
+	//		gManager.SetHealthText(currentHealth, max);
+	//	}
 
-		if (spawnManager == null)
-		{
-			spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
-		}
+	//	if (spawnManager == null)
+		//{
+		//	spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
+	//	}
 
-        if (Input.GetKeyDown(KeyCode.M))
-		{
-			this.currentHealth = this.max;
-			SetHealthText(this.currentHealth, this.max);
-            SetHealthBar(this.currentHealth);
-        }
+       // if (Input.GetKeyDown(KeyCode.M))
+		//{
+		//	this.currentHealth = this.max;
+		//	SetHealthText(this.currentHealth, this.max);
+         //   SetHealthBar(this.currentHealth);
+       // }
 	}
 
     void FixedUpdate()

@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
 	public  void Awake()
 	{
-	    InstanceManager.Register(this);
+	    //InstanceManager.Register(this);
 	}
 		
 	void Start()
