@@ -75,7 +75,7 @@ public class BaseWeaponController : NetworkBehaviour
 
 							if (targetHealth != null)
 							{
-								// targetHealth.TakeDamage(power);
+								targetHealth.TakeDamage(10);
 							}
 						}
 					}

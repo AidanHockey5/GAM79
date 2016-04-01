@@ -14,7 +14,7 @@ Platform assembly: C:\Users\Ryan\Documents\gam79\Build\Build_Data\Managed\UnityE
 Loading C:\Users\Ryan\Documents\gam79\Build\Build_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: C:\Users\Ryan\Documents\gam79\Build\Build_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading C:\Users\Ryan\Documents\gam79\Build\Build_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.057 seconds
+- Completed reload, in  0.053 seconds
 Platform assembly: C:\Users\Ryan\Documents\gam79\Build\Build_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Ryan\Documents\gam79\Build\Build_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
@@ -39,25 +39,45 @@ desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 0.584727 ms
+UnloadTime: 0.543069 ms
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 6990 -> priority: 1 
-  Thread -> id: 5ba0 -> priority: 1 
+  Thread -> id: 55a8 -> priority: 1 
+  Thread -> id: 2eec -> priority: 1 
 NetwrokDiscovery set broadbast data to:NetworkManager:192.168.2.104:7777
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.509062 ms
-
-Unloading 30 unused Assets to reduce memory usage. Loaded Objects now: 657.
-Total: 0.399075 ms (FindLiveObjects: 0.017508 ms CreateObjectMapping: 0.023847 ms MarkObjects: 0.333569 ms  DeleteObjects: 0.023847 ms)
-
-You Failed
+UnloadTime: 1.638263 ms
+Method with name IN_LOBBY_Enter could not resolve a matching state. Check method spelling
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
 
-Log: connection {1} has been disconnected by timeout; address {::ffff:192.168.2.104:64955}
-Log: connection {1} has been disconnected by timeout; address {::ffff:192.168.2.104:55344}
-Log: connection {1} has been disconnected by timeout; address {::ffff:192.168.2.104:58143}
-Log: connection {1} has been disconnected by timeout; address {::ffff:192.168.2.104:54880}
+Method with name IN_LOBBY_Update could not resolve a matching state. Check method spelling
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Method with name IN_LOBBY_Exit could not resolve a matching state. Check method spelling
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Method with name CLASS_SELECTION_Enter could not resolve a matching state. Check method spelling
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Method with name CLASS_SELECTION_Update could not resolve a matching state. Check method spelling
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Method with name CLASS_SELECTION_Exit could not resolve a matching state. Check method spelling
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+MonsterPrefab(Clone) : No state is selected!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+
+Unloading 30 unused Assets to reduce memory usage. Loaded Objects now: 962.
+Total: 0.509259 ms (FindLiveObjects: 0.034715 ms CreateObjectMapping: 0.028677 ms MarkObjects: 0.428659 ms  DeleteObjects: 0.016301 ms)
+
