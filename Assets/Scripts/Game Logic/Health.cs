@@ -23,27 +23,16 @@ public class Health : NetworkBehaviour
 
 		if (gManager == null)
 		{
-<<<<<<< HEAD
 			gManager = InstanceManager.GetInstance<GameManager> ();
-=======
 			gManager = FindObjectOfType<GameManager> ();
-			//gManager = InstanceManager.GetInstance<GameManager> ();
->>>>>>> 82326ca2a17d8aca2756f9fbceeb058cace6d1f9
 		}
-		Debug.Log (gManager);
+
 		if (spawnManager == null)
 		{
 			spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
 		}
-<<<<<<< HEAD
 	}
 
-<<<<<<< HEAD
-        
-		this.currentHealth = this.max;
-		SetHealthText(this.currentHealth, this.max);
-        SetHealthBar(this.currentHealth);
-=======
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.M))
@@ -52,28 +41,10 @@ public class Health : NetworkBehaviour
 			SetHealthText(this.currentHealth, this.max);
 			SetHealthBar(this.currentHealth);
 		}
->>>>>>> MasterSpawnManagerFix
 	}
-
-=======
-		this.currentHealth = this.max;
-		SetHealthText(this.currentHealth, this.max);
-		SetHealthBar(this.currentHealth);
-	}
-
-	void Update()
-	{
-		SetHealthText(this.currentHealth, this.max);
-		SetHealthBar(this.currentHealth);
-	}
-
->>>>>>> 82326ca2a17d8aca2756f9fbceeb058cace6d1f9
-    
 
     public void TakeDamage(int amount)
     {
-//		if (!isLocalPlayer)
-//			return;
 		
         currentHealth -= amount;
 
@@ -129,19 +100,4 @@ public class Health : NetworkBehaviour
             currentHealth = max;
         }
     }
-
-
-    // currentHealth is already a public variable. No need for getter function. Also research parameters,
-    // they do exactly this but in a cleaner fashion.
-    //	public void GetHealth()
-    //	{
-    //		return currentHealth;
-    //	}
-    // currentHealth is already a public variable. No need for getter function. Also research parameters,
-    // they do exactly this but in a cleaner fashion.
-    //	public void GetHealth()
-    //	{
-    //		return currentHealth;
-    //	}
-
 }
