@@ -23,13 +23,19 @@ public class Health : NetworkBehaviour
 
 		if (gManager == null)
 		{
+<<<<<<< HEAD
 			gManager = InstanceManager.GetInstance<GameManager> ();
+=======
+			gManager = FindObjectOfType<GameManager> ();
+			//gManager = InstanceManager.GetInstance<GameManager> ();
+>>>>>>> 82326ca2a17d8aca2756f9fbceeb058cace6d1f9
 		}
-
+		Debug.Log (gManager);
 		if (spawnManager == null)
 		{
 			spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
 		}
+<<<<<<< HEAD
 	}
 
 <<<<<<< HEAD
@@ -49,6 +55,19 @@ public class Health : NetworkBehaviour
 >>>>>>> MasterSpawnManagerFix
 	}
 
+=======
+		this.currentHealth = this.max;
+		SetHealthText(this.currentHealth, this.max);
+		SetHealthBar(this.currentHealth);
+	}
+
+	void Update()
+	{
+		SetHealthText(this.currentHealth, this.max);
+		SetHealthBar(this.currentHealth);
+	}
+
+>>>>>>> 82326ca2a17d8aca2756f9fbceeb058cace6d1f9
     
 
     public void TakeDamage(int amount)
