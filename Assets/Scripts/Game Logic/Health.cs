@@ -85,6 +85,9 @@ public class Health : NetworkBehaviour
     // Sets the HUD Health Bar and Local Health Bar Value for Human and Monster Players
     void SetHealthBar(int health)
     {
+		if (healthBar == null || localHealthBar == null)
+			return;
+		
         if (gameObject.tag == "Human")
         {
             this.healthBar = gManager.humanHealthBar;       // Utilizes the humanHealthBar RectTransform in GameManager.cs

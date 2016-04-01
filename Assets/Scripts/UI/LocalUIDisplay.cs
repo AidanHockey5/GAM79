@@ -16,6 +16,9 @@ public class LocalUIDisplay : NetworkBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+		if (localHealthDisplay == null)
+			return;
+		
         if (gameObject.tag == "HumanHP" && gameObject.GetComponentInParent<NetworkIdentity>().isLocalPlayer)
         {
             localHealthDisplay.SetActive(false);                                                // Makes Local Health Bar invisible only for local player
