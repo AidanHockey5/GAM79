@@ -19,32 +19,37 @@ public class Health : NetworkBehaviour
 
 	void Start()
 	{
-		gManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-		spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
 		playerType = gameObject.tag;
 
 		if (gManager == null)
 		{
 			gManager = InstanceManager.GetInstance<GameManager> ();
-			gManager.SetHealthText(currentHealth, max);
 		}
 
 		if (spawnManager == null)
 		{
 			spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
 		}
+	}
 
+<<<<<<< HEAD
         
 		this.currentHealth = this.max;
 		SetHealthText(this.currentHealth, this.max);
         SetHealthBar(this.currentHealth);
+=======
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.M))
+		{
+			this.currentHealth = this.max;
+			SetHealthText(this.currentHealth, this.max);
+			SetHealthBar(this.currentHealth);
+		}
+>>>>>>> MasterSpawnManagerFix
 	}
 
-    void FixedUpdate()
-    {
-        SetHealthText(this.currentHealth, this.max);    // Used to update the status of Health Text
-        SetHealthBar(this.currentHealth);               // Used to update the scale of Health Bar
-    }
+    
 
     public void TakeDamage(int amount)
     {
@@ -52,9 +57,6 @@ public class Health : NetworkBehaviour
 //			return;
 		
         currentHealth -= amount;
-
-		if(gManager != null)
-			gManager.SetHealthText(currentHealth, max);
 
         this.currentHealth -= amount;
 
@@ -83,9 +85,6 @@ public class Health : NetworkBehaviour
     // Sets the HUD Health Bar and Local Health Bar Value for Human and Monster Players
     void SetHealthBar(int health)
     {
-		if (healthBar == null || localHealthBar == null)
-			return;
-		
         if (gameObject.tag == "Human")
         {
             this.healthBar = gManager.humanHealthBar;       // Utilizes the humanHealthBar RectTransform in GameManager.cs
