@@ -5,7 +5,9 @@ using System.Collections;
 [Singleton]
 public class GameManager : MonoBehaviour
 {
-	public Text healthText;
+    public AudioClip musicTrack = null;
+    
+    public Text healthText;
    	public RectTransform healthBar;
    	public int maxTicketAmount = 0;
    	public int currentTicketAmount = 0;
@@ -15,6 +17,7 @@ public class GameManager : MonoBehaviour
 	public  void Awake()
 	{
 	    InstanceManager.Register(this);
+        AudioManager.audManInst.PlayMusic(musicTrack);
 	}
 		
 	void Start()

@@ -149,7 +149,15 @@ ModelImporter:
           preInfinity: 3
           postInfinity: 3
           rotationOrder: 0
-      events: []
+      events:
+      - time: 0.33939093
+        functionName: Footstep
+        data: 
+        objectReferenceParameter: {fileID: 145248, guid: 864fca49ca339c645bab834de6b0f076,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -345,15 +353,69 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.103896104
+        functionName: Swipe
+        data: 
+        objectReferenceParameter: {fileID: 145248, guid: 864fca49ca339c645bab834de6b0f076,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
       - path: Passy
-        weight: 0
+        weight: 1
       - path: Root
         weight: 1
+      - path: Root/Spine1
+        weight: 1
+      - path: Root/Spine1/Spine2
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Spine4
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5/Head
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5/Head/joint8
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5/Larm6
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5/Larm6/Larm7
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5/Rarm6
+        weight: 1
+      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5/Rarm6/Rarm7
+        weight: 1
       - path: Root/Hip
+        weight: 1
+      - path: Root/Hip/Tail
+        weight: 1
+      - path: Root/Hip/Tail/joint15
         weight: 1
       - path: Root/Hip/Lleg1
         weight: 1
@@ -370,52 +432,6 @@ ModelImporter:
       - path: Root/Hip/Rleg1/Rleg2/Rleg3
         weight: 1
       - path: Root/Hip/Rleg1/Rleg2/Rleg3/Rleg4
-        weight: 1
-      - path: Root/Hip/Tail
-        weight: 0
-      - path: Root/Hip/Tail/joint15
-        weight: 0
-      - path: Root/Spine1
-        weight: 1
-      - path: Root/Spine1/Spine2
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3/Larm1
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5/Larm6
-        weight: 0
-      - path: Root/Spine1/Spine2/Spine3/Larm1/Larm2/Larm3/Larm4/Larm5/Larm6/Larm7
-        weight: 0
-      - path: Root/Spine1/Spine2/Spine3/Rarm1
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5/Rarm6
-        weight: 0
-      - path: Root/Spine1/Spine2/Spine3/Rarm1/Rarm2/Rarm3/Rarm4/Rarm5/Rarm6/Rarm7
-        weight: 0
-      - path: Root/Spine1/Spine2/Spine3/Spine4
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5/Head
-        weight: 1
-      - path: Root/Spine1/Spine2/Spine3/Spine4/Spine5/Head/joint8
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
