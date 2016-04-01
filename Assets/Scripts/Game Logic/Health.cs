@@ -26,7 +26,6 @@ public class Health : NetworkBehaviour
 		if (gManager == null)
 		{
 			gManager = InstanceManager.GetInstance<GameManager> ();
-			gManager.SetHealthText(currentHealth, max);
 		}
 
 		if (spawnManager == null)
@@ -52,9 +51,6 @@ public class Health : NetworkBehaviour
 //			return;
 		
         currentHealth -= amount;
-
-		if(gManager != null)
-			gManager.SetHealthText(currentHealth, max);
 
         this.currentHealth -= amount;
 
@@ -83,9 +79,6 @@ public class Health : NetworkBehaviour
     // Sets the HUD Health Bar and Local Health Bar Value for Human and Monster Players
     void SetHealthBar(int health)
     {
-		if (healthBar == null || localHealthBar == null)
-			return;
-		
         if (gameObject.tag == "Human")
         {
             this.healthBar = gManager.humanHealthBar;       // Utilizes the humanHealthBar RectTransform in GameManager.cs
