@@ -7,6 +7,8 @@ public class PlayerUISetter : NetworkBehaviour
     private string playerType;
     private UISetter HUDUISetter;
 
+	public GameObject localHealthDisplay;
+
 	// Use this for initialization
 	void Awake ()
     {
@@ -46,5 +48,10 @@ public class PlayerUISetter : NetworkBehaviour
                 HUDUISetter.HUDStuff[count].SetActive(true);
             }
         }
+
+		if (localHealthDisplay == null)
+			return;
+
+		localHealthDisplay.SetActive(false);                                                // Makes Local Health Bar invisible only for local player
     }
 }

@@ -34,12 +34,10 @@ public class Health : NetworkBehaviour
 			spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
 		}
 
-        if (Input.GetKeyDown(KeyCode.M))
-		{
-			this.currentHealth = this.max;
-			SetHealthText(this.currentHealth, this.max);
-            SetHealthBar(this.currentHealth);
-        }
+        
+		this.currentHealth = this.max;
+		SetHealthText(this.currentHealth, this.max);
+        SetHealthBar(this.currentHealth);
 	}
 
     void FixedUpdate()
