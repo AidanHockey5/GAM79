@@ -45,9 +45,6 @@ public class Health : NetworkBehaviour
 
     public void TakeDamage(int amount)
     {
-		
-        currentHealth -= amount;
-
         this.currentHealth -= amount;
 
         if (currentHealth <= 0)
