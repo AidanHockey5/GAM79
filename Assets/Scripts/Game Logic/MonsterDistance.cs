@@ -10,7 +10,7 @@ public class MonsterDistance : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-        InstanceManager.GetInstance<SpawnPointManager>().RegisterMonsterDistance();
+      
         
 	}
         

@@ -5,12 +5,14 @@ using System.Collections.Generic;
 [Singleton]
 public class SpawnPointManager : MonoBehaviour
 {
+    BaseCharacterController player;
+    MonsterDistance monsterDistance;
+    SpawnPoints spPoint;
+
     public List<SpawnPoints> spawnPointObject = new List<SpawnPoints>();
 
-    public Transform player;
-
-    float monstDistance = 0.0f;
-    float pointDistance = 0.0f;
+    public float monstDistance = 0.0f;
+    public float pointDistance = 0.0f;
 
     void Awake()
     {
@@ -20,31 +22,39 @@ public class SpawnPointManager : MonoBehaviour
    
 	void Start () 
     {
-        player = gameObject.GetComponent<BaseCharacterController>().transform;
+       
+        player = GetComponent<BaseCharacterController>();
+        monsterDistance = GetComponent<MonsterDistance>();
+        spPoint = GetComponent<SpawnPoints>();
+
+        monstDistance = Vector3.Distance(monsterDistance.transform.position, player.transform.position);
+        pointDistance = Vector3.Distance(spPoint.transform.position, monsterDistance.transform.position);
+
+      
+       
 	}
     void Update()
     {
-        foreach (SpawnPoints item in spawnPointObject)
+     
+      /*  foreach (SpawnPoints item in spawnPointObject)
         {
-            spawnPointObject.Add(item);
+            
 
-           /* if (item != null)
+            if (item != null)
             {
                 
-            }*/
-        }
+            }
+        }*/
     }
 
-    public void RegisterMonsterDistance()
+    public void RegisterSpawnPoints(SpawnPoints item)
     {
-        monstDistance = Vector3.Distance(gameObject.GetComponent<MonsterDistance>().transform.position, player.position);
-    }
+        spawnPointObject.Add(item);
 
-    public void RegisterSpawnPoints()
-    {
-        pointDistance = Vector3.Distance((gameObject.GetComponent<SpawnPoints>().transform.position), gameObject.GetComponent<MonsterDistance>().transform.position);
+        
     }
-
+    
+     
     public void RegisterGameManager()
     {
 
@@ -55,8 +65,15 @@ public class SpawnPointManager : MonoBehaviour
         player.transform.position = new Vector3(0, 0, 0);
     }
 
-    public void OnTriggerEnter(Collider other)
+   public  void PointLocation(Vector3 center, float radius)
     {
+        Collider[] hitColliders = Physics.OverlapSphere(center, radius);
 
+       int i = hitColliders.Length;
+
+        if (i != null)
+        {
+           
+        }
     }
 }
