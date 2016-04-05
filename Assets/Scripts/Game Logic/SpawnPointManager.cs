@@ -5,8 +5,6 @@ using System.Collections.Generic;
 [Singleton]
 public class SpawnPointManager : MonoBehaviour
 {
-    Health health;
-
     public List<SpawnPoints> spawnPointObject = new List<SpawnPoints>();
 
     public float monstDistance = 0.0f;
@@ -48,7 +46,7 @@ public class SpawnPointManager : MonoBehaviour
 
        if (i != null)
        {
-           
+          
        }
     }
 }

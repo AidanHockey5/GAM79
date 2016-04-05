@@ -38,6 +38,9 @@ public class GameManager : MonoBehaviour
 	}
 	public void GameOver()
 	{
-	    print("Game is Over");
+        if (currentTicketAmount <= 0)
+        {
+            print("Game is Over");
+        }
 	}
 }
