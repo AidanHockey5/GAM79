@@ -6,25 +6,25 @@ using System.Collections;
 public class Health : NetworkBehaviour
 {
 	public GameManager gManager;
-	public Text healthText;
-	public RectTransform healthBar, localHealthBar;
+	//public Text healthText;
+	//public RectTransform healthBar, localHealthBar;
 	public SpawnPointManager spawnManager;
 
-	[SyncVar]public int max;
-	[SyncVar (hook = "SetHealthBar")]public int currentHealth; // Syncs healthbar with current health value over network
+	public int max;
+	public int currentHealth; // Syncs healthbar with current health value over network
 
 	public int ticket = 1;
 
-	private string playerType;
+	//private string playerType;
 
 	void Start()
 	{
-		playerType = gameObject.tag;
+		//playerType = gameObject.tag;
 
 		if (gManager == null)
 		{
 			gManager = InstanceManager.GetInstance<GameManager> ();
-			gManager = FindObjectOfType<GameManager> ();
+			//gManager = FindObjectOfType<GameManager> ();
 		}
 
 		if (spawnManager == null)
@@ -38,8 +38,8 @@ public class Health : NetworkBehaviour
 		if (Input.GetKeyDown(KeyCode.M))
 		{
 			this.currentHealth = this.max;
-			SetHealthText(this.currentHealth, this.max);
-			SetHealthBar(this.currentHealth);
+			//SetHealthText(this.currentHealth, this.max);
+			//SetHealthBar(this.currentHealth);
 		}
 	}
 
@@ -58,6 +58,7 @@ public class Health : NetworkBehaviour
         }
     }
 
+    /*
     // Sets Health Text Value for Human and Monster Players
     public void SetHealthText(int currentHealth, int maxHealth)
     {
@@ -88,6 +89,7 @@ public class Health : NetworkBehaviour
             localHealthBar.sizeDelta = new Vector2(health * 2, localHealthBar.sizeDelta.y);
         }
     }
+    */
 
     public void OnDeath()
     {
