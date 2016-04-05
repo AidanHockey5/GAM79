@@ -10,8 +10,8 @@ public class Health : NetworkBehaviour
 	public RectTransform healthBar, localHealthBar;
 	public SpawnPointManager spawnManager;
 
-	[SyncVar]public int max;
-	[SyncVar (hook = "SetHealthBar")]public int currentHealth; // Syncs healthbar with current health value over network
+	/*[SyncVar]*/public int max;
+	/*[SyncVar (hook = "SetHealthBar")]*/public int currentHealth; // Syncs healthbar with current health value over network
 
 	public int ticket = 1;
 
@@ -37,9 +37,10 @@ public class Health : NetworkBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.M))
 		{
-			this.currentHealth = this.max;
-			SetHealthText(this.currentHealth, this.max);
-			SetHealthBar(this.currentHealth);
+            TakeDamage(10);
+			//this.currentHealth = this.max;
+			//SetHealthText(this.currentHealth, this.max);
+		//	SetHealthBar(this.currentHealth);
 		}
 	}
 
@@ -56,7 +57,7 @@ public class Health : NetworkBehaviour
     }
 
     // Sets Health Text Value for Human and Monster Players
-    public void SetHealthText(int currentHealth, int maxHealth)
+  /*  public void SetHealthText(int currentHealth, int maxHealth)
     {
         if (gameObject.tag == "Human")
         {
@@ -84,7 +85,7 @@ public class Health : NetworkBehaviour
             healthBar.sizeDelta = new Vector2(health * 2, healthBar.sizeDelta.y);
             localHealthBar.sizeDelta = new Vector2(health * 2, localHealthBar.sizeDelta.y);
         }
-    }
+    }*/
 
     public void OnDeath()
     {

@@ -5,9 +5,7 @@ using System.Collections.Generic;
 [Singleton]
 public class SpawnPointManager : MonoBehaviour
 {
-    BaseCharacterController player;
-    MonsterDistance monsterDistance;
-    SpawnPoints spPoint;
+    Health health;
 
     public List<SpawnPoints> spawnPointObject = new List<SpawnPoints>();
 
@@ -22,47 +20,24 @@ public class SpawnPointManager : MonoBehaviour
    
 	void Start () 
     {
-       
-        player = GetComponent<BaseCharacterController>();
-        monsterDistance = GetComponent<MonsterDistance>();
-        spPoint = GetComponent<SpawnPoints>();
+        
 
-        monstDistance = Vector3.Distance(monsterDistance.transform.position, player.transform.position);
-        pointDistance = Vector3.Distance(spPoint.transform.position, monsterDistance.transform.position);
-
-      
-       
 	}
     void Update()
     {
      
-      /*  foreach (SpawnPoints item in spawnPointObject)
-        {
-            
-
-            if (item != null)
-            {
-                
-            }
-        }*/
     }
 
     public void RegisterSpawnPoints(SpawnPoints item)
     {
-        spawnPointObject.Add(item);
-
         
-    }
-    
-     
-    public void RegisterGameManager()
-    {
-
+         spawnPointObject.Add(item);
+        
     }
 
     public void PlayerRebirth(GameObject player)
     {
-        player.transform.position = new Vector3(0, 0, 0);
+        player.transform.position = new Vector3(0, 0.7f, 0);
     }
 
    public  void PointLocation(Vector3 center, float radius)
@@ -71,9 +46,9 @@ public class SpawnPointManager : MonoBehaviour
 
        int i = hitColliders.Length;
 
-        if (i != null)
-        {
+       if (i != null)
+       {
            
-        }
+       }
     }
 }

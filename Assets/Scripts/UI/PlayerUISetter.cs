@@ -13,7 +13,7 @@ public class PlayerUISetter : NetworkBehaviour
 	void Awake ()
     {
         playerType = gameObject.tag;
-        HUDUISetter = GameObject.Find("HUD").GetComponent<UISetter>();
+        //HUDUISetter = GameObject.Find("HUD").GetComponent<UISetter>();
 	}
 	
 	// Update is called once per frame
