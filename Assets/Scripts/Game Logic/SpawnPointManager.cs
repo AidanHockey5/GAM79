@@ -10,6 +10,8 @@ public class SpawnPointManager : MonoBehaviour
  
     public List<SpawnPoints> spawnPointObject = new List<SpawnPoints>();
 
+    public GameObject spawnPosition;
+
     public float monstDistance = 0.0f;
     public float pointDistance;
 
@@ -41,28 +43,28 @@ public class SpawnPointManager : MonoBehaviour
 
     public void PlayerRebirth(GameObject player)
     {
-        player.transform.position = spawn.transform.position;
+        player.transform.position =hitColliders[i].transform.position;
     }
 
    public  void PointLocation(Vector3 center, float radius)
     {
         Collider[] hitColliders = Physics.OverlapSphere(center, radius);
 
-        int i = 0 ;
+        int i = 0;
 
        while( i < hitColliders.Length)
        {
-           pointDistance = Vector3.Distance(spawn.transform.position, monstDist.transform.position); 
+           pointDistance = Vector3.Distance(hitColliders[i].transform.position, monstDist.transform.position); 
        }
        if (pointDistance <= 150f && pointDistance >= 300f)
        {
-           isReady = true;
-       }
-       if (isReady == true)
-       {
-           PlayerRebirth(player);
+           float pointLocation = Random.Range(0, 4);
+           {
+               if (pointLocation >= 0)
+               {
+                  spawnPosition = hitColliders[i] ;
+               }
+           }
        }
     }
-
-   public GameObject player { get; set; }
 }
