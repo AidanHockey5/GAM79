@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 	{
 	   // InstanceManager.Register(this);
 	    InstanceManager.Register(this);
-        AudioManager.audManInst.PlayMusic(musicTrack);
+    //    AudioManager.audManInst.PlayMusic(musicTrack);
 	}
 		
 	void Start()
