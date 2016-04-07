@@ -5,17 +5,18 @@ using System.Collections.Generic;
 [Singleton]
 public class SpawnPointManager : MonoBehaviour
 {
-    SpawnPoints spawn;
-    MonsterDistance monstDist;
- 
-    public List<SpawnPoints> spawnPointObject = new List<SpawnPoints>();
+   public SpawnPoints spawn;
+   public MonsterDistance monstDist;
+   public BaseCharacterController player;
 
-    public GameObject spawnPosition;
+   public GameObject target;
 
-    public float monstDistance = 0.0f;
-    public float pointDistance;
+    public Vector3 playerPosition;
+    public Vector3 pointPosition;
 
-    public bool isReady = false;
+    public float pointDistance = 0.0f;
+   
+
     void Awake()
     {
         InstanceManager.Register(this);
@@ -24,47 +25,57 @@ public class SpawnPointManager : MonoBehaviour
    
 	void Start () 
     {
-        spawn = GetComponent<SpawnPoints>();
-        monstDist = GetComponent<MonsterDistance>();
-
+       
+       
         
 	}
     void Update()
     {
-       
-    }
-
-    public void RegisterSpawnPoints(SpawnPoints item)
-    {
-        
-         spawnPointObject.Add(item);
-        
+        player = GameObject.FindObjectOfType<BaseCharacterController>();
     }
 
     public void PlayerRebirth(GameObject player)
-    {
-        player.transform.position =hitColliders[i].transform.position;
-    }
+     {
+         playerPosition = player.transform.position;
+        
+         PointLocation(playerPosition, 150f);
+   }
 
    public  void PointLocation(Vector3 center, float radius)
     {
         Collider[] hitColliders = Physics.OverlapSphere(center, radius);
 
         int i = 0;
+        spawn = GameObject.FindObjectOfType<SpawnPoints>();
 
-       while( i < hitColliders.Length)
-       {
-           pointDistance = Vector3.Distance(hitColliders[i].transform.position, monstDist.transform.position); 
-       }
-       if (pointDistance <= 150f && pointDistance >= 300f)
-       {
-           float pointLocation = Random.Range(0, 4);
-           {
-               if (pointLocation >= 0)
-               {
-                  spawnPosition = hitColliders[i] ;
-               }
-           }
-       }
+        if (hitColliders[i] != spawn)
+        {
+            i++;
+
+            while (i < hitColliders.Length)
+            {
+
+                spawn = GameObject.FindObjectOfType<SpawnPoints>();
+                monstDist = GameObject.FindObjectOfType<MonsterDistance>();
+                print("solo");
+                pointDistance = Vector3.Distance(hitColliders[i].transform.position, monstDist.transform.position);
+                pointPosition = hitColliders[i].transform.position;
+                print("yo");
+
+                if (pointDistance <= 150f || pointDistance >= 300f)
+                {
+                    int pointLocation = Random.Range(0, 4);
+                    print("im here");
+                    if (pointLocation >= 0)
+                    {
+                        print("Hello");
+                        player.transform.position = pointPosition;
+                    }
+                }
+
+                i++;
+            }
+
+        }
     }
 }
