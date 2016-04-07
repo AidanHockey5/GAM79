@@ -10,8 +10,8 @@ public class Health : NetworkBehaviour
 	//public RectTransform healthBar, localHealthBar;
 	public SpawnPointManager spawnManager;
 
-	public int max;
-	public int currentHealth; // Syncs healthbar with current health value over network
+	[SyncVar]public int max;
+	[SyncVar]public int currentHealth; // Syncs healthbar with current health value over network
 
 	public int ticket = 1;
 

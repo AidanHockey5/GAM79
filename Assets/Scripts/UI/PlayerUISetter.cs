@@ -45,6 +45,11 @@ public class PlayerUISetter : NetworkBehaviour
 
     void Update()
     {
+        // Damage Test
+        if (Input.GetMouseButtonDown (0) && !isLocalPlayer && isClient)
+        {
+            playerHealth.TakeDamage(1);
+        }
         currentHealthUI = playerHealth.currentHealth;
         maxHealthUI = playerHealth.max;
         SetHealthText(currentHealthUI, maxHealthUI);
