@@ -32,7 +32,6 @@ public class MonsterStateExecutor : MonoBehaviour
 	public void NONE_Enter()
 	{
 		//Runs when object enters state.
-		Debug.Log(this.name + " : No state is selected!");
 	}
 
 	public void NONE_Update()
