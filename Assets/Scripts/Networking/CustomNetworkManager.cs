@@ -57,6 +57,16 @@ public class CustomNetworkManager : NetworkManager
 			StartClient ();
 	}
 
+	public void SetMech()
+	{
+		playerPrefab = spawnPrefabs[3];
+		if (IsHost)
+			StartHost ();
+		else
+			StartClient ();
+
+	}
+
 	public void JoinMatch(string matchAddress)
 	{
 		networkAddress = matchAddress;

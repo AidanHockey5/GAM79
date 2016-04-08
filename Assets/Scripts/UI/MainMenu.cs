@@ -67,4 +67,9 @@ public class MainMenu : MonoBehaviour
 		CustomNetworkManager.Instance.SetHuman ();
 	}
 
+	public void OnClickMech()
+	{
+		CustomNetworkManager.Instance.SetMech ();
+	}
+
 }
