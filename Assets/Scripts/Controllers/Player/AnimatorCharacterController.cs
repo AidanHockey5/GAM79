@@ -16,8 +16,6 @@ public class AnimatorCharacterController : NetworkBehaviour
     private MovementSettings movementSettings = null;
     private Animator animator = null;
     private NetworkAnimator networkAnimator = null;
-    
-    private float hInput, vInput, turnInput, attack1Input = 0;
     #endregion
 
     #region MonoBehaviours
@@ -59,21 +57,45 @@ public class AnimatorCharacterController : NetworkBehaviour
     }
 
     [Command]
-    private void CmdFire1()
+	private void CmdFire1(bool fire1Input)
     {
-
+		if (animatorSettings.currentState == MonsterState.IDLE) 
+		{
+			networkAnimator.SetTrigger (animatorSettings.FIRE_1_TRIGGER);
+			animator.SetBool (animatorSettings.FIRE_1_BOOL, fire1Input);
+		} 
+		else if (animatorSettings.currentState == MonsterState.ATTACKING) 
+		{
+			animator.SetBool (animatorSettings.FIRE_1_BOOL, fire1Input);
+		}
     }
 
     [Command]
-    private void CmdFire2()
+	private void CmdFire2(bool fire2Input)
     {
-
+		if (animatorSettings.currentState == MonsterState.IDLE) 
+		{
+			networkAnimator.SetTrigger (animatorSettings.FIRE_2_TRIGGER);
+			animator.SetBool (animatorSettings.FIRE_2_BOOL, fire2Input);
+		} 
+		else if (animatorSettings.currentState == MonsterState.ATTACKING) 
+		{
+			animator.SetBool (animatorSettings.FIRE_2_BOOL, fire2Input);
+		}
     }
 
     [Command]
-    private void CmdFire3()
+	private void CmdFire3(bool fire3Input)
     {
-
+		if (animatorSettings.currentState == MonsterState.IDLE) 
+		{
+			networkAnimator.SetTrigger (animatorSettings.FIRE_3_TRIGGER);
+			animator.SetBool (animatorSettings.FIRE_3_BOOL, fire3Input);
+		} 
+		else if (animatorSettings.currentState == MonsterState.ATTACKING) 
+		{
+			animator.SetBool (animatorSettings.FIRE_3_BOOL, fire3Input);
+		}
     }
 
     [Command]
@@ -97,7 +119,8 @@ public class AnimatorCharacterController : NetworkBehaviour
             {
                 playerObj.RegisterHandler(ReceiveBroadcast);
                 animatorSettings = playerObj.animatorSettings;
-                movementSettings = playerObj.movementSettings;
+				animatorSettings = GetComponent<PlayerObject>().animatorSettings;
+				movementSettings = GetComponent<PlayerObject>().movementSettings;
             }
         }
     }
@@ -135,17 +158,20 @@ public class AnimatorCharacterController : NetworkBehaviour
                 break;
             case GameEvent.CHARACTER_FIRE1:
                 {
-                    CmdFire1();
+					// index 0 - fire1Input
+					CmdFire1((bool)gameEventArgs.eventArgs[0]);
                 }
                 break;
             case GameEvent.CHARACTER_FIRE2:
                 {
-                    CmdFire2();
+					// index 0 - fire2Input
+					CmdFire2((bool)gameEventArgs.eventArgs[0]);
                 }
                 break;
             case GameEvent.CHARACTER_FIRE3:
                 {
-                    CmdFire3();
+					// index 0 - fire3Input
+					CmdFire3((bool)gameEventArgs.eventArgs[0]);
                 }
                 break;
             case GameEvent.CHARACTER_FIRESPECIAL:

@@ -28,7 +28,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
     public InputSettings inputSettings;
     public PlayerSettings playerSettings;
     public CameraSettings cameraSettings;
-    public MovementSettings movementSettings;
+	public MovementSettings movementSettings;
     public AnimatorSettings animatorSettings;
     public WeaponSettings[] equippableWeapons;
 
