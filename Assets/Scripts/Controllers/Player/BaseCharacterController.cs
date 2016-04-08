@@ -184,8 +184,8 @@ public class BaseCharacterController : NetworkBehaviour
 	void ReelIn()
 	{
 		rBody.useGravity = false;
-		float smooth = 1.0f;      
-		this.transform.position = Vector3.Lerp(this.transform.position, hookPoint, Time.deltaTime * smooth);
+		float smooth = 15.0f;      
+		this.transform.position = Vector3.MoveTowards(this.transform.position, hookPoint, Time.deltaTime * smooth);
 	}
 
 	void Look()
