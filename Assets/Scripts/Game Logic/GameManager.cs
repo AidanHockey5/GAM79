@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
 		
 	void Start()
 	{
-	    maxTicketAmount = 10;
 	    currentTicketAmount = maxTicketAmount;
 	}
 

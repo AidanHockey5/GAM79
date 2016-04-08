@@ -23,7 +23,14 @@ public class AnimatorCharacterController : NetworkBehaviour
     {
         animator = GetComponent<Animator>();
         networkAnimator = GetComponent<NetworkAnimator>();
-        Subscribe();
+		if (isLocalPlayer)
+		{
+			Subscribe();
+		}
+		else
+		{
+			animator.applyRootMotion = false;
+		}
     }
 
     private void OnDestroy()
