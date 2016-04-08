@@ -23,13 +23,12 @@ public class Health : NetworkBehaviour
 
 		if (gManager == null)
 		{
-			gManager = InstanceManager.GetInstance<GameManager> ();
-			gManager = FindObjectOfType<GameManager> ();
+			gManager = GameManager.Instance;
 		}
 
 		if (spawnManager == null)
 		{
-			spawnManager = InstanceManager.GetInstance<SpawnPointManager> ();
+			spawnManager = SpawnPointManager.Instance;
 		}
 	}
 
@@ -91,7 +90,7 @@ public class Health : NetworkBehaviour
     {
         print("Something should have died");
 
-        spawnManager.PlayerRebirth(this.gameObject); 
+		this.transform.position = spawnManager.SpawnPointLocation ();
 
         if (currentHealth <= 0 && gManager.currentTicketAmount > 0)
         {

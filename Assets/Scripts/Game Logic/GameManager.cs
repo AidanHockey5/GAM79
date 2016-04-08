@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using System.Collections;
 
-[Singleton]
 public class GameManager : MonoBehaviour
 {
     public AudioClip musicTrack = null;
@@ -14,10 +13,28 @@ public class GameManager : MonoBehaviour
     public Text humanHealthText, monsterHealthText;             // Placeholders for Health Texts for Health.cs to utilize
     public RectTransform humanHealthBar, monsterHealthBar;      // Placeholders for Health Bars for Health.cs to utilize
 
+	private static GameManager instance_ = null;
+
+	public static GameManager Instance
+	{
+		get
+		{
+			if (instance_ != null)
+			{
+				return instance_;
+			}
+			else
+			{
+				GameObject go = new GameObject();
+				return instance_ = go.AddComponent<GameManager>();
+			}
+		}
+	}
+
 	public  void Awake()
 	{
 	   // InstanceManager.Register(this);
-	    InstanceManager.Register(this);
+		instance_ = this;
     //    AudioManager.audManInst.PlayMusic(musicTrack);
 	}
 		

@@ -2,80 +2,48 @@
 using System.Collections;
 using System.Collections.Generic;
 
-[Singleton]
 public class SpawnPointManager : MonoBehaviour
 {
-   public SpawnPoints spawn;
-   public MonsterDistance monstDist;
-   public BaseCharacterController player;
+	public List<SpawnPoints> spawnPoints = new List<SpawnPoints>();
 
-   public GameObject target;
+	private static SpawnPointManager instance_ = null;
 
-    public Vector3 playerPosition;
-    public Vector3 pointPosition;
-
-    public float pointDistance = 0.0f;
-   
-
-    void Awake()
-    {
-        InstanceManager.Register(this);
-    }
-    // Use this for initialization
-   
-	void Start () 
-    {
-       
-       
-        
+	public static SpawnPointManager Instance
+	{
+		get
+		{
+			if (instance_ != null)
+			{
+				return instance_;
+			}
+			else
+			{
+				GameObject go = new GameObject();
+				return instance_ = go.AddComponent<SpawnPointManager>();
+			}
+		}
 	}
-    void Update()
-    {
-        player = GameObject.FindObjectOfType<BaseCharacterController>();
-    }
 
-    public void PlayerRebirth(GameObject player)
-     {
-         playerPosition = player.transform.position;
-        
-         PointLocation(playerPosition, 150f);
-   }
+	void Awake()
+	{
+		instance_ = this;
+	}
 
-   public  void PointLocation(Vector3 center, float radius)
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(center, radius);
+	public void RegisterSpawnPoint(SpawnPoints point)
+	{
+		spawnPoints.Add (point);
+	}
 
-        int i = 0;
-        spawn = GameObject.FindObjectOfType<SpawnPoints>();
+	public Vector3 SpawnPointLocation()
+	{
+		int pointLocation = Random.Range(0, (spawnPoints.Count -1));
 
-        if (hitColliders[i] != spawn)
-        {
-            i++;
+		for (int i = 0; i < spawnPoints.Count; i++)
+		{
+			if (i == pointLocation)
+				return spawnPoints [i].transform.position;
+		}
 
-            while (i < hitColliders.Length)
-            {
-
-                spawn = GameObject.FindObjectOfType<SpawnPoints>();
-                monstDist = GameObject.FindObjectOfType<MonsterDistance>();
-                print("solo");
-                pointDistance = Vector3.Distance(hitColliders[i].transform.position, monstDist.transform.position);
-                pointPosition = hitColliders[i].transform.position;
-                print("yo");
-
-                if (pointDistance <= 150f || pointDistance >= 300f)
-                {
-                    int pointLocation = Random.Range(0, 4);
-                    print("im here");
-                    if (pointLocation >= 0)
-                    {
-                        print("Hello");
-                        player.transform.position = pointPosition;
-                    }
-                }
-
-                i++;
-            }
-
-        }
-    }
+		return Vector3.zero;
+	}
 }

@@ -38,6 +38,8 @@ public class PlayerUISetter : NetworkBehaviour
         {
             for (int count = 0; count < 4; count++)
             {
+				if (HUDUISetter == null)
+					continue;
                 HUDUISetter.HUDStuff[count].SetActive(true);
             }
         }
