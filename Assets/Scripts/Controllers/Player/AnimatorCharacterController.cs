@@ -38,13 +38,11 @@ public class AnimatorCharacterController : NetworkBehaviour
     {
         if (Mathf.Abs(hInput) > movementSettings.inputDelay || Mathf.Abs(vInput) > movementSettings.inputDelay)
         {
-            animator.SetBool(animatorSettings.ISMOVING_BOOL, true);
             animator.SetFloat(animatorSettings.RUN_FLOAT, vInput);
             animator.SetFloat(animatorSettings.TURN_FLOAT, hInput);
         }
         else
         {
-            animator.SetBool(animatorSettings.ISMOVING_BOOL, false);
             animator.SetFloat(animatorSettings.RUN_FLOAT, 0);
             animator.SetFloat(animatorSettings.TURN_FLOAT, 0);
         }
@@ -119,8 +117,7 @@ public class AnimatorCharacterController : NetworkBehaviour
             {
                 playerObj.RegisterHandler(ReceiveBroadcast);
                 animatorSettings = playerObj.animatorSettings;
-				animatorSettings = GetComponent<PlayerObject>().animatorSettings;
-				movementSettings = GetComponent<PlayerObject>().movementSettings;
+				movementSettings = playerObj.movementSettings;
             }
         }
     }

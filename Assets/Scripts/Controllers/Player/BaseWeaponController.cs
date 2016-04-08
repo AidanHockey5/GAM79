@@ -62,7 +62,7 @@ public class BaseWeaponController : NetworkBehaviour
 			if (canFire)
 			{
 				Debug.Log ("FIRE");
-				Quaternion bulletRotation = Quaternion.LookRotation (Camera.main.transform.forward, transform.up);
+				Quaternion bulletRotation = Quaternion.LookRotation (playerCam.transform.forward, transform.up);
 				GameObject lastBulletFired = (GameObject) Instantiate (CustomNetworkManager.Instance.spawnPrefabs[2], weaponSlotPos.position, weaponSlotPos.rotation);
                 BulletController bc = lastBulletFired.GetComponent<BulletController>();
                 if (bc != null)

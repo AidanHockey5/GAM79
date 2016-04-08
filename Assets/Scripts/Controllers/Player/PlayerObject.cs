@@ -21,9 +21,6 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
     [SyncVar]
     public bool isAlive = false;
 
-    [Header("Camera")]
-    public Transform cameraTar = null;
-
     [Header("Settings (Initialization Only)")]
     public InputSettings inputSettings;
     public PlayerSettings playerSettings;
@@ -36,6 +33,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
 
     #region Private Members
 
+	private Transform cameraTarget = null;
     private WeaponSettings currentWeapon = null;
     private Vector3 tarDir = Vector3.zero;
     private Vector3 velocity = Vector3.zero;
@@ -51,6 +49,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
         charController = GetComponent<CharacterController>();
         camController = GetComponent<CameraController>();
         animCharController = GetComponent<AnimatorCharacterController>();
+		FindCamera();
         isAlive = true;
         currentHealth = playerSettings.maxHealth;
         Subscribe();
@@ -68,6 +67,23 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
     {
         // Update UI
     }
+
+	void TakeDamage(int amount)
+	{
+		currentHealth -= amount;
+
+		if (currentHealth <= 0)
+		{
+			currentHealth = 0;
+			// respawn
+		}
+	}
+
+	[Client]
+	void FindCamera()
+	{
+		camController.SetCameraTarget(transform.Find("CameraTarget").transform, cameraSettings);
+	}
     #endregion
 
     #region IEventBroadcaster

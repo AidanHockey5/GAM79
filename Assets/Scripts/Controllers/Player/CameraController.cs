@@ -14,8 +14,7 @@ public class CameraController : MonoBehaviour, IEventListener
     private Camera mainCam = null;
     private Transform viewPoint = null;
     private Transform viewTarget = null;
-    private CameraSettings camSettings = null;
-    private OrbitSettings orbit = null;
+	private CameraSettings cameraSettings = null;
     private Vector3 tarPos = Vector3.zero;
     private Vector3 destination = Vector3.zero;
     private Quaternion tarRotation = Quaternion.identity;
@@ -27,11 +26,6 @@ public class CameraController : MonoBehaviour, IEventListener
 
     void Start()
     {
-        if (mainCam == null)
-        {
-            mainCam = Camera.main;
-        }
-
         Subscribe();
     }
 
@@ -55,13 +49,18 @@ public class CameraController : MonoBehaviour, IEventListener
 
     public void SetCameraTarget(Transform t, CameraSettings camSettings)
     {
-        viewTarget = t;
-        this.camSettings = camSettings;
-
-        if (viewTarget == null)
-        {
-            Debug.LogError("Your camera needs a target.");
-        }
+		if (mainCam == null)
+		{
+			GameObject cameraObj = new GameObject("Main Camera");
+			mainCam = cameraObj.AddComponent<Camera>();
+			viewPoint = mainCam.transform;
+			viewTarget = t;
+		}
+		else
+		{
+			viewPoint = mainCam.transform;
+			viewTarget = t;
+		}
     }
 
     #endregion
@@ -70,10 +69,13 @@ public class CameraController : MonoBehaviour, IEventListener
 
     void MoveToTarget()
     {
-        tarPos = viewTarget.position + camSettings.targetPositionOffset;
-        destination = Quaternion.Euler(orbit.xRotation, orbit.yRotation + viewTarget.eulerAngles.y, 0) * -Vector3.forward * camSettings.distanceFromTarget;
-        destination += tarPos;
-        transform.position = destination;
+		if (viewTarget != null && viewPoint != null)
+		{
+			tarPos = viewTarget.position + cameraSettings.targetPositionOffset;
+			destination = Quaternion.Euler(cameraSettings.xRotation, cameraSettings.yRotation + viewTarget.eulerAngles.y, 0) * -Vector3.forward * cameraSettings.distanceFromTarget;
+			destination += tarPos;
+			viewPoint.position = destination;
+		}
     }
 
     void LookAtTarget()
@@ -88,8 +90,12 @@ public class CameraController : MonoBehaviour, IEventListener
         targetRotation = transform.rotation;
         playerCam.transform.localRotation = Quaternion.Euler(-currentXRotation, 0, 0);
         */
-        tarRotation = Quaternion.LookRotation(viewTarget.position - transform.position);
-        transform.rotation = Quaternion.Lerp(transform.rotation, tarRotation, camSettings.lookSmooth * Time.deltaTime);
+
+		if (viewTarget != null && viewPoint != null)
+		{
+			tarRotation = Quaternion.LookRotation(viewTarget.position - viewPoint.position);
+			mainCam.transform.rotation = Quaternion.Lerp(mainCam.transform.rotation, tarRotation, cameraSettings.lookSmooth * Time.deltaTime);
+		}
     }
 
     #endregion
@@ -100,38 +106,38 @@ public class CameraController : MonoBehaviour, IEventListener
 	{
 		if (hOrbitSnapInput > 0)
 		{
-			orbit.yRotation = -180;
+			cameraSettings.yRotation = -180;
 		}
 	}
 
 	void OrbitTarget(float hOrbitInput, float vOrbitInput)
     {
-		orbit.xRotation += -vOrbitInput * orbit.vOrbitSmooth * Time.deltaTime;
-		orbit.yRotation += -hOrbitInput * orbit.hOrbitSmooth * Time.deltaTime;
+		cameraSettings.xRotation += -vOrbitInput * cameraSettings.vOrbitSmooth * Time.deltaTime;
+		cameraSettings.yRotation += -hOrbitInput * cameraSettings.hOrbitSmooth * Time.deltaTime;
 
-		if (orbit.xRotation > orbit.maxXRotation)
+		if (cameraSettings.xRotation > cameraSettings.maxXRotation)
 		{
-			orbit.xRotation = orbit.maxXRotation;
+			cameraSettings.xRotation = cameraSettings.maxXRotation;
 		}
 
-		if (orbit.xRotation < orbit.minXRotation)
+		if (cameraSettings.xRotation < cameraSettings.minXRotation)
 		{
-			orbit.xRotation = orbit.minXRotation;
+			cameraSettings.xRotation = cameraSettings.minXRotation;
 		}
     }
 
 	void ZoomInOnTarget(float zoomInput)
     {
-		camSettings.distanceFromTarget += zoomInput * camSettings.zoomSmooth * Time.deltaTime;
+		cameraSettings.distanceFromTarget += zoomInput * cameraSettings.zoomSmooth * Time.deltaTime;
 
-		if (camSettings.distanceFromTarget > camSettings.maxZoom)
+		if (cameraSettings.distanceFromTarget > cameraSettings.maxZoom)
 		{
-			camSettings.distanceFromTarget = camSettings.maxZoom;
+			cameraSettings.distanceFromTarget = cameraSettings.maxZoom;
 		}
 
-		if (camSettings.distanceFromTarget < camSettings.minZoom)
+		if (cameraSettings.distanceFromTarget < cameraSettings.minZoom)
 		{
-			camSettings.distanceFromTarget = camSettings.minZoom;
+			cameraSettings.distanceFromTarget = cameraSettings.minZoom;
 		}
     }
 
@@ -147,6 +153,7 @@ public class CameraController : MonoBehaviour, IEventListener
         if (playerObj != null)
         {
             playerObj.RegisterHandler(ReceiveBroadcast);
+			cameraSettings = playerObj.cameraSettings;
         }
     }
 
@@ -158,6 +165,7 @@ public class CameraController : MonoBehaviour, IEventListener
         if (playerObj != null)
         {
             playerObj.UnRegisterHandler(ReceiveBroadcast);
+			cameraSettings = null;
         }
     }
 
