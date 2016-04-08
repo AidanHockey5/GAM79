@@ -14,45 +14,50 @@ public class BulletController : NetworkBehaviour
     Vector3 posLastFrame;
     RaycastHit rayHit;
 
+    [ServerCallback]
     void Start()
     {
         transform = GetComponent<Transform>();
         posLastFrame = transform.position;
         StartCoroutine(DeadAfterTime(lifetime));
     }
-
-    [ClientCallback]
+    
+    [ServerCallback]
     void Update()
     {
-        if (!hasAuthority)
-            return;
-
-        CmdApplyThrust();
-        CmdCheckCollision();
-        posLastFrame = transform.position;
+        Move();
+        CheckCollision();
     }
 
-    [Command]
-    void CmdApplyThrust()
+    [Server]
+    void Move()
     {
+        posLastFrame = transform.position;
         transform.position += transform.forward * speed * Time.deltaTime;
     }
-
-    [Command]
-    void CmdCheckCollision()
+    
+    [Server]
+    void CheckCollision()
     {
         if (Physics.Linecast(posLastFrame, transform.position, out rayHit))
         {
-            CmdSendHit(rayHit.collider.gameObject);
+            //RpcAnnounceHit();
+            SendHit(rayHit.collider.gameObject);
             StopAllCoroutines();
             Destroy(gameObject);
         }
     }
-
-    [Command]
-    void CmdSendHit(GameObject hit)
+    
+    [Server]
+    void SendHit(GameObject hit)
     {
-        hit.SendMessage(MessageSettings.TAKE_DAMAGE, firingWeapon.power, SendMessageOptions.RequireReceiver);
+        PlayerObject playerObj;
+        playerObj = hit.GetComponent<PlayerObject>();
+
+        if (playerObj != null)
+        {
+            playerObj.TakeDamage(GameEvent.HIT_FROM_HUMAN, firingWeapon.power);
+        }
     }
 
     IEnumerator DeadAfterTime(float seconds)

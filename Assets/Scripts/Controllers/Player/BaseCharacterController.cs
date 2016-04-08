@@ -63,7 +63,11 @@ public class BaseCharacterController : NetworkBehaviour
 
 	void Start () 
 	{
-        CursorOnOff.ChangeCursorState(false);		
+        CursorOnOff.ChangeCursorState(false);
+        if (!isLocalPlayer)
+        {
+            playerCam.enabled = false;
+        }		
 		targetRotation = transform.rotation;
 		if (GetComponent<Rigidbody> ()) 
 		{

@@ -46,44 +46,80 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
     #region MonoBehaviours
     void Start()
     {
-        charController = GetComponent<CharacterController>();
-        camController = GetComponent<CameraController>();
-        animCharController = GetComponent<AnimatorCharacterController>();
-		FindCamera();
-        isAlive = true;
-        currentHealth = playerSettings.maxHealth;
-        Subscribe();
+        if (isLocalPlayer)
+        {
+            charController = GetComponent<CharacterController>();
+            camController = GetComponent<CameraController>();
+            animCharController = GetComponent<AnimatorCharacterController>();
+            FindCamera();
+            isAlive = true;
+            currentHealth = playerSettings.maxHealth;
+            Subscribe();
+        }
     }
     
     void OnDestroy()
     {
-        EventHandlerMainDelegate = null;
-        UnSubscribe();
+        if (isLocalPlayer)
+        {
+            EventHandlerMainDelegate = null;
+            UnSubscribe();
+        }
     }
     #endregion
 
     #region Net Code
+
     void OnChangeHealth(int health)
     {
         // Update UI
     }
 
-	void TakeDamage(int amount)
+    [ClientRpc]
+    void RpcTookDamage(int amount)
+    {
+        Debug.Log("TOOKDAMAGE " + netId);
+        currentHealth -= amount;
+
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            // respawn
+        }
+        
+    }
+
+	public void TakeDamage(GameEvent attacker, int amount)
 	{
-		currentHealth -= amount;
+        if (!isServer)
+            return;
 
-		if (currentHealth <= 0)
-		{
-			currentHealth = 0;
-			// respawn
-		}
+        if (attacker == GameEvent.HIT_FROM_HUMAN)
+        {
+            RpcTookDamage(amount);
+        }
 	}
-
-	[Client]
+    
 	void FindCamera()
 	{
-		camController.SetCameraTarget(transform.Find("CameraTarget").transform, cameraSettings);
-	}
+        if (camController != null)
+        {
+            Transform cameraTarget = transform.Find("CameraTarget");
+
+            if (cameraTarget != null)
+            {
+                camController.SetCameraTarget(cameraTarget.transform, cameraSettings);
+            }
+            else
+            {
+                Debug.LogError("CameraTarget not found on player prefab.");
+            }
+        }
+        else
+        {
+            Debug.LogError("No CameraController found.");
+        }
+    }
     #endregion
 
     #region IEventBroadcaster

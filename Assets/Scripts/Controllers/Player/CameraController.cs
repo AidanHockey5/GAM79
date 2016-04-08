@@ -51,7 +51,7 @@ public class CameraController : MonoBehaviour, IEventListener
     {
 		if (mainCam == null)
 		{
-			GameObject cameraObj = new GameObject("Main Camera");
+			GameObject cameraObj = new GameObject();
 			mainCam = cameraObj.AddComponent<Camera>();
 			viewPoint = mainCam.transform;
 			viewTarget = t;

@@ -11,7 +11,6 @@ public class BaseWeaponController : NetworkBehaviour
     
     public WeaponSettings[] equippableWeapons;
 	public bool isReloading, canFire;
-	public Transform playerCam;
 	public GameObject bulletPrefab;
 	public Transform weaponSlotPos;
 
@@ -61,17 +60,16 @@ public class BaseWeaponController : NetworkBehaviour
 		{
 			if (canFire)
 			{
-				Debug.Log ("FIRE");
-				Quaternion bulletRotation = Quaternion.LookRotation (playerCam.transform.forward, transform.up);
 				GameObject lastBulletFired = (GameObject) Instantiate (CustomNetworkManager.Instance.spawnPrefabs[2], weaponSlotPos.position, weaponSlotPos.rotation);
                 BulletController bc = lastBulletFired.GetComponent<BulletController>();
+
                 if (bc != null)
                 {
                     bc.firingWeapon = m_currentWeapon;
                 }
 
                 // AudioManager.audManInst.PlaySfx(gunShots, gunShot, transform.position);
-                NetworkServer.SpawnWithClientAuthority(lastBulletFired, connectionToClient);
+                NetworkServer.Spawn(lastBulletFired);
                 m_currentWeapon.currentAmmo--;
                 canFire = false;
 
