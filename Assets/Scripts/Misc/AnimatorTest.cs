@@ -19,5 +19,7 @@ public class AnimatorTest : MonoBehaviour
         anim.SetFloat("Turn", h);
         anim.SetFloat("Run", v);
         anim.SetBool("isAttacking", Input.GetButton("Fire1"));
+		anim.SetBool("isGroundPound", Input.GetButton("Fire2"));
+		anim.SetBool("isBreathAttack", Input.GetButton("Fire3"));
     }
 }
