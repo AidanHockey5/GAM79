@@ -12,5 +12,7 @@ public class InputSettings
     public string ORBIT_HORIZONTAL = "Orbit Horizontal";
     public string ORBIT_VERTICAL = "Orbit Vertical";
     public string ZOOM = "Mouse ScrollWheel";
-    public string ATTACK1 = "Fire1";
+	public string ATTACK1 = "Fire1";
+	public string ATTACK2 = "Fire2";
+	public string ATTACK3 = "Fire3";
 }

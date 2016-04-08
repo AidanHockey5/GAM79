@@ -23,7 +23,7 @@ public class MonsterSounds : MonoBehaviour
 
     public void Footstep()
     {
-        AudioManager.audManInst.PlayRandomSfx(monsterAction, footsteps[Random.Range(0, footsteps.Length)], transform.position);
+       // AudioManager.audManInst.PlayRandomSfx(monsterAction, footsteps[Random.Range(0, footsteps.Length)], transform.position);
     }
 
 }
