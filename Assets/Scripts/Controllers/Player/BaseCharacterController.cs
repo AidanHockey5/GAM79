@@ -26,7 +26,8 @@ public class BaseCharacterController : NetworkBehaviour
 	[SerializeField] float jetPackHeight = 100.0f;
 	[SerializeField] bool hasGrapplingHook = true;
 	[SerializeField] float hookCooldown = 1.0f;
-	[SerializeField] float hookDistance = 1000.0f;
+	[SerializeField] float hookDistance = 50.0f;
+	[SerializeField] float hookReelSpeed = 15.0f;
 
 	[Header("Camera Movement")]
 	[SerializeField] float lookSensitivity = 5f;
@@ -183,9 +184,8 @@ public class BaseCharacterController : NetworkBehaviour
 
 	void ReelIn()
 	{
-		rBody.useGravity = false;
-		float smooth = 15.0f;      
-		this.transform.position = Vector3.MoveTowards(this.transform.position, hookPoint, Time.deltaTime * smooth);
+		rBody.useGravity = false;    
+		this.transform.position = Vector3.MoveTowards(this.transform.position, hookPoint, Time.deltaTime * hookReelSpeed);
 	}
 
 	void Look()
