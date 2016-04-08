@@ -3,9 +3,9 @@ using UnityEngine.Networking;
 using System;
 using System.Collections;
 
-[RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(CameraController))]
-[RequireComponent(typeof(AnimatorCharacterController))]
+//[RequireComponent(typeof(CharacterController))]
+//[RequireComponent(typeof(CameraController))]
+//[RequireComponent(typeof(AnimatorCharacterController))]
 public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
 {
     // Summary: PlayerObject exists on each player object (each client is guaranteed one object with isLocalPlayer = true)
@@ -53,6 +53,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
             animCharController = GetComponent<AnimatorCharacterController>();
             FindCamera();
             isAlive = true;
+			Debug.LogError(playerSettings.maxHealth);
             currentHealth = playerSettings.maxHealth;
             Subscribe();
         }
@@ -78,16 +79,29 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
     [ClientRpc]
     void RpcTookDamage(int amount)
     {
-        Debug.Log("TOOKDAMAGE " + netId);
-        currentHealth -= amount;
+		if(isLocalPlayer)
+		{
+	        Debug.Log("TOOKDAMAGE " + netId);
+	        currentHealth -= amount;
 
-        if (currentHealth <= 0)
-        {
-            currentHealth = 0;
-            // respawn
-        }
-        
+	        if (currentHealth <= 0)
+	        {
+				OnDeath();
+	        }
+		}
     }
+
+	public void OnDeath()
+	{
+		print("Something should have died");
+
+		this.transform.position = SpawnPointManager.Instance.SpawnPointLocation ();
+		GameManager.Instance.currentTicketAmount--;
+		if (currentHealth <= 0 && GameManager.Instance.currentTicketAmount > 0)
+		{
+			currentHealth = playerSettings.maxHealth;
+		}
+	}
 
 	public void TakeDamage(GameEvent attacker, int amount)
 	{
