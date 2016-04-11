@@ -9,8 +9,6 @@ public class ParticleManager : NetworkBehaviour
 
     private Dictionary<string, GameObject> pickAParticle;
 
-    private CustomNetworkManager networkManager;
-
     private static ParticleManager instance_ = null;
 
     public static ParticleManager Instance
@@ -38,22 +36,8 @@ public class ParticleManager : NetworkBehaviour
         pickAParticle = new Dictionary<string, GameObject>();
         if (particleSystems != null && particleSystems.Count > 0)
         {
-            networkManager = GameObject.FindObjectOfType<CustomNetworkManager>();
-
             foreach (GameObject p in particleSystems)
             {
-                if (p.GetComponent<NetworkIdentity>() == null)
-                {
-                    p.AddComponent<NetworkIdentity>();
-                }
-                if (p.GetComponent<NetworkTransform>() == null)
-                {
-                    p.AddComponent<NetworkTransform>();
-                }
-                //p.GetComponent<NetworkTransform>().sendInterval = 0;
-
-                networkManager.spawnPrefabs.Add(p);
-
                 pickAParticle.Add(p.name, p);
             }
         }
@@ -63,15 +47,13 @@ public class ParticleManager : NetworkBehaviour
         }
 	}
 
-    [Command]
-    public void CmdSpawnParticleWithRotation(string particleName, Vector3 pos, Vector3 rot, float lifeTime)
+    [ClientRpc]
+    public void RpcSpawnParticleWithRotation(string particleName, Vector3 pos, Vector3 rot, float lifeTime)
     {
         print("Command reached");
         if (particleSystems != null && particleSystems.Count > 0)
         {
             GameObject particle = Instantiate(pickAParticle[particleName], pos, Quaternion.Euler(rot)) as GameObject;
-
-            NetworkServer.Spawn(particle);
 
             if (lifeTime > 0)
             {
@@ -84,15 +66,13 @@ public class ParticleManager : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void CmdSpawnParticle(string particleName, Vector3 pos, float lifeTime)
+    [ClientRpc]
+    public void RpcSpawnParticle(string particleName, Vector3 pos, float lifeTime)
     {
         print("Command reached");
         if (particleSystems != null && particleSystems.Count > 0)
         {
             GameObject particle = Instantiate(pickAParticle[particleName], pos, Quaternion.Euler(Vector3.zero)) as GameObject;
-
-            NetworkServer.Spawn(particle);
 
             if (lifeTime > 0)
             {

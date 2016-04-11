@@ -12,16 +12,13 @@ public class ParticleTestScript : NetworkBehaviour
         pm = ParticleManager.Instance;       
 	}
 
+    [ServerCallback]
     void Update()
     {
-        if (!isLocalPlayer)
-        {
-            //return;
-        }
         if (Input.GetKeyDown(KeyCode.G))
         {
             int r = Random.Range(0, pm.particleSystems.Count);
-            pm.CmdSpawnParticleWithRotation(pm.particleSystems[r].name, pm.transform.position, this.transform.eulerAngles, 10);
+            pm.RpcSpawnParticleWithRotation(pm.particleSystems[r].name, pm.transform.position, this.transform.eulerAngles, 10);
         }
     }
 
