@@ -8,6 +8,7 @@ public class MineSpawning : NetworkBehaviour
     public GameObject minePrefab;
     public Transform spawnPoint;
 
+    public int mineCounter;
     // Use this for initialization
     [Client]
     void Start()
@@ -17,6 +18,8 @@ public class MineSpawning : NetworkBehaviour
             minePrefab = (GameObject)(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Mine.fbx", typeof(GameObject)));
            
         }
+
+        mineCounter = 0;
     }
 
     // Update is called once per frame
@@ -25,8 +28,21 @@ public class MineSpawning : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
+            if (mineCounter >= 0)
+            {
+                CmdSpawnMine(minePrefab, GetComponent<MineSpawner>().transform);
+                mineCounter++;
+            }
 
-            CmdSpawnMine(minePrefab, GetComponent<MineSpawner>().transform);
+            if (mineCounter == 3)
+            {
+                mineCounter = 0;
+            }
+
+            if (mineCounter == 0)
+            {
+                return;// function for reload or a pick up function would go here
+            }
         }
     }
     [Command]
