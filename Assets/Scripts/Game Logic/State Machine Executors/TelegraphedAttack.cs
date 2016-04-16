@@ -7,7 +7,6 @@ public class TelegraphedAttack : MonoBehaviour
     public List<GameObject> TA_class_buildings, players;
 	DestructionManager instance = null;
 
-	// Use this for initialization
 	void Start ()
     {
 		instance = InstanceManager.GetInstance<DestructionManager> ();
@@ -22,13 +21,14 @@ public class TelegraphedAttack : MonoBehaviour
 		{
 			TA_class_buildings.Add (col.gameObject);
 		}
-
 		if (col.gameObject.GetComponent<PlayerObject> () != null) 
 		{
 			players.Add (col.gameObject);
 		}
-
-
+		if (col.gameObject.GetComponent<Building>() != null) 
+		{
+			col.gameObject.GetComponent<Building> ().TakeDamage ();
+		}
     }
 
     void OnTriggerExit(Collider col)
