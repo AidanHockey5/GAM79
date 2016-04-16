@@ -56,8 +56,6 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
 			Debug.LogError(playerSettings.maxHealth);
             currentHealth = playerSettings.maxHealth;
             Subscribe();
-
-			this.transform.position = SpawnPointManager.Instance.SpawnPointLocation ();
         }
     }
     
