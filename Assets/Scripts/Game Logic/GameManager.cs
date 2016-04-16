@@ -10,7 +10,9 @@ public class GameManager : NetworkBehaviour, IEventBroadcaster
 	[SerializeField]
 	private int _ticketAmount;
 
+	[SyncVar]
 	private int _currentTicketAmount = 0;
+
 	private int _numberOfPlayers = 0;
 	private int _playersEliminated;
 
@@ -71,6 +73,7 @@ public class GameManager : NetworkBehaviour, IEventBroadcaster
 	{
 		return _playersEliminated == _numberOfPlayers;
 	}
+
 
 	public void OnPlayerDeath()
 	{

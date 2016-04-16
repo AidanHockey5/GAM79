@@ -95,8 +95,17 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
 	{
 		print("Something should have died");
 
-		this.transform.position = SpawnPointManager.Instance.SpawnPointLocation ();
 		GameManager.Instance.OnPlayerDeath();
+
+		if (GameManager.Instance.CanSpawn (1))
+		{
+			this.transform.position = SpawnPointManager.Instance.SpawnPointLocation ();
+			GameManager.Instance.OnCharacterSpawn (1);
+		}
+		else
+		{
+			Debug.LogError ("You ran out of tickets");
+		}
 	}
 
 	public void TakeDamage(GameEvent attacker, int amount)
