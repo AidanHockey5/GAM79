@@ -4,7 +4,10 @@ using System.Collections.Generic;
 
 public class Building : MonoBehaviour
 {
+	public bool isDead = false;
+	public float deathDelay = 3.0f;
 	public string buildingType = string.Empty;
+	public Animator buildingAnimator = null;
 	[SerializeField] private int health = 0;
 
 	void Awake()
@@ -25,14 +28,15 @@ public class Building : MonoBehaviour
 
 	void Start ()
     {
-		
+		buildingAnimator = this.transform.parent.GetComponent<Animator> ();
 	}
 
 	void Update ()
     {
 		if (health >= 0) 
 		{
-			//animator
+			buildingAnimator.SetBool ("isDead", true);
+			Destroy (this, deathDelay);
 		}
 	}
 
