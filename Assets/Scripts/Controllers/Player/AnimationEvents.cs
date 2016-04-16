@@ -3,16 +3,27 @@ using System.Collections;
 
 public class AnimationEvents : MonoBehaviour 
 {
-	public TelegraphedAttack ta;
+	TelegraphedAttack ta;
 
-	public void TimeOfAttack()
+	public void TimeOfAttack(int attackAreaIndex)
 	{
-		InstanceManager.GetInstance<DestructionManager> ().DestroyBuilding (ta.TA_class_buildings, transform.forward);
-		foreach (var player in ta.players) 
-		{
-			player.GetComponent<PlayerObject>().TakeDamage(GameEvent.HIT_FROM_HUMAN, 1);
-		}
-		ta.players.Clear();
+        ta = this.gameObject.GetComponent<MonsterAbilityManager>().GetAttackArea(attackAreaIndex).GetComponent<TelegraphedAttack>();
+        if (ta != null)
+        {
+            InstanceManager.GetInstance<DestructionManager>().DestroyBuilding(ta.TA_class_buildings, transform.forward);
+            foreach (var player in ta.players)
+            {
+                if (ta.DOT)
+                {
+                    //Do Damage over time code
+                }
+                else
+                {
+                    player.GetComponent<PlayerObject>().TakeDamage(GameEvent.HIT_FROM_HUMAN, ta.damage);
+                }
+            }
+            ta.players.Clear();
+        }
 
 	}
 }

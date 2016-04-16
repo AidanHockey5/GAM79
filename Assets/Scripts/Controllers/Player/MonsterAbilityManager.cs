@@ -27,4 +27,9 @@ public class MonsterAbilityManager : MonoBehaviour {
     {
         attackAreas[attackAreaIndex].SetActive(false);
     }
+
+    public GameObject GetAttackArea(int index)
+    {
+        return attackAreas[index];
+    }
 }
