@@ -95,11 +95,16 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
 	{
 		print("Something should have died");
 
-		this.transform.position = SpawnPointManager.Instance.SpawnPointLocation ();
-		GameManager.Instance.currentTicketAmount--;
-		if (currentHealth <= 0 && GameManager.Instance.currentTicketAmount > 0)
+		GameManager.Instance.OnPlayerDeath();
+
+		if (GameManager.Instance.CanSpawn (1))
 		{
-			currentHealth = playerSettings.maxHealth;
+			this.transform.position = SpawnPointManager.Instance.SpawnPointLocation ();
+			GameManager.Instance.OnCharacterSpawn (1);
+		}
+		else
+		{
+			Debug.LogError ("You ran out of tickets");
 		}
 	}
 

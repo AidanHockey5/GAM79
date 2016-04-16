@@ -82,6 +82,8 @@ public class BaseCharacterController : NetworkBehaviour
 		verticalAxisInput = horizontalAxisInput = 0;
         isRunning = true;
 
+		this.transform.position = SpawnPointManager.Instance.SpawnPointLocation ();
+
 	}
 
 	void GetInput()
