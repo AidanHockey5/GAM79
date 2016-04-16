@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
+using System;
+using UnityEngine.Networking;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour, IEventBroadcaster
 {
-    public AudioClip musicTrack = null;
-    
-    public Text healthText;
-   	public RectTransform healthBar;
-   	public int maxTicketAmount = 0;
-   	public int currentTicketAmount = 0;
-    public Text humanHealthText, monsterHealthText;             // Placeholders for Health Texts for Health.cs to utilize
-    public RectTransform humanHealthBar, monsterHealthBar;      // Placeholders for Health Bars for Health.cs to utilize
+	[SerializeField]
+	private int _ticketAmount;
+
+	private int _currentTicketAmount = 0;
+	private int _numberOfPlayers = 0;
+	private int _playersEliminated;
 
 	private static GameManager instance_ = null;
 
@@ -33,30 +34,109 @@ public class GameManager : MonoBehaviour
 
 	public  void Awake()
 	{
-	   // InstanceManager.Register(this);
 		instance_ = this;
-    //    AudioManager.audManInst.PlayMusic(musicTrack);
 	}
 		
 	void Start()
 	{
-	    currentTicketAmount = maxTicketAmount;
+	    _currentTicketAmount = _ticketAmount;
 	}
 
-	public void OnPlayerDeath(int ticket)
+	public bool CanSpawn(int ticketAmountNeeded)
 	{
-	     currentTicketAmount -= ticket;
+		return _currentTicketAmount - ticketAmountNeeded >= 0;
+	}
 
-	     if (currentTicketAmount == 0)
-	     {
-	         print("You Failed");
-	     }
-	}
-	public void GameOver()
+	public void OnCharacterSpawn(int ticketAmount)
 	{
-        if (currentTicketAmount <= 0)
-        {
-            print("Game is Over");
-        }
+		UpdateTicketAmount (-(ticketAmount));
 	}
+
+	private void UpdateTicketAmount(int amount)
+	{
+		_currentTicketAmount += amount;
+	}
+
+	public void MainObjectiveComplete()
+	{
+		GameOver (GameOverState.ObjectiveDestroyed);
+	}
+
+	public bool TicketsDepleted()
+	{
+		return _currentTicketAmount <= 0;
+	}
+
+	public bool AllPlayersEliminated()
+	{
+		return _playersEliminated == _numberOfPlayers;
+	}
+
+	public void OnPlayerDeath()
+	{
+		if (TicketsDepleted())
+		{
+			_playersEliminated++;
+			if (AllPlayersEliminated ())
+			{
+				GameOver (GameOverState.TicketsDepleted);
+			}
+		}
+	}
+
+	public void OnMonsterDeath()
+	{
+		GameOver (GameOverState.MonsterDeath);
+	}
+
+	public void GameOver(GameOverState state)
+	{
+		//TODO: Trigger GameOver UIs
+		switch (state)
+		{
+		case GameOverState.ObjectiveDestroyed:
+			break;
+		case GameOverState.MonsterDeath:
+			break;
+		case GameOverState.TicketsDepleted:
+			break;
+		}
+	}
+
+	public void AddPlayer()
+	{
+		_numberOfPlayers++;
+	}
+
+	public void RemovePlayer()
+	{
+		_numberOfPlayers--;
+		if (_playersEliminated > 0)
+			_playersEliminated--;
+	}
+
+	#region IEventBroadcaster
+	public event EventHandler<GameEventArgs> EventHandlerMainDelegate;
+
+	public void RegisterHandler(EventHandler<GameEventArgs> EventHandlerDelegate)
+	{
+		EventHandlerMainDelegate += EventHandlerDelegate;
+	}
+	public void UnRegisterHandler(EventHandler<GameEventArgs> EventHandlerDelegate)
+	{
+		EventHandlerMainDelegate -= EventHandlerDelegate;
+	}
+
+	public void BroadcastEvent(GameEvent eventType, params object[] args)
+	{
+		GameEventArgs gameEventArgs = new GameEventArgs();
+		gameEventArgs.eventType = eventType;
+		gameEventArgs.eventArgs = args;
+
+		if (EventHandlerMainDelegate != null)
+		{
+			EventHandlerMainDelegate(this, gameEventArgs);
+		}
+	}
+	#endregion
 }

@@ -34,26 +34,14 @@ public class Health : NetworkBehaviour
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.M))
+		if (Input.GetKeyDown (KeyCode.M))
 		{
-            TakeDamage(10);
+			//TakeDamage (10);
 			//this.currentHealth = this.max;
 			//SetHealthText(this.currentHealth, this.max);
-		//	SetHealthBar(this.currentHealth);
+			//	SetHealthBar(this.currentHealth);
 		}
 	}
-
-    public void TakeDamage(int amount)
-    {
-        this.currentHealth -= amount;
-
-        if (currentHealth <= 0)
-        {
-            currentHealth = 0;
-            gManager.OnPlayerDeath(ticket);
-            OnDeath();
-        }
-    }
 
     // Sets Health Text Value for Human and Monster Players
   /*  public void SetHealthText(int currentHealth, int maxHealth)
@@ -85,16 +73,4 @@ public class Health : NetworkBehaviour
             localHealthBar.sizeDelta = new Vector2(health * 2, localHealthBar.sizeDelta.y);
         }
     }*/
-
-    public void OnDeath()
-    {
-        print("Something should have died");
-
-		this.transform.position = spawnManager.SpawnPointLocation ();
-
-        if (currentHealth <= 0 && gManager.currentTicketAmount > 0)
-        {
-            currentHealth = max;
-        }
-    }
 }

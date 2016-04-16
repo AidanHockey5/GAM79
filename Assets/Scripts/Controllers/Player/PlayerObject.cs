@@ -96,11 +96,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
 		print("Something should have died");
 
 		this.transform.position = SpawnPointManager.Instance.SpawnPointLocation ();
-		GameManager.Instance.currentTicketAmount--;
-		if (currentHealth <= 0 && GameManager.Instance.currentTicketAmount > 0)
-		{
-			currentHealth = playerSettings.maxHealth;
-		}
+		GameManager.Instance.OnPlayerDeath();
 	}
 
 	public void TakeDamage(GameEvent attacker, int amount)
