@@ -6,15 +6,15 @@ Weapon 1 Range,50,25,125,100
 Weapon 1 Fire Rate,10,10,3,20
 Weapon 1 Clip Size,30,6,6,200
 Weapon 2 Damage,0,0,400,100
-Weapon 2 Range,0,0,150,-
+Weapon 2 Range,0,0,150,0
 Weapon 2 Fire Rate,0,0,1,1
-Weapon 2 Clip Size,0,0,4,-
+Weapon 2 Clip Size,0,0,4,0
 Special Move Type,Zipline,Jetpack,None,Jetpack
-Move Cooldown,5,10,-,5
-Move Distance,20,-,-,30
+Move Cooldown,5,10,0,5
+Move Distance,20,0,0,30
 Move Speed,10,20,5,7
 Special Ability,Mine,Resupply,Missile Barrage,Rocket Jump
 Ability Cooldown,3,10,4,5
 Ability Range,15,9,125,30
-Ability Quantity,10,-,-,-
-Ability Limit,-,0,-,
+Ability Quantity,10,0,0,0
+Ability Limit,0,0,0,0

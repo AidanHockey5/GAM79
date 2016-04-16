@@ -1,26 +1,26 @@
 Health,50000
 Damage Reduction,25
 Ability 1,Light Attack
-Ability 1 Cooldown,-
+Ability 1 Cooldown,0
 Ability 1 Damage,250
 Ability 1 Charge,0.8
 Ability 1 Damage Type,instant
 Ability 1 Duration,1
 Ability 2,Heavy Swipe
-Ability 2 Cooldown,-
+Ability 2 Cooldown,0
 Ability 2 Damage,350
 Ability 2 Charge,1.3
 Ability 2 Damage Type,instant
 Ability 2 Duration,1.5
 Ability 3,Ground Pound
-Ability 3 Cooldown,-
+Ability 3 Cooldown,0
 Ability 3 Damage,500
 Ability 3 Charge,1.5
 Ability 3 Damage Type,instant
 Ability 3 Duration,1.7
 Ability 4,Lava Breath
-Ability 4 Cooldown,-
+Ability 4 Cooldown,0
 Ability 4 Damage,50
 Ability 4 Charge,0.8
 Ability 4 Damage Type,DPS
-Ability 4 Duration,-
+Ability 4 Duration,0
