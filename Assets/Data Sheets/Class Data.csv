@@ -1,0 +1,20 @@
+,Human Tech,Human Supp,Mech Heavy,Mech Assault
+Health,300,500,3000,1500
+Shield,500,500,1000,1000
+Weapon 1 Damage,15,100hp/75dmg,150,10
+Weapon 1 Range,50,25,125,100
+Weapon 1 Fire Rate,10,10,3,20
+Weapon 1 Clip Size,30,6,6,200
+Weapon 2 Damage,0,0,400,100
+Weapon 2 Range,0,0,150,-
+Weapon 2 Fire Rate,0,0,1,1
+Weapon 2 Clip Size,0,0,4,-
+Special Move Type,Zipline,Jetpack,None,Jetpack
+Move Cooldown,5,10,-,5
+Move Distance,20,-,-,30
+Move Speed,10,20,5,7
+Special Ability,Mine,Resupply,Missile Barrage,Rocket Jump
+Ability Cooldown,3,10,4,5
+Ability Range,15,9,125,30
+Ability Quantity,10,-,-,-
+Ability Limit,-,0,-,

@@ -53,7 +53,6 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
             animCharController = GetComponent<AnimatorCharacterController>();
             FindCamera();
             isAlive = true;
-			Debug.LogError(playerSettings.maxHealth);
             currentHealth = playerSettings.maxHealth;
             Subscribe();
         }
