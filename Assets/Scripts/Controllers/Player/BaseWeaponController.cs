@@ -12,7 +12,8 @@ public class BaseWeaponController : NetworkBehaviour
     public WeaponSettings[] equippableWeapons;
 	public bool isReloading, canFire;
 	public GameObject bulletPrefab;
-	public Transform weaponSlotPos;
+	public Transform bulletSpawn;
+    public Transform trailSpawn;
 
 	private WeaponSettings m_currentWeapon;
 
@@ -60,12 +61,13 @@ public class BaseWeaponController : NetworkBehaviour
 		{
 			if (canFire)
 			{
-				GameObject lastBulletFired = (GameObject) Instantiate (CustomNetworkManager.Instance.spawnPrefabs[2], weaponSlotPos.position, weaponSlotPos.rotation);
+				GameObject lastBulletFired = (GameObject) Instantiate (CustomNetworkManager.Instance.spawnPrefabs[2], bulletSpawn.position, bulletSpawn.rotation);
                 BulletController bc = lastBulletFired.GetComponent<BulletController>();
 
                 if (bc != null)
                 {
                     bc.firingWeapon = m_currentWeapon;
+                    bc.trailSpawnPos = trailSpawn.position;
                 }
 
                 // AudioManager.audManInst.PlaySfx(gunShots, gunShot, transform.position);

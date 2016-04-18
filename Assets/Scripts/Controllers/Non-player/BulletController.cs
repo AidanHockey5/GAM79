@@ -8,18 +8,25 @@ public class BulletController : NetworkBehaviour
 
     public float speed;
     public float lifetime;
+    public Vector3 trailSpawnPos;
     public WeaponSettings firingWeapon;
+    public GameObject trailPrefab;
 
     new Transform transform;
     Vector3 posLastFrame;
     RaycastHit rayHit;
-
-    [ServerCallback]
+    
     void Start()
     {
         transform = GetComponent<Transform>();
         posLastFrame = transform.position;
-        StartCoroutine(DeadAfterTime(lifetime));
+
+        if (isServer)
+        {
+            StartCoroutine(DeadAfterTime(lifetime));
+        }
+
+        RpcSpawnBulletTrail();
     }
     
     [ServerCallback]
@@ -58,6 +65,12 @@ public class BulletController : NetworkBehaviour
         {
             playerObj.TakeDamage(GameEvent.HIT_FROM_HUMAN, firingWeapon.power);
         }
+    }
+
+    [ClientRpc]
+    public void RpcSpawnBulletTrail()
+    {
+        Instantiate(trailPrefab, trailSpawnPos, transform.rotation);
     }
 
     IEnumerator DeadAfterTime(float seconds)
