@@ -6,21 +6,20 @@ using System;
 public class MineSpawning : NetworkBehaviour, IEventListener
 {
     public GameObject minePrefab;
-    public Transform spawnPoint;
+    private Transform spawnPoint;
 
     public int mineCounter;
 
     #region Monobehaviours
 
-    [ClientCallback]
     void Start()
     {
-        if (minePrefab == null)
-        {
-            minePrefab = (GameObject)(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Mine.fbx", typeof(GameObject))); 
-        }
-
         mineCounter = 0;
+
+		ClientScene.RegisterPrefab (minePrefab);
+
+		if(isLocalPlayer)
+			Subscribe ();
     }
 
     #endregion
@@ -28,7 +27,8 @@ public class MineSpawning : NetworkBehaviour, IEventListener
     [Command]
     private void CmdSpawnMine()
     {
-        GameObject mine = (GameObject)Instantiate(minePrefab, spawnPoint.position, spawnPoint.rotation);
+		spawnPoint = this.transform;
+		GameObject mine = (GameObject)Instantiate(minePrefab, spawnPoint.position - new Vector3(0.0f, 0.5f, 0.0f), spawnPoint.rotation);
         NetworkServer.Spawn(mine);
     }
 

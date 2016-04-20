@@ -76,8 +76,8 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
         hOrbitSnapInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL_SNAP);
         zoomInput = Input.GetAxisRaw(input.ZOOM);
 		fire1Input = Input.GetButton(input.ATTACK1);
-		fire2Input = Input.GetButton(input.ATTACK3);
-		fire3Input = Input.GetButton(input.ATTACK3);
+		fire2Input = Input.GetButtonDown(input.ATTACK2);
+		fire3Input = Input.GetButtonDown(input.ATTACK3);
 
 		if (isBroadcasting) 
 		{
@@ -104,17 +104,17 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
 				BroadcastEvent (GameEvent.CAMERA_ZOOM, zoomInput);
 			}
 
-            //if (fire1Input)
+            if (fire1Input)
             {
                 BroadcastEvent(GameEvent.CHARACTER_FIRE1, fire1Input);
             }
 
-			//if (fire2Input)
+			if (fire2Input)
 			{
 				BroadcastEvent(GameEvent.CHARACTER_FIRE2, fire2Input);
 			}
 
-			//if (fire3Input)
+			if (fire3Input)
 			{
 				BroadcastEvent(GameEvent.CHARACTER_FIRE3, fire3Input);
 			}
