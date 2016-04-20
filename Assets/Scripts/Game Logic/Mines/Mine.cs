@@ -5,12 +5,22 @@ using System.Collections;
 public class Mine : NetworkBehaviour
 {
     public float radius = 5.0f;
-    public float power = 10.0f;
+    public int damage = 100;
 
     [ServerCallback]
     void OnTriggerEnter(Collider other)
     {
-        
+        PlayerObject po = other.gameObject.GetComponent<PlayerObject>();
+
+        if (po.playerSettings.playerType == PlayerType.MONSTER)
+        {
+            po.TakeDamage(GameEvent.HIT_FROM_HUMAN, damage);
+            Destroy(gameObject);
+        }
+        else if (po == null)
+        {
+            Debug.LogError("No PlayerObject attached to other collider.");
+        }
     }
 
     [ClientRpc]
@@ -28,7 +38,5 @@ public class Mine : NetworkBehaviour
                 rb.AddExplosionForce(power, explosiveLocation, radius, 3.0f);
             }
         }*/
-
-        Destroy(this.gameObject);
     }
 }

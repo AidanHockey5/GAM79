@@ -22,6 +22,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
     public bool isAlive = false;
 
     [Header("Settings (Initialization Only)")]
+    [Tooltip("All settings for this player are accessible here.")]
     public InputSettings inputSettings;
     public PlayerSettings playerSettings;
     public CameraSettings cameraSettings;
@@ -34,7 +35,6 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
     #region Private Members
 
 	private Transform cameraTarget = null;
-    private WeaponSettings currentWeapon = null;
     private Vector3 tarDir = Vector3.zero;
     private Vector3 velocity = Vector3.zero;
     private CharacterController charController = null;
@@ -44,7 +44,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
     #endregion
 
     #region MonoBehaviours
-    void Start()
+    private void Start()
     {
         if (isLocalPlayer)
         {
@@ -58,7 +58,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
         }
     }
     
-    void OnDestroy()
+    private void OnDestroy()
     {
         if (isLocalPlayer)
         {
@@ -70,36 +70,35 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
 
     #region Net Code
 
-    void OnChangeHealth(int health)
+    private void OnChangeHealth(int health)
     {
         // Update UI
     }
 
     [ClientRpc]
-    void RpcTookDamage(int amount)
+    public void RpcTookDamage(int amount)
     {
-		if(isLocalPlayer)
+		if (isLocalPlayer)
 		{
-	        Debug.Log("TOOKDAMAGE " + netId);
 	        currentHealth -= amount;
 
 	        if (currentHealth <= 0)
 	        {
 				OnDeath();
+                isAlive = false;
 	        }
 		}
     }
 
-	public void OnDeath()
+	private void OnDeath()
 	{
-		print("Something should have died");
-
 		GameManager.Instance.OnPlayerDeath();
 
 		if (GameManager.Instance.CanSpawn (1))
 		{
 			this.transform.position = SpawnPointManager.Instance.SpawnPointLocation ();
 			GameManager.Instance.OnCharacterSpawn (1);
+            isAlive = true;
 		}
 		else
 		{
@@ -112,9 +111,32 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
         if (!isServer)
             return;
 
-        if (attacker == GameEvent.HIT_FROM_HUMAN)
+        switch (attacker)
         {
-            RpcTookDamage(amount);
+            case GameEvent.HIT_FROM_HUMAN: 
+                {
+                    if (playerSettings.playerType == PlayerType.MONSTER)
+                    {
+                        RpcTookDamage(amount);
+                    }
+                }
+                break;
+            case GameEvent.HIT_FROM_MECH:
+                {
+                    if (playerSettings.playerType == PlayerType.MONSTER)
+                    {
+                        RpcTookDamage(amount);
+                    }
+                }
+                break;
+            case GameEvent.HIT_FROM_MONSTER:
+                {
+                    if (playerSettings.playerType == PlayerType.HUMAN || playerSettings.playerType == PlayerType.MECH)
+                    {
+                        RpcTookDamage(amount);
+                    }
+                }
+                break;
         }
 	}
     
@@ -138,9 +160,11 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
             Debug.LogError("No CameraController found.");
         }
     }
+
     #endregion
 
     #region IEventBroadcaster
+
     public event EventHandler<GameEventArgs> EventHandlerMainDelegate;
 
     public void RegisterHandler(EventHandler<GameEventArgs> EventHandlerDelegate)
@@ -163,9 +187,11 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
             EventHandlerMainDelegate(this, gameEventArgs);
         }
     }
+
     #endregion
 
     #region IEventListener
+
     public void Subscribe()
     {
         if (isLocalPlayer)
@@ -186,5 +212,6 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
     {
         BroadcastEvent(gameEventArgs.eventType, gameEventArgs.eventArgs);
     }
+
     #endregion
 }

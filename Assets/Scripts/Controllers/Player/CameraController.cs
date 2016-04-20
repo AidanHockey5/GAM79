@@ -60,6 +60,7 @@ public class CameraController : MonoBehaviour, IEventListener
 		{
 			viewPoint = mainCam.transform;
 			viewTarget = t;
+            cameraSettings = camSettings;
 		}
     }
 

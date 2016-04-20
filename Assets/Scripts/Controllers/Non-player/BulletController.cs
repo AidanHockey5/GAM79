@@ -20,13 +20,12 @@ public class BulletController : NetworkBehaviour
     {
         transform = GetComponent<Transform>();
         posLastFrame = transform.position;
+        StartCoroutine(DeadAfterTime(lifetime));
 
-        if (isServer)
+        if (isClient)
         {
-            StartCoroutine(DeadAfterTime(lifetime));
+            SpawnBulletTrail();
         }
-
-        RpcSpawnBulletTrail();
     }
     
     [ServerCallback]
@@ -48,7 +47,6 @@ public class BulletController : NetworkBehaviour
     {
         if (Physics.Linecast(posLastFrame, transform.position, out rayHit))
         {
-            //RpcAnnounceHit();
             SendHit(rayHit.collider.gameObject);
             StopAllCoroutines();
             Destroy(gameObject);
@@ -67,8 +65,8 @@ public class BulletController : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    public void RpcSpawnBulletTrail()
+    [Client]
+    public void SpawnBulletTrail()
     {
         Instantiate(trailPrefab, trailSpawnPos, transform.rotation);
     }

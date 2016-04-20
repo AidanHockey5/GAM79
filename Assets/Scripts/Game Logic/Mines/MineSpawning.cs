@@ -7,8 +7,10 @@ public class MineSpawning : NetworkBehaviour, IEventListener
 {
     public GameObject minePrefab;
     public Transform spawnPoint;
+    public float spawnRate = 1.0f;
 
-    public int mineCounter;
+    private int mineCounter;
+    private bool canSpawn = true;
 
     #region Monobehaviours
 
@@ -17,10 +19,20 @@ public class MineSpawning : NetworkBehaviour, IEventListener
     {
         if (minePrefab == null)
         {
-            minePrefab = (GameObject)(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Mine.fbx", typeof(GameObject))); 
+            //minePrefab = (GameObject)(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Mine.fbx", typeof(GameObject))); 
         }
 
         mineCounter = 0;
+
+        if (NetworkClient.active)
+        {
+            Subscribe();
+        }
+    }
+
+    void OnDestroy()
+    {
+        UnSubscribe();
     }
 
     #endregion
@@ -28,8 +40,25 @@ public class MineSpawning : NetworkBehaviour, IEventListener
     [Command]
     private void CmdSpawnMine()
     {
-        GameObject mine = (GameObject)Instantiate(minePrefab, spawnPoint.position, spawnPoint.rotation);
-        NetworkServer.Spawn(mine);
+        if (mineCounter >= 0 && canSpawn == true)
+        {
+            GameObject mine = (GameObject) Instantiate(minePrefab, spawnPoint.position, spawnPoint.rotation);
+            NetworkServer.Spawn(mine);
+            mineCounter++;
+            canSpawn = false;
+            StartCoroutine(StartSpawnTimer(spawnRate));
+        }
+        else if (mineCounter >= 3)
+        {
+            mineCounter = 0;
+        }
+        
+    }
+
+    private IEnumerator StartSpawnTimer(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        canSpawn = true;
     }
 
     #region IEventListener
@@ -50,21 +79,11 @@ public class MineSpawning : NetworkBehaviour, IEventListener
         {
             case GameEvent.CHARACTER_FIRE2:
                 {
-                    if (mineCounter >= 0)
+                    // gameEventArgs.eventArgs[0] - bool fire2Input
+                    if ((bool) gameEventArgs.eventArgs[0])
                     {
                         CmdSpawnMine();
-                        mineCounter++;
-                    }
-
-                    if (mineCounter == 3)
-                    {
-                        mineCounter = 0;
-                    }
-
-                    if (mineCounter == 0)
-                    {
-                        return;// function for reload or a pick up function would go here
-                    }
+                    }        
                 }
                 break;
         }

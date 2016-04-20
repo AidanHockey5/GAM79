@@ -15,7 +15,7 @@ public class BaseWeaponController : NetworkBehaviour
 	public Transform bulletSpawn;
     public Transform trailSpawn;
 
-	private WeaponSettings m_currentWeapon;
+	private WeaponSettings currentWeapon;
 
 	RaycastHit rayHit;
 	bool targetHit;
@@ -28,7 +28,7 @@ public class BaseWeaponController : NetworkBehaviour
 
 	void SetWeapon(int slot)
 	{
-		m_currentWeapon = equippableWeapons[slot];
+		currentWeapon = equippableWeapons[slot];
 	}
 
 	void GetInput()
@@ -66,23 +66,22 @@ public class BaseWeaponController : NetworkBehaviour
 
                 if (bc != null)
                 {
-                    bc.firingWeapon = m_currentWeapon;
+                    bc.firingWeapon = currentWeapon;
                     bc.trailSpawnPos = trailSpawn.position;
                 }
 
-                // AudioManager.audManInst.PlaySfx(gunShots, gunShot, transform.position);
                 NetworkServer.Spawn(lastBulletFired);
-                m_currentWeapon.currentAmmo--;
+                currentWeapon.currentAmmo--;
                 canFire = false;
 
-				if (m_currentWeapon.currentAmmo <= 0)
+				if (currentWeapon.currentAmmo <= 0)
 				{
 					isReloading = true;
-					StartCoroutine(StartReloadTimer(m_currentWeapon.reloadTime));
+					StartCoroutine(StartReloadTimer(currentWeapon.reloadTime));
 				}
 				else
 				{
-					StartCoroutine(StartAttackTimer(m_currentWeapon.attackRate));
+					StartCoroutine(StartAttackTimer(currentWeapon.attackRate));
 				}
 			}
 		}
@@ -92,7 +91,7 @@ public class BaseWeaponController : NetworkBehaviour
 	public void CmdReloadWeapon()
 	{
         Debug.Log("RELOAD");
-		m_currentWeapon.currentAmmo = m_currentWeapon.maxAmmo;
+		currentWeapon.currentAmmo = currentWeapon.maxAmmo;
 	}
 
 	IEnumerator StartAttackTimer(float seconds)

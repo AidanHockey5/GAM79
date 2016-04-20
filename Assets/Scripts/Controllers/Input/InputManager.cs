@@ -76,7 +76,7 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
         hOrbitSnapInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL_SNAP);
         zoomInput = Input.GetAxisRaw(input.ZOOM);
 		fire1Input = Input.GetButton(input.ATTACK1);
-		fire2Input = Input.GetButton(input.ATTACK3);
+		fire2Input = Input.GetButton(input.ATTACK2);
 		fire3Input = Input.GetButton(input.ATTACK3);
 
 		if (isBroadcasting) 
