@@ -61,7 +61,7 @@ public class BulletController : NetworkBehaviour
 
         if (playerObj != null)
         {
-            playerObj.TakeDamage(GameEvent.HIT_FROM_HUMAN, firingWeapon.power);
+            playerObj.RequestTakeDamage(GameEvent.HIT_FROM_HUMAN, firingWeapon.power);
         }
     }
 

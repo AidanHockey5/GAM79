@@ -17,15 +17,9 @@ public class MineSpawning : NetworkBehaviour, IEventListener
     [ClientCallback]
     void Start()
     {
-        if (minePrefab == null)
-        {
-            //minePrefab = (GameObject)(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Mine.fbx", typeof(GameObject))); 
-        }
-
-        mineCounter = 0;
-
         if (NetworkClient.active)
         {
+            ClientScene.RegisterPrefab(minePrefab);
             Subscribe();
         }
     }

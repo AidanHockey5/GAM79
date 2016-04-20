@@ -48,7 +48,7 @@ public class TelegraphedAttack : MonoBehaviour
                 timeCounter = timeCounter + Time.deltaTime;
                 if (timeCounter > DOTtimer)
                 {
-                    col.gameObject.GetComponent<PlayerObject>().TakeDamage(GameEvent.HIT_FROM_HUMAN, damage);
+                    col.gameObject.GetComponent<PlayerObject>().RequestTakeDamage(GameEvent.HIT_FROM_HUMAN, damage);
                     timeCounter = 0;
                 }
             }

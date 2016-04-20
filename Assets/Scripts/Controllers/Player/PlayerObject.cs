@@ -76,7 +76,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
     }
 
     [ClientRpc]
-    public void RpcTookDamage(int amount)
+    private void RpcTakeDamage(int amount)
     {
 		if (isLocalPlayer)
 		{
@@ -106,7 +106,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
 		}
 	}
 
-	public void TakeDamage(GameEvent attacker, int amount)
+	public void RequestTakeDamage(GameEvent attacker, int amount)
 	{
         if (!isServer)
             return;
@@ -117,7 +117,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
                 {
                     if (playerSettings.playerType == PlayerType.MONSTER)
                     {
-                        RpcTookDamage(amount);
+                        RpcTakeDamage(amount);
                     }
                 }
                 break;
@@ -125,7 +125,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
                 {
                     if (playerSettings.playerType == PlayerType.MONSTER)
                     {
-                        RpcTookDamage(amount);
+                        RpcTakeDamage(amount);
                     }
                 }
                 break;
@@ -133,7 +133,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
                 {
                     if (playerSettings.playerType == PlayerType.HUMAN || playerSettings.playerType == PlayerType.MECH)
                     {
-                        RpcTookDamage(amount);
+                        RpcTakeDamage(amount);
                     }
                 }
                 break;

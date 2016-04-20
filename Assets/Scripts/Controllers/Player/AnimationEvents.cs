@@ -19,7 +19,7 @@ public class AnimationEvents : MonoBehaviour
                 }
                 else
                 {
-                    player.GetComponent<PlayerObject>().TakeDamage(GameEvent.HIT_FROM_HUMAN, ta.damage);
+                    player.GetComponent<PlayerObject>().RequestTakeDamage(GameEvent.HIT_FROM_HUMAN, ta.damage);
                 }
             }
             ta.players.Clear();

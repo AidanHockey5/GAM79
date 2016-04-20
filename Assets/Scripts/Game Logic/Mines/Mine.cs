@@ -14,7 +14,7 @@ public class Mine : NetworkBehaviour
 
         if (po.playerSettings.playerType == PlayerType.MONSTER)
         {
-            po.TakeDamage(GameEvent.HIT_FROM_HUMAN, damage);
+            po.RequestTakeDamage(GameEvent.HIT_FROM_HUMAN, damage);
             Destroy(gameObject);
         }
         else if (po == null)
