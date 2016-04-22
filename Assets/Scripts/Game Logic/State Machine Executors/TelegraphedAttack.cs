@@ -23,7 +23,7 @@ public class TelegraphedAttack : MonoBehaviour
 		
     void OnTriggerEnter(Collider col)
     {
-		if (col.gameObject.transform.childCount == 0) 
+		if (col.gameObject.GetComponent<Building>() != null) 
 		{
 			TA_class_buildings.Add (col.gameObject);
 		}

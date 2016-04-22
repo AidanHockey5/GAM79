@@ -6,24 +6,24 @@ public class Building : MonoBehaviour
 {
 	public bool isDead = false;
 	public float deathDelay = 3.0f;
-	public string buildingType = string.Empty;
+	public BuildingTypes buildingType;
 	public Animator buildingAnimator = null;
 	[SerializeField] private int health = 0;
 
 	void Awake()
 	{
-		foreach (buildingTypes building in buildingTypes.GetValues(typeof(buildingTypes))) 
+		foreach (BuildingTypes building in BuildingTypes.GetValues(typeof(BuildingTypes))) 
 		{
-			if (building.ToString() == buildingType)
+			if (building == buildingType)
 			{
 				health = (int) building;
 			}
 		}
 	}
 
-	public void TakeDamage()
+	public void TakeDamage(int damage)
 	{
-		health--;
+		health -= damage;
 	}
 
 	void Start ()
@@ -36,7 +36,7 @@ public class Building : MonoBehaviour
 		if (health >= 0) 
 		{
 //			buildingAnimator.SetBool ("isDead", true);
-			Destroy (this, deathDelay);
+			Destroy (this.gameObject, deathDelay);
 		}
 	}
 

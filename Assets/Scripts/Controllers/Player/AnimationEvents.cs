@@ -10,7 +10,18 @@ public class AnimationEvents : MonoBehaviour
         ta = this.gameObject.GetComponent<MonsterAbilityManager>().GetAttackArea(attackAreaIndex).GetComponent<TelegraphedAttack>();
         if (ta != null)
         {
-            InstanceManager.GetInstance<DestructionManager>().DestroyBuilding(ta.TA_class_buildings, transform.forward);
+			foreach (var building in ta.TA_class_buildings)
+			{
+				if (ta.DOT)
+				{
+
+				}
+				else
+				{
+					building.GetComponent<Building> ().TakeDamage (ta.damage);
+				}
+			}
+			ta.TA_class_buildings.Clear ();
             foreach (var player in ta.players)
             {
                 if (ta.DOT)
