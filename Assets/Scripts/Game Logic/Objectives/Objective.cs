@@ -6,6 +6,7 @@ public class Objective : MonoBehaviour
 	public string title = "Objective Title";
 	public string description = "Objective Description";
 	public int objectivePriority = 0;
+	public bool isMainObjective;
 	public Vector3 location = Vector3.zero;
 
 	private bool _complete;

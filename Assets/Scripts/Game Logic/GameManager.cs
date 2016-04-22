@@ -171,15 +171,22 @@ public class GameManager : NetworkBehaviour, IEventBroadcaster
 
 	public void GameOver(GameOverState state)
 	{
-		//TODO: Trigger GameOver UIs
 		switch (state)
 		{
 		case GameOverState.ObjectiveDestroyed:
+		case GameOverState.TicketsDepleted:
+			if(_playerControl == null)
+				UIManager.Instance.SetUIState (UIState.MonsterWin);
+			else
+				UIManager.Instance.SetUIState (UIState.HumansLose);
 			break;
 		case GameOverState.MonsterDeath:
+			if (_playerControl == null)
+				UIManager.Instance.SetUIState (UIState.MonsterLose);
+			else
+				UIManager.Instance.SetUIState (UIState.HumansWin);
 			break;
-		case GameOverState.TicketsDepleted:
-			break;
+
 		}
 	}
 

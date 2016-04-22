@@ -43,6 +43,8 @@ public class ObjectiveManager : MonoBehaviour
 
 	public void CompleteObjective(Objective o)
 	{
+		if (o.isMainObjective)
+			GameManager.Instance.MainObjectiveComplete ();
 		_objectives.Remove (o);
 	}
 
