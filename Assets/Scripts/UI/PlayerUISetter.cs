@@ -96,7 +96,7 @@ public class PlayerUISetter : NetworkBehaviour
         if (gameObject.tag == "Human")
         {
             healthBar = gManager.humanHealthBar;                                                                            // Utilizes the humanHealthBar RectTransform in GameManager.cs
-            healthBar.sizeDelta = new Vector2((1570.9f / maxHealthUI) * health, healthBar.sizeDelta.y);                     // Use print(healthBar.sizeDelta) to get the x-value size of healthbar to do the math          
+            healthBar.sizeDelta = new Vector2((982.0f / maxHealthUI) * health, healthBar.sizeDelta.y);                     // Use print(healthBar.sizeDelta) to get the x-value size of healthbar to do the math          
             localHealthBar.sizeDelta = new Vector2(health * 20, localHealthBar.sizeDelta.y);
         }
         else if (gameObject.tag == "Monster")
