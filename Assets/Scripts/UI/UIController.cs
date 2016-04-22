@@ -3,7 +3,7 @@ using System.Collections;
 
 public class UIController : MonoBehaviour 
 {
-	private PlayerData _data;
+	protected PlayerData _data;
 
 	public void UpdatePlayer(PlayerData data)
 	{

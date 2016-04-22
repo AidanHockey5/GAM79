@@ -4,6 +4,29 @@ using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour 
 {
+	[SerializeField]
+	private RectTransform _current;
+	[SerializeField]
+	private RectTransform _characterSelect;
+	[SerializeField]
+	private RectTransform _monster;
+	[SerializeField]
+	private RectTransform _technician;
+	[SerializeField]
+	private RectTransform _support;
+	[SerializeField]
+	private RectTransform _heavy;
+	[SerializeField]
+	private RectTransform _assault;
+	[SerializeField]
+	private RectTransform _monsterLose;
+	[SerializeField]
+	private RectTransform _monsterWin;
+	[SerializeField]
+	private RectTransform _humanLose;
+	[SerializeField]
+	private RectTransform _humanWin;
+
 	private Dictionary<UIState, UIController> _panels = new Dictionary<UIState, UIController>();
 	private UIState _currentState = UIState.CharacterSelect;
 
@@ -29,30 +52,6 @@ public class UIManager : MonoBehaviour
 	{
 		_panels.Add (state, controller);
 	}
-
-	[SerializeField]
-	private RectTransform _current;
-	[SerializeField]
-	private RectTransform _characterSelect;
-	[SerializeField]
-	private RectTransform _monster;
-	[SerializeField]
-	private RectTransform _technician;
-	[SerializeField]
-	private RectTransform _support;
-	[SerializeField]
-	private RectTransform _heavy;
-	[SerializeField]
-	private RectTransform _assault;
-	[SerializeField]
-	private RectTransform _monsterLose;
-	[SerializeField]
-	private RectTransform _monsterWin;
-	[SerializeField]
-	private RectTransform _humanLose;
-	[SerializeField]
-	private RectTransform _humanWin;
-
 
 	public void SetUIState(UIState state)
 	{
