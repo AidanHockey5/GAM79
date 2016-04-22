@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
 
 	private Dictionary<UIState, UIController> _panels = new Dictionary<UIState, UIController>();
 	private UIState _currentState = UIState.Technician;
+	private UIState _previousState = UIState.Technician;
 
 	private static UIManager instance_ = null;
 
@@ -52,6 +53,14 @@ public class UIManager : MonoBehaviour
 		instance_ = this;
 	}
 
+	void Update()
+	{
+		if (Input.GetKeyDown (KeyCode.Escape) && _current == _characterSelect)
+		{
+			SetUIState (_previousState);
+		}
+	}
+
 	public void RegisterController(UIState state, UIController controller)
 	{
 		_panels.Add (state, controller);
@@ -59,6 +68,7 @@ public class UIManager : MonoBehaviour
 
 	public void SetUIState(UIState state)
 	{
+		_previousState = _currentState;
 		_currentState = state;
 		switch (state)
 		{
