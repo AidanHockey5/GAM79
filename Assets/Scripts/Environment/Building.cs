@@ -10,6 +10,8 @@ public class Building : MonoBehaviour
 	public Animator buildingAnimator = null;
 	[SerializeField] private int health = 0;
 
+	private Objective _objective;
+
 	void Awake()
 	{
 		foreach (BuildingTypes building in BuildingTypes.GetValues(typeof(BuildingTypes))) 
@@ -18,6 +20,11 @@ public class Building : MonoBehaviour
 			{
 				health = (int) building;
 			}
+		}
+
+		if (GetComponent<Objective> () != null)
+		{
+			_objective = GetComponent<Objective> ();
 		}
 	}
 
@@ -33,9 +40,13 @@ public class Building : MonoBehaviour
 
 	void Update ()
     {
-		if (health >= 0) 
+		if (health <= 0) 
 		{
 //			buildingAnimator.SetBool ("isDead", true);
+			if (_objective != null)
+			{
+				ObjectiveManager.Instance.CompleteObjective (_objective);
+			}
 			Destroy (this.gameObject, deathDelay);
 		}
 	}
