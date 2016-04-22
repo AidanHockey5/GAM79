@@ -88,6 +88,9 @@ public class BaseCharacterController : NetworkBehaviour
 
 	void GetInput()
 	{
+		if (!UIManager.Instance.IsPlayable())
+			return;
+		
         if (Input.GetMouseButton(0))
         {
             CursorOnOff.ChangeCursorState(false);

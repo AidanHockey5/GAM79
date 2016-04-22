@@ -8,6 +8,15 @@ using UnityEngine.Networking;
 public class GameManager : NetworkBehaviour, IEventBroadcaster
 {
 	[SerializeField]
+	private GameObject _technicianPrefab;
+	[SerializeField]
+	private GameObject _supportPrefab;
+	[SerializeField]
+	private GameObject _heavyPrefab;
+	[SerializeField]
+	private GameObject _assaultPrefab;
+
+	[SerializeField]
 	private int _ticketAmount;
 
 	[SyncVar]
@@ -15,6 +24,8 @@ public class GameManager : NetworkBehaviour, IEventBroadcaster
 
 	private int _numberOfPlayers = 0;
 	private int _playersEliminated;
+
+	private PlayerControl _playerControl;
 
 	private static GameManager instance_ = null;
 
@@ -44,14 +55,76 @@ public class GameManager : NetworkBehaviour, IEventBroadcaster
 	    _currentTicketAmount = _ticketAmount;
 	}
 
+	void Update()
+	{
+		//Call player select screen
+		if(Input.GetKeyDown(KeyCode.P))
+		{
+			UIManager.Instance.SetUIState(UIState.CharacterSelect);
+		}
+	}
+
+	public void RegisterPlayer(PlayerControl pControl)
+	{
+		_playerControl = pControl;
+	}
+
+	public void SpawnSupport()
+	{
+		if (CanSpawn (1))
+		{
+			_playerControl.SpawnClass (SpawnClass.Support);
+			UIManager.Instance.SetUIState (UIState.Support);
+		}
+	}
+
+	public void SpawnTechnician()
+	{
+		if (CanSpawn (1))
+		{
+			_playerControl.SpawnClass (SpawnClass.Technician);
+			UIManager.Instance.SetUIState (UIState.Technician);
+		}
+	}
+
+	public void SpawnHeavy()
+	{
+		if (CanSpawn (3))
+		{
+			_playerControl.SpawnClass (SpawnClass.Heavy);
+			UIManager.Instance.SetUIState (UIState.Heavy);
+		}
+	}
+
+	public void SpawnAssault()
+	{
+		if (CanSpawn (3))
+		{
+			_playerControl.SpawnClass (SpawnClass.Assault);
+			UIManager.Instance.SetUIState (UIState.Assault);
+		}
+	}
+
 	public bool CanSpawn(int ticketAmountNeeded)
 	{
 		return _currentTicketAmount - ticketAmountNeeded >= 0;
 	}
 
-	public void OnCharacterSpawn(int ticketAmount)
+	public void OnCharacterSpawn(SpawnClass sClass)
 	{
-		UpdateTicketAmount (-(ticketAmount));
+		int cost = 0;
+		switch (sClass)
+		{
+		case SpawnClass.Technician: 
+		case SpawnClass.Support:
+			cost = 1;
+			break;
+		case SpawnClass.Heavy:
+		case SpawnClass.Assault:
+			cost = 3;
+			break;
+		}
+		UpdateTicketAmount (-(cost));
 	}
 
 	private void UpdateTicketAmount(int amount)
@@ -77,13 +150,17 @@ public class GameManager : NetworkBehaviour, IEventBroadcaster
 
 	public void OnPlayerDeath()
 	{
-		if (TicketsDepleted())
+		if (TicketsDepleted ())
 		{
 			_playersEliminated++;
 			if (AllPlayersEliminated ())
 			{
 				GameOver (GameOverState.TicketsDepleted);
 			}
+		}
+		else
+		{
+			UIManager.Instance.SetUIState (UIState.CharacterSelect);
 		}
 	}
 

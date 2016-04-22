@@ -19,7 +19,7 @@ public class CustomNetworkManager : NetworkManager
 		private set { _instance = value; }
 	}
 
-	public static bool IsHost
+	public bool IsHost
 	{
 		get { return _isHost; }
 		private set { _isHost = value; }
@@ -50,7 +50,7 @@ public class CustomNetworkManager : NetworkManager
 
 	public void SetTechnician()
 	{
-		playerPrefab = spawnPrefabs[5];
+		playerPrefab = spawnPrefabs[3];
 		if (IsHost)
 			StartHost ();
 		else
@@ -68,7 +68,7 @@ public class CustomNetworkManager : NetworkManager
 
 	public void SetHeavy()
 	{
-		playerPrefab = spawnPrefabs[3];
+		playerPrefab = spawnPrefabs[4];
 		if (IsHost)
 			StartHost ();
 		else
@@ -77,7 +77,7 @@ public class CustomNetworkManager : NetworkManager
 
 	public void SetAssault()
 	{
-		playerPrefab = spawnPrefabs[4];
+		playerPrefab = spawnPrefabs[5];
 		if (IsHost)
 			StartHost ();
 		else

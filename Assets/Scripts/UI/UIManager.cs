@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour 
 {
-	[SerializeField]
 	private RectTransform _current;
 	[SerializeField]
 	private RectTransform _characterSelect;
@@ -28,7 +27,7 @@ public class UIManager : MonoBehaviour
 	private RectTransform _humanWin;
 
 	private Dictionary<UIState, UIController> _panels = new Dictionary<UIState, UIController>();
-	private UIState _currentState = UIState.CharacterSelect;
+	private UIState _currentState = UIState.Technician;
 
 	private static UIManager instance_ = null;
 
@@ -42,10 +41,15 @@ public class UIManager : MonoBehaviour
 			}
 			else
 			{
-				GameObject go = new GameObject();
-				return instance_ = go.AddComponent<UIManager>();
+				GameObject go = new GameObject ();
+				return instance_ = go.AddComponent<UIManager> ();
 			}
 		}
+	}
+
+	void Awake()
+	{
+		instance_ = this;
 	}
 
 	public void RegisterController(UIState state, UIController controller)
@@ -103,8 +107,26 @@ public class UIManager : MonoBehaviour
 		}
 
 		_current = newPanel;
+
+		if (_current == _characterSelect)
+		{
+			Cursor.visible = true;
+			Cursor.lockState = CursorLockMode.Confined;
+		}
+		else
+		{
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
+		}
+		
 	}
 
+	public bool IsPlayable()
+	{
+		return _currentState == UIState.Monster || _currentState == UIState.Technician || _currentState == UIState.Support
+		|| _currentState == UIState.Heavy || _currentState == UIState.Assault;
+
+	}
 	public void UpdatePlayerData(PlayerData data)
 	{
 		_panels [_currentState].UpdatePlayer (data);
