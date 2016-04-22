@@ -186,6 +186,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
         if (isLocalPlayer)
         {
             InputManager.Instance.RegisterHandler(ReceiveBroadcast);
+			InputManager.Instance.input = inputSettings;
         }
     }
 
@@ -194,6 +195,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
         if (isLocalPlayer)
         {
             InputManager.Instance.UnRegisterHandler(ReceiveBroadcast);
+			InputManager.Instance.input = null;
         }
     }
 

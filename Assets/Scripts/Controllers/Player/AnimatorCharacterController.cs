@@ -14,6 +14,7 @@ public class AnimatorCharacterController : NetworkBehaviour
     #region Private Members
     private AnimatorSettings animatorSettings = null;
     private MovementSettings movementSettings = null;
+	private InputSettings inputSettings = null;
     private Animator animator = null;
     private NetworkAnimator networkAnimator = null;
     #endregion
@@ -123,6 +124,7 @@ public class AnimatorCharacterController : NetworkBehaviour
             if (playerObj != null)
             {
                 playerObj.RegisterHandler(ReceiveBroadcast);
+				inputSettings = playerObj.inputSettings;
                 animatorSettings = playerObj.animatorSettings;
 				movementSettings = playerObj.movementSettings;
             }
@@ -139,6 +141,7 @@ public class AnimatorCharacterController : NetworkBehaviour
             if (playerObj != null)
             {
                 playerObj.UnRegisterHandler(ReceiveBroadcast);
+				inputSettings = null;
                 animatorSettings = null;
                 movementSettings = null;
             }

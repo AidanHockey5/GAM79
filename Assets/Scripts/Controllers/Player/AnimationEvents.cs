@@ -10,7 +10,7 @@ public class AnimationEvents : MonoBehaviour
         ta = this.gameObject.GetComponent<MonsterAbilityManager>().GetAttackArea(attackAreaIndex).GetComponent<TelegraphedAttack>();
         if (ta != null)
         {
-			foreach (var building in ta.TA_class_buildings)
+			foreach (var building in ta.hitBuildings)
 			{
 				if (ta.DOT)
 				{
@@ -21,8 +21,8 @@ public class AnimationEvents : MonoBehaviour
 					building.GetComponent<Building> ().TakeDamage (ta.damage);
 				}
 			}
-			ta.TA_class_buildings.Clear ();
-            foreach (var player in ta.players)
+			ta.hitBuildings.Clear ();
+            foreach (var player in ta.hitPlayers)
             {
                 if (ta.DOT)
                 {
@@ -33,7 +33,7 @@ public class AnimationEvents : MonoBehaviour
                     player.GetComponent<PlayerObject>().RequestTakeDamage(GameEvent.HIT_FROM_HUMAN, ta.damage);
                 }
             }
-            ta.players.Clear();
+            ta.hitPlayers.Clear();
         }
 
 	}
