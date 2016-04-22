@@ -38,15 +38,6 @@ public class CustomNetworkManager : NetworkManager
 		StartBroadcasting ();
 	}
 
-	public void SetHuman()
-	{
-		playerPrefab = spawnPrefabs[0];
-		if (IsHost)
-			StartHost ();
-		else
-			StartClient ();
-			
-	}
 
 	public void SetMonser()
 	{
@@ -57,14 +48,40 @@ public class CustomNetworkManager : NetworkManager
 			StartClient ();
 	}
 
-	public void SetMech()
+	public void SetTechnician()
+	{
+		playerPrefab = spawnPrefabs[5];
+		if (IsHost)
+			StartHost ();
+		else
+			StartClient ();
+	}
+
+	public void SetSupport()
+	{
+		playerPrefab = spawnPrefabs[0];
+		if (IsHost)
+			StartHost ();
+		else
+			StartClient ();
+	}
+
+	public void SetHeavy()
 	{
 		playerPrefab = spawnPrefabs[3];
 		if (IsHost)
 			StartHost ();
 		else
 			StartClient ();
+	}
 
+	public void SetAssault()
+	{
+		playerPrefab = spawnPrefabs[4];
+		if (IsHost)
+			StartHost ();
+		else
+			StartClient ();
 	}
 
 	public void JoinMatch(string matchAddress)

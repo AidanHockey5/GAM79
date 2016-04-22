@@ -62,14 +62,24 @@ public class MainMenu : MonoBehaviour
 		CustomNetworkManager.Instance.SetMonser ();
 	}
 
-	public void OnClickHuman()
+	public void OnClickSupport()
 	{
-		CustomNetworkManager.Instance.SetHuman ();
+		CustomNetworkManager.Instance.SetSupport ();
 	}
 
-	public void OnClickMech()
+	public void OnClickTechnician()
 	{
-		CustomNetworkManager.Instance.SetMech ();
+		CustomNetworkManager.Instance.SetTechnician ();
+	}
+
+	public void OnClickHeavy()
+	{
+		CustomNetworkManager.Instance.SetHeavy ();
+	}
+
+	public void OnClickAssault()
+	{
+		CustomNetworkManager.Instance.SetAssault ();
 	}
 
 }
