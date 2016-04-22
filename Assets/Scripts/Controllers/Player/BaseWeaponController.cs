@@ -33,6 +33,9 @@ public class BaseWeaponController : NetworkBehaviour
 
 	void GetInput()
 	{
+		if (!UIManager.Instance.IsPlayable())
+			return;
+		
 		if (Input.GetMouseButton(0))
 		{
 			CmdFireWeapon();

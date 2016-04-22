@@ -68,6 +68,9 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
     #region GetInput Functions
     void GetInput()
     {
+		if (!UIManager.Instance.IsPlayable())
+			return;
+		
         hMouseInput = Input.GetAxis(input.MOUSE_X_AXIS);
 		vMouseInput = Input.GetAxis(input.MOUSE_Y_AXIS);
 		turnInput = Input.GetAxis(input.ROTATE_AXIS);
@@ -123,6 +126,9 @@ public class InputManager : MonoBehaviour, IEventBroadcaster
 
     void GetInput_Fixed()
 	{
+		if (!UIManager.Instance.IsPlayable())
+			return;
+		
 		if (isBroadcasting) 
 		{
 	        hInput = Input.GetAxis(input.HORIZONTAL_AXIS);
