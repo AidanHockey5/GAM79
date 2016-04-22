@@ -13,14 +13,12 @@ public class MonsterAbilityController : NetworkBehaviour, IEventListener
 	#endregion
 	#region Private Members
 	float timeCounter;
-	DestructionManager instance = null;
 	TelegraphedAttack ta;
 	[SerializeField] GameObject[] attackAreas;
 	#endregion
 	#region MonoBehaviours
 	void Start ()
 	{
-		instance = InstanceManager.GetInstance<DestructionManager> ();
 		hitBuildings = new List<GameObject>();
 		hitPlayers = new List<GameObject>();
 		gameObject.SetActive(false);
@@ -75,14 +73,14 @@ public class MonsterAbilityController : NetworkBehaviour, IEventListener
 		
 	}
 
-	private void CmdLavaBreath(bool fire2Input)
+	private void CmdGroundPound(bool fire2Input)
 	{
 		
 	}
 
-	private void CmdGroundPound(bool fire3Input)
+	private void CmdLavaBreath(bool fire3Input)
 	{
-		
+
 	}
 	#endregion
 
@@ -140,12 +138,12 @@ public class MonsterAbilityController : NetworkBehaviour, IEventListener
 
 
 
-	public void ActivateAtackArea(int attackAreaIndex)
+	public void ActivateAttackArea(int attackAreaIndex)
 	{
 		attackAreas[attackAreaIndex].SetActive(true);
 	}
 
-	public void DeactivateAtackArea(int attackAreaIndex)
+	public void DeactivateAttackArea(int attackAreaIndex)
 	{
 		attackAreas[attackAreaIndex].SetActive(false);
 	}

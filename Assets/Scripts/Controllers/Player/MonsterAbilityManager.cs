@@ -3,33 +3,31 @@ using System.Collections;
 
 public class MonsterAbilityManager : MonoBehaviour {
 
-    [SerializeField] GameObject[] attackAreas;
+	[SerializeField] GameObject[] attackAreaGameObjects;
+	[HideInInspector] public TelegraphedAttack[] attackAreaScripts;
 
-
-    // Use this for initialization
     void Start ()
     {
-	
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-	
+		attackAreaScripts = new TelegraphedAttack[attackAreaGameObjects.Length];
+
+		for(int i = 0; i < attackAreaGameObjects.Length; i++)
+		{
+			attackAreaScripts[i] = attackAreaGameObjects[i].GetComponent<TelegraphedAttack>();
+		}
 	}
 
-    public void ActivateAtackArea(int attackAreaIndex)
+    public void AttackArea_ON(int attackAreaIndex)
     {
-        attackAreas[attackAreaIndex].SetActive(true);
+        attackAreaGameObjects[attackAreaIndex].SetActive(true);
     }
 
-    public void DeactivateAtackArea(int attackAreaIndex)
+    public void AttackArea_OFF(int attackAreaIndex)
     {
-        attackAreas[attackAreaIndex].SetActive(false);
+        attackAreaGameObjects[attackAreaIndex].SetActive(false);
     }
 
     public GameObject GetAttackArea(int index)
     {
-        return attackAreas[index];
+        return attackAreaGameObjects[index];
     }
 }

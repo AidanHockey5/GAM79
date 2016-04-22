@@ -9,12 +9,10 @@ public class AttackAreaController : MonoBehaviour
 	public int damage;
 	public float DOTtimer;
 	float timeCounter;
-	DestructionManager instance = null;
 
 	// Use this for initialization
 	void Start ()
 	{
-		instance = InstanceManager.GetInstance<DestructionManager> ();
 		hitBuildings = new List<GameObject>();
 		hitPlayers = new List<GameObject>();
 		gameObject.SetActive(false);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class TelegraphedAttack : MonoBehaviour
 {
-    public List<GameObject> TA_class_buildings, players;
+    public List<GameObject> hitBuildings, hitPlayers;
     public bool DOT;
     public int damage = 100;
     public float DOTtimer;
@@ -13,8 +13,8 @@ public class TelegraphedAttack : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        TA_class_buildings = new List<GameObject>();
-        players = new List<GameObject>();
+        hitBuildings = new List<GameObject>();
+        hitPlayers = new List<GameObject>();
         gameObject.SetActive(false);
         timeCounter = 0;
 	}
@@ -29,12 +29,12 @@ public class TelegraphedAttack : MonoBehaviour
 				col.gameObject.GetComponent<Rigidbody> ().AddTorque (Vector3.forward * 1500f);
 				col.gameObject.GetComponent<Rigidbody> ().AddForce (Vector3.forward * 1500f);
 			}
-			TA_class_buildings.Add (col.gameObject);
+			hitBuildings.Add (col.gameObject);
 		}
 
 		if (col.gameObject.GetComponent<PlayerObject> () != null) 
 		{
-			players.Add (col.gameObject);
+			hitPlayers.Add (col.gameObject);
 		}
     }
 
@@ -52,7 +52,7 @@ public class TelegraphedAttack : MonoBehaviour
                 timeCounter = timeCounter + Time.deltaTime;
                 if (timeCounter > DOTtimer)
                 {
-                    col.gameObject.GetComponent<PlayerObject>().RequestTakeDamage(GameEvent.HIT_FROM_HUMAN, damage);
+					col.gameObject.GetComponent<PlayerObject>().RequestTakeDamage(GameEvent.HIT_FROM_MONSTER, damage);
                     timeCounter = 0;
                 }
             }
