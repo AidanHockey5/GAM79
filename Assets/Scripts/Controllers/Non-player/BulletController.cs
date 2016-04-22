@@ -15,15 +15,13 @@ public class BulletController : NetworkBehaviour
     new Transform transform;
     Vector3 posLastFrame;
     RaycastHit rayHit;
-	GameObject bulletTrail = null;
+
     
-	[ServerCallback]
     void Start()
     {
         transform = GetComponent<Transform>();
         posLastFrame = transform.position;
         StartCoroutine(DeadAfterTime(lifetime));
-		RpcSpawnBulletTrail();
     }
     
     [ServerCallback]
@@ -63,21 +61,9 @@ public class BulletController : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    public void RpcSpawnBulletTrail()
-    {
-		bulletTrail = (GameObject) Instantiate(trailPrefab, trailSpawnPos, transform.rotation);
-    }
-
     IEnumerator DeadAfterTime(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-
-		if (bulletTrail)
-		{
-			Destroy(bulletTrail);
-		}
-
         Destroy(gameObject);
     }
 }

@@ -7,7 +7,6 @@ public class Mine : NetworkBehaviour
     public float radius = 5.0f;
     public int damage = 100;
 
-    [ServerCallback]
     void OnTriggerEnter(Collider other)
     {
         PlayerObject po = other.gameObject.GetComponent<PlayerObject>();
