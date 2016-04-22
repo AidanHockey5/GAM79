@@ -4,11 +4,12 @@ using System.Collections;
 
 public class SpawnPoints : MonoBehaviour 
 {
-    
-	// Use this for initialization
+    public int pointNumber;
+ 
+        // Use this for initialization
 	void Start () 
     {
-		SpawnPointManager.Instance.RegisterSpawnPoint (this);
+		SpawnPointManager.Instance.RegisterSpawnPoint (pointNumber, this);
         
 	}
    
