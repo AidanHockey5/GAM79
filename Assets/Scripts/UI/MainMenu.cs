@@ -28,11 +28,6 @@ public class MainMenu : MonoBehaviour
 		}
 
 		_currentPanel = newPanel;
-
-		if (_currentPanel == mainMenuPanel)
-		{
-			CustomNetworkManager.Instance.StopBroadcasting ();
-		}
 	}
 
 	public void OnClickBackButton()
