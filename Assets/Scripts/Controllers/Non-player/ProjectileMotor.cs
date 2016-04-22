@@ -11,7 +11,7 @@ public class ProjectileMotor : MonoBehaviour
 	void Start () 
 	{
 		transform = GetComponent<Transform> ();
-		StartCoroutine (DeadAfterTime (lifetime));
+		Destroy(gameObject, lifetime);
 	}
 	
 	void Update () 
@@ -22,11 +22,5 @@ public class ProjectileMotor : MonoBehaviour
 	void ApplyThrust()
 	{
 		transform.position += transform.forward * speed * Time.deltaTime;
-	}
-
-	IEnumerator DeadAfterTime(float seconds)
-	{
-		yield return new WaitForSeconds(seconds);
-		Destroy (gameObject);
 	}
 }
