@@ -28,6 +28,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
     public CameraSettings cameraSettings;
 	public MovementSettings movementSettings;
     public AnimatorSettings animatorSettings;
+    public MonsterAbilitySettings[] monsterAbilitySettings;
     public WeaponSettings[] equippableWeapons;
 
     #endregion
