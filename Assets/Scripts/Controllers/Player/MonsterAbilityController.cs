@@ -6,12 +6,7 @@ using System.Collections.Generic;
 public class MonsterAbilityController : NetworkBehaviour, IEventListener
 {
 
-    #region Public Fields
-
-
-    #endregion
-
-    #region Private Members
+    #region Private
 
     [Header("Attack Area Settings")]
     [SerializeField]
@@ -19,9 +14,8 @@ public class MonsterAbilityController : NetworkBehaviour, IEventListener
     private GameObject[] attackAreas;
     [SerializeField]
     [Tooltip("Index Order Matters!")]
-    private MonsterAbilitySettings[] monsterAbilitySettings;
+    private MonsterAbilitySettings[] monsterAbility;
     float timeCounter;
-	TelegraphedAttack ta;
 
     #endregion
 
@@ -31,6 +25,7 @@ public class MonsterAbilityController : NetworkBehaviour, IEventListener
     {
         for (int i = 0; i < attackAreas.Length; i++)
         {
+            attackAreas[i].GetComponent<AttackAreaController>().monsterAbilitySettings = monsterAbility[i];
         }
     }
 
@@ -49,7 +44,7 @@ public class MonsterAbilityController : NetworkBehaviour, IEventListener
 			if (playerObj != null)
 			{
 				playerObj.RegisterHandler(ReceiveBroadcast);
-                monsterAbilitySettings = playerObj.monsterAbilitySettings;
+                monsterAbility = playerObj.monsterAbilitySettings;
 			}
 		}
 	}
@@ -64,7 +59,7 @@ public class MonsterAbilityController : NetworkBehaviour, IEventListener
 			if (playerObj != null)
 			{
 				playerObj.UnRegisterHandler(ReceiveBroadcast);
-                monsterAbilitySettings = null;
+                monsterAbility = null;
 			}
 		}
 	}
@@ -105,42 +100,26 @@ public class MonsterAbilityController : NetworkBehaviour, IEventListener
         attackAreas[attackAreaIndex].SetActive(false);
     }
 
-    public GameObject GetAttackArea(int index)
-    {
-        return attackAreas[index];
-    }
-
     public void TimeOfAttack(int attackAreaIndex)
     {
-        ta = this.gameObject.GetComponent<MonsterAbilityManager>().GetAttackArea(attackAreaIndex).GetComponent<TelegraphedAttack>();
-        if (ta != null)
+        AttackAreaController attackArea = attackAreas[attackAreaIndex].GetComponent<AttackAreaController>();
+
+        if (attackArea != null)
         {
-            foreach (var building in ta.hitBuildings)
+            foreach (var building in attackArea.hitBuildings)
             {
-                if (ta.DOT)
-                {
+                    building.GetComponent<Building>().TakeDamage(monsterAbility[attackAreaIndex].damage);
+            }
 
-                }
-                else
-                {
-                    building.GetComponent<Building>().TakeDamage(ta.damage);
-                }
-            }
-            ta.hitBuildings.Clear();
-            foreach (var player in ta.hitPlayers)
+            attackArea.hitBuildings.Clear();
+
+            foreach (var player in attackArea.hitPlayers)
             {
-                if (ta.DOT)
-                {
-                    //Do Damage over time code
-                }
-                else
-                {
-                    player.GetComponent<PlayerObject>().RequestTakeDamage(GameEvent.HIT_FROM_HUMAN, ta.damage);
-                }
+                player.GetComponent<PlayerObject>().RequestTakeDamage(GameEvent.HIT_FROM_HUMAN, monsterAbility[attackAreaIndex].damage);
             }
-            ta.hitPlayers.Clear();
+
+            attackArea.hitPlayers.Clear();
         }
-
     }
 
     #endregion
