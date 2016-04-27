@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class SpawnPointManager : MonoBehaviour
 {
-	public List<SpawnPoints> spawnPoints = new List<SpawnPoints>();
+    public Dictionary<int, SpawnPoints> spawnPoints = new Dictionary<int, SpawnPoints>();
 
 	private static SpawnPointManager instance_ = null;
 
@@ -29,21 +29,13 @@ public class SpawnPointManager : MonoBehaviour
 		instance_ = this;
 	}
 
-	public void RegisterSpawnPoint(SpawnPoints point)
+	public void RegisterSpawnPoint(int key, SpawnPoints point)
 	{
-		spawnPoints.Add (point);
+		spawnPoints.Add (key, point);
 	}
 
-	public Vector3 SpawnPointLocation()
-	{
-		int pointLocation = Random.Range(0, (spawnPoints.Count -1));
-
-		for (int i = 0; i < spawnPoints.Count; i++)
-		{
-			if (i == pointLocation)
-				return spawnPoints [i].transform.position;
-		}
-
-		return Vector3.zero;
-	}
+    public Vector3  SpawnPointLocation(int localPoint)
+    {
+        return spawnPoints[localPoint].transform.position;
+    }
 }

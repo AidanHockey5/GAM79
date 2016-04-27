@@ -12,6 +12,7 @@ public class BaseWeaponController : NetworkBehaviour
     public WeaponSettings[] equippableWeapons;
 	public bool isReloading, canFire;
 	public GameObject bulletPrefab;
+	public GameObject trailPrefab;
 	public Transform bulletSpawn;
     public Transform trailSpawn;
 
@@ -19,6 +20,7 @@ public class BaseWeaponController : NetworkBehaviour
 
 	RaycastHit rayHit;
 	bool targetHit;
+	GameObject bulletTrail = null;
 
 	// Use this for initialization
 	void Start () 
@@ -71,6 +73,7 @@ public class BaseWeaponController : NetworkBehaviour
                 {
                     bc.firingWeapon = currentWeapon;
                     bc.trailSpawnPos = trailSpawn.position;
+					RpcSpawnBulletTrail();
                 }
 
                 NetworkServer.Spawn(lastBulletFired);
@@ -95,6 +98,20 @@ public class BaseWeaponController : NetworkBehaviour
 	{
         Debug.Log("RELOAD");
 		currentWeapon.currentAmmo = currentWeapon.maxAmmo;
+	}
+
+
+	[ClientRpc]
+	public void RpcSpawnBulletTrail()
+	{
+		if (trailPrefab)
+		{
+			Instantiate(trailPrefab, trailSpawn.position, bulletSpawn.rotation);
+		}
+		else
+		{
+			Debug.LogError("No trail prefab assigned in inspector.");
+		}
 	}
 
 	IEnumerator StartAttackTimer(float seconds)

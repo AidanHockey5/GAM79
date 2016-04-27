@@ -42,14 +42,22 @@ public class Building : MonoBehaviour
     {
 		if (health <= 0) 
 		{
-//			buildingAnimator.SetBool ("isDead", true);
 			if (_objective != null)
 			{
 				ObjectiveManager.Instance.CompleteObjective (_objective);
 			}
-			Destroy (this.gameObject, deathDelay);
+
+			DestroyBuilding ();
 		}
 	}
+
+	public void DestroyBuilding()
+	{
+		Component.Destroy (this.GetComponent<BoxCollider> ());
+		gameObject.AddComponent<Rigidbody> ();
+		Destroy (this.gameObject, deathDelay);
+	}
+
 
 
 

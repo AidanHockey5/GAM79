@@ -10,4 +10,5 @@ public class WeaponSettings
 	public int power = 1;
 	public int maxAmmo = 1;
 	public int currentAmmo = 0;
+    public BulletSettings bulletSettings = new BulletSettings();
 }

@@ -1,49 +1,54 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using System;
 using System.Collections;
 
 [RequireComponent(typeof(NetworkTransform))]
 public class BulletController : NetworkBehaviour
 {
 
-    public float speed;
-    public float lifetime;
-    public Vector3 trailSpawnPos;
-    public WeaponSettings firingWeapon;
-    public GameObject trailPrefab;
+    #region Public
 
-    new Transform transform;
-    Vector3 posLastFrame;
-    RaycastHit rayHit;
-    
-    void Start()
+    [NonSerialized] public Vector3 trailSpawnPos;
+    [NonSerialized] public WeaponSettings firingWeapon;
+
+    #endregion
+
+    #region Private
+
+    private BulletSettings bullet;
+    private new Transform transform;
+    private Vector3 posLastFrame;
+    private RaycastHit rayHit;
+
+    #endregion
+
+    #region MonoBehaviours
+    private void Start()
     {
         transform = GetComponent<Transform>();
         posLastFrame = transform.position;
-        StartCoroutine(DeadAfterTime(lifetime));
-
-        if (isClient)
-        {
-            SpawnBulletTrail();
-        }
+        StartCoroutine(DestroyAfterTime(bullet.lifetime));
     }
-    
-    [ServerCallback]
-    void Update()
+
+    private void Update()
     {
         Move();
         CheckCollision();
     }
 
-    [Server]
-    void Move()
+    #endregion
+
+    #region Functions
+
+    private void Move()
     {
         posLastFrame = transform.position;
-        transform.position += transform.forward * speed * Time.deltaTime;
+        transform.position += transform.forward * bullet.speed * Time.deltaTime;
     }
     
     [Server]
-    void CheckCollision()
+    private void CheckCollision()
     {
         if (Physics.Linecast(posLastFrame, transform.position, out rayHit))
         {
@@ -52,9 +57,9 @@ public class BulletController : NetworkBehaviour
             Destroy(gameObject);
         }
     }
-    
+
     [Server]
-    void SendHit(GameObject hit)
+    private void SendHit(GameObject hit)
     {
         PlayerObject playerObj;
         playerObj = hit.GetComponent<PlayerObject>();
@@ -65,15 +70,12 @@ public class BulletController : NetworkBehaviour
         }
     }
 
-    [Client]
-    public void SpawnBulletTrail()
-    {
-        Instantiate(trailPrefab, trailSpawnPos, transform.rotation);
-    }
-
-    IEnumerator DeadAfterTime(float seconds)
+    private IEnumerator DestroyAfterTime(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         Destroy(gameObject);
     }
+
+    #endregion
+
 }

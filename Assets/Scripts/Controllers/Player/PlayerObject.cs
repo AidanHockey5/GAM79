@@ -28,6 +28,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
     public CameraSettings cameraSettings;
 	public MovementSettings movementSettings;
     public AnimatorSettings animatorSettings;
+    public MonsterAbilitySettings[] monsterAbilitySettings;
     public WeaponSettings[] equippableWeapons;
 
     #endregion
@@ -186,6 +187,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
         if (isLocalPlayer)
         {
             InputManager.Instance.RegisterHandler(ReceiveBroadcast);
+			InputManager.Instance.input = inputSettings;
         }
     }
 
@@ -194,6 +196,7 @@ public class PlayerObject : NetworkBehaviour, IEventBroadcaster, IEventListener
         if (isLocalPlayer)
         {
             InputManager.Instance.UnRegisterHandler(ReceiveBroadcast);
+			InputManager.Instance.input = null;
         }
     }
 

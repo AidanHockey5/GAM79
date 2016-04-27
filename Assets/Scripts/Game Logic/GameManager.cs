@@ -58,7 +58,7 @@ public class GameManager : NetworkBehaviour, IEventBroadcaster
 	void Update()
 	{
 		//Call player select screen
-		if(Input.GetKeyDown(KeyCode.P))
+		if(Input.GetKeyDown(KeyCode.P) && _playerControl != null)
 		{
 			UIManager.Instance.SetUIState(UIState.CharacterSelect);
 		}
